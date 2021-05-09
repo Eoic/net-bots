@@ -1,2 +1,2 @@
-# NetBotsV2
+# NetBots
 Multiplayer robot programming game
