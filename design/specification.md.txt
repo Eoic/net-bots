@@ -1,0 +1,19 @@
+NetBots is a multiplayer robot programming game where players can code the behaviour of the robots and compete between each other. 
+
+Main features:
+    * Visual (node based) and textual robot programming
+    * Competition between players in multiplayer (not realtime)
+    * Leaderboards
+    * Player statistics
+	* Wins, losses, games played, robots destroyed, level and experience.
+    * Training (testing different robots between each other (attaching different scripts)
+    * Manual robot control in a different game mode (real time)
+
+Supported platforms:
+    * Web browser
+
+Technologies:
+    * Front-end
+	* Pixi.js, HTML Web Components
+    * Back-end
+	* Go, PostgreSQL
