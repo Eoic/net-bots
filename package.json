@@ -1,6 +1,6 @@
 {
-  "name": "net-bots-backend",
-  "version": "1.0.0",
+  "name": "net-bots",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "node ace build --production",
