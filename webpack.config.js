@@ -74,7 +74,7 @@ Encore.copyFiles({
 | https://webpack.js.org/plugins/split-chunks-plugin/
 |
 */
-// Encore.splitEntryChunks()
+Encore.splitEntryChunks()
 
 /*
 |--------------------------------------------------------------------------
@@ -157,35 +157,6 @@ Encore.configureDevServerOptions((options) => {
 |
 */
 Encore.enableSassLoader()
-// Encore.enableLessLoader()
-// Encore.enableStylusLoader()
-
-/*
-|--------------------------------------------------------------------------
-| CSS loaders
-|--------------------------------------------------------------------------
-|
-| Uncomment one of the following line of code to enable support for
-| PostCSS or CSS.
-|
-*/
-// Encore.enablePostCssLoader()
-// Encore.configureCssLoader(() => {})
-
-/*
-|--------------------------------------------------------------------------
-| Enable Vue loader
-|--------------------------------------------------------------------------
-|
-| Uncomment the following lines of code to enable support for vue. Also make
-| sure to install the required dependencies.
-|
-*/
-// Encore.enableVueLoader(() => {}, {
-//   version: 3,
-//   runtimeCompilerBuild: false,
-//   useJsx: false
-// })
 
 /*
 |--------------------------------------------------------------------------
