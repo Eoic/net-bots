@@ -6,6 +6,10 @@
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
+    "lib": [
+      "ES2015",
+      "DOM"
+    ],
     "paths": {
       "App/*": ["./app/*"],
       "Config/*": ["./config/*"],

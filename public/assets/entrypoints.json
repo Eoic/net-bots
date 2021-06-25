@@ -1,11 +1,12 @@
 {
   "entrypoints": {
     "app": {
-      "css": [
-        "/assets/app.575f04a2.css"
-      ],
       "js": [
-        "/assets/app.812e7ff8.js"
+        "http://localhost:58710/assets/vendors-node_modules_ecsy_src_index_js-node_modules_mini-css-extract-plugin_dist_hmr_hotModul-0ffb8f.js",
+        "http://localhost:58710/assets/app.js"
+      ],
+      "css": [
+        "http://localhost:58710/assets/app.css"
       ]
     }
   }
