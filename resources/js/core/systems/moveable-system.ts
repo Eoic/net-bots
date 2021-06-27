@@ -26,11 +26,11 @@ class MoveableSystem extends System {
       const deltaX = velocity.x * delta * direction.x;
       const deltaY = velocity.y * delta * direction.y;
 
-      if (position.x + deltaX < 2400 - 50 && position.x + deltaX > 0) {
+      if (position.x + deltaX < window.innerWidth - 50 && position.x + deltaX > 0) {
         position.x += deltaX;
       }
 
-      if (position.y + deltaY < 1350 - 50 && position.y + deltaY > 0) {
+      if (position.y + deltaY < window.innerHeight - 50 && position.y + deltaY > 0) {
         position.y += deltaY;
       }
     });
