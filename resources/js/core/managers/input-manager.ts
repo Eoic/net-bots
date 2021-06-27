@@ -7,6 +7,7 @@ interface KeyState {
 export class InputManager {
   private keyMap = new Map<string, string>();
   private keyStates = new Map<string, KeyState>();
+  private axisMap = new Map<string, [string, string]>();
   private static _instance: InputManager;
 
   constructor() {
@@ -17,6 +18,8 @@ export class InputManager {
     window.addEventListener('keydown', (event) => {
       this.setFromKeyCode(event.code, true, false);
     });
+
+    this.setAxis([Keys.W, Keys.S], [Keys.A, Keys.D]);
   }
 
   public static get instance() {
@@ -111,6 +114,23 @@ export class InputManager {
     const currentState = state.isPressed;
     state.isPressed = false;
     return currentState;
+  }
+
+  // TODO: Allow setting multiple axes?
+  public setAxis(vertical: [string, string], horizontal: [string, string]) {
+    this.axisMap.set('vertical', vertical);
+    this.axisMap.set('horizontal', horizontal);
+  }
+
+  public getAxis(axis: string): number {
+    if (!this.axisMap.has(axis)) {
+      return 0;
+    }
+
+    const axisKeys = this.axisMap.get(axis);
+    const left = this.keyStates.get(axisKeys![0])?.isHeld ? -1 : 0;
+    const right = this.keyStates.get(axisKeys![1])?.isHeld ? 1 : 0;
+    return left + right;
   }
 }
 

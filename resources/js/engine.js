@@ -1,12 +1,12 @@
 import { World } from 'ecsy';
 import * as PIXI from 'pixi.js';
-import { Graphics, RenderTexture, Sprite } from 'pixi.js';
-import { Position, Renderable, Shape, Velocity } from './core/components';
+import { Container, Graphics, RenderTexture, Sprite } from 'pixi.js';
+import { Position, Renderable, Velocity } from './core/components';
 import { MoveableSystem, RendererSystem } from './core/systems';
 import { EventManager } from './core/managers/event-manager';
 import { InputManager, Keys } from './core/managers/input-manager';
+import { Grid } from './utils/grid';
 
-const SPEED = 3;
 const NUM_ELEMENTS = 50;
 
 export class Engine {
@@ -18,10 +18,18 @@ export class Engine {
     this.world = new World();
     document.getElementById('root').appendChild(this.app.view);
     this.app.renderer.autoResize = true;
+    this.app.renderer.backgroundColor = 0x2f2f2f;
     this.handleEvents();
-    this.registerComponents([Position, Renderable, Shape, Velocity]);
+    this.registerComponents([Position, Renderable, Velocity]);
     this.registerSystems([MoveableSystem, RendererSystem]);
-    this.createEntities();
+
+    this.grid = new Grid(16, 8);
+    const tilingSprite = this.grid.generate(0xf0f0f0, this.app.renderer);
+    const gridContainer = new Container();
+    gridContainer.addChild(tilingSprite);
+    this.app.stage.addChild(gridContainer);
+
+    this.createPlayerEntity();
     this.eventManager = new EventManager();
     this.inputManager = new InputManager();
     InputManager.instance.addKey(Keys.W);
@@ -62,34 +70,17 @@ export class Engine {
     });
   }
 
-  createEntities() {
-    for (let i = 0; i < NUM_ELEMENTS; i++) {
-      this.world
-        .createEntity()
-        .addComponent(Velocity, this.getRandomVelocity())
-        .addComponent(Shape, this.getRandomShape())
-        .addComponent(Position, this.getRandomPosition())
-        .addComponent(Renderable);
-    }
+  createPlayerEntity() {
+    this.world
+      .createEntity()
+      .addComponent(Velocity, { x: 15, y: 15 })
+      .addComponent(Position, { x: window.innerWidth / 2 - 20, y: window.innerHeight / 2 - 20 })
+      .addComponent(Renderable, this.getSprite());
   }
 
-  getRandomVelocity() {
-    return {
-      x: SPEED * (2 * Math.random() - 1),
-      y: SPEED * (2 * Math.random() - 1),
-    };
-  }
-
-  getRandomPosition() {
-    return {
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-    };
-  }
-
-  getRandomShape() {
+  getSprite() {
     const graphics = new PIXI.Graphics();
-    graphics.beginFill(0xfff000);
+    graphics.beginFill(0x4073ff);
     graphics.drawRect(0, 0, 50, 50);
     graphics.endFill();
     const texture = this.app.renderer.generateTexture(graphics);
