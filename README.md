@@ -9,7 +9,8 @@ Client side of the multiplayer robot programming game NetBots.
 * Launch development server with `npm run dev`.
 
 ## Usage
-Server should be already running. If you didn't do so already, see [NetBots](http://github.com/Eoic/net-bots-server).
+By default, development server runs at http://127.0.0.1:3333/.  
+Also, game server should be running. If you didn't do so already, see [NetBots Server](http://github.com/Eoic/net-bots-server).
 
 ## Contributors
 
