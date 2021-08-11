@@ -1,5 +1,7 @@
 import { MoveableSystem } from './moveable-system';
 import { RendererSystem } from './renderer-system';
+import { InteractableSystem } from './interactable-system';
 
 export { MoveableSystem };
 export { RendererSystem };
+export { InteractableSystem };
