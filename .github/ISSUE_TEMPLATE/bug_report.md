@@ -1,29 +1,28 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+| Name:      | Bug report                            |
+-------------|---------------------------------------|
+| About:     | Create a report to help us improve    |
+| Title:     | *...*                                 |
+| Labels:    | *...*                                 |
+| Assignees: | *...*                                 |
+------------------------------------------------------
 
----
-
-**Describe the bug**
+**Describe the bug**  
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+**To Reproduce**  
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+**Expected behavior**  
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+**Screenshots**  
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
+**Desktop (please complete the following information):**  
  - OS: [e.g. Ubuntu]
  - Browser [e.g. chrome, firefox]
  - Version [e.g. 22]
