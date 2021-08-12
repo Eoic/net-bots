@@ -7,7 +7,7 @@ const Encore = require('@symfony/webpack-encore');
 |--------------------------------------------------------------------------
 */
 if (!Encore.isRuntimeEnvironmentConfigured()) {
-  Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
 /*
@@ -58,8 +58,8 @@ Encore.addEntry('app', './resources/js/app.js');
 |
 */
 Encore.copyFiles({
-  from: './resources/images',
-  to: 'images/[path][name].[hash:8].[ext]',
+    from: './resources/images',
+    to: 'images/[path][name].[hash:8].[ext]',
 });
 
 /*
@@ -128,23 +128,23 @@ Encore.enableVersioning(Encore.isProduction());
 |
 */
 Encore.configureDevServerOptions((options) => {
-  /**
-   * Normalize "options.static" property to an array
-   */
-  if (!options.static) {
-    options.static = [];
-  } else if (!Array.isArray(options.static)) {
-    options.static = [options.static];
-  }
+    /**
+     * Normalize "options.static" property to an array
+     */
+    if (!options.static) {
+        options.static = [];
+    } else if (!Array.isArray(options.static)) {
+        options.static = [options.static];
+    }
 
-  /**
-   * Enable live reload and add views directory
-   */
-  options.liveReload = true;
-  options.static.push({
-    directory: join(__dirname, './resources/views'),
-    watch: true,
-  });
+    /**
+     * Enable live reload and add views directory
+     */
+    options.liveReload = true;
+    options.static.push({
+        directory: join(__dirname, './resources/views'),
+        watch: true,
+    });
 });
 
 /*
@@ -159,14 +159,14 @@ Encore.configureDevServerOptions((options) => {
 Encore.enableSassLoader();
 
 Encore.addLoader({
-  test: /\.(vert|frag)$/i,
-  loader: 'raw-loader',
+    test: /\.(vert|frag)$/i,
+    loader: 'raw-loader',
 });
 
 Encore.addLoader({
-  test: /\.tsx?$/,
-  loader: 'ts-loader',
-  exclude: /node_modules/,
+    test: /\.tsx?$/,
+    loader: 'ts-loader',
+    exclude: /node_modules/,
 });
 
 /*
@@ -181,7 +181,7 @@ Encore.addLoader({
 */
 const config = Encore.getWebpackConfig();
 config.infrastructureLogging = {
-  level: 'warn',
+    level: 'warn',
 };
 config.stats = 'errors-warnings';
 

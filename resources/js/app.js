@@ -1,5 +1,6 @@
 import '../css/app.css';
 import { Engine } from './engine';
+import { FileTree } from '../js/components/editor/file-tree';
 
 class App {
     constructor() {
