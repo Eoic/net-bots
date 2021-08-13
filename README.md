@@ -14,4 +14,4 @@ Also, game server should be running. If you didn't do so already, see [NetBots S
 
 ## Contributors
 
-- [Karolis Strazdas](https://github.com/your-github-user) - creator and maintainer
+- [Karolis Strazdas](https://github.com/Eoic) - creator and maintainer
