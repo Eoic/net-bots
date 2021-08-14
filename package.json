@@ -36,9 +36,9 @@
     "@adonisjs/view": "^6.0.3",
     "ecsy": "^0.4.2",
     "lit-html": "^1.4.1",
-    "monaco-editor-webpack-plugin": "^4.1.1",
     "pixi.js": "^6.0.4",
     "proxy-addr": "^2.0.7",
+    "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19"
   }
 }
