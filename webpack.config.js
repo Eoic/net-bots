@@ -1,5 +1,6 @@
 const { join } = require('path');
 const Encore = require('@symfony/webpack-encore');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /*
 |--------------------------------------------------------------------------
@@ -168,6 +169,8 @@ Encore.addLoader({
     loader: 'ts-loader',
     exclude: /node_modules/,
 });
+
+Encore.addPlugin(new MonacoWebpackPlugin());
 
 /*
 |--------------------------------------------------------------------------

@@ -5,14 +5,14 @@
  * file.
  */
 
-import proxyAddr from 'proxy-addr'
-import Env from '@ioc:Adonis/Core/Env'
-import Application from '@ioc:Adonis/Core/Application'
-import { ServerConfig } from '@ioc:Adonis/Core/Server'
-import { LoggerConfig } from '@ioc:Adonis/Core/Logger'
-import { ProfilerConfig } from '@ioc:Adonis/Core/Profiler'
-import { ValidatorConfig } from '@ioc:Adonis/Core/Validator'
-import { AssetsManagerConfig } from '@ioc:Adonis/Core/AssetsManager'
+import proxyAddr from 'proxy-addr';
+import Env from '@ioc:Adonis/Core/Env';
+import Application from '@ioc:Adonis/Core/Application';
+import { ServerConfig } from '@ioc:Adonis/Core/Server';
+import { LoggerConfig } from '@ioc:Adonis/Core/Logger';
+import { ProfilerConfig } from '@ioc:Adonis/Core/Profiler';
+import { ValidatorConfig } from '@ioc:Adonis/Core/Validator';
+import { AssetsManagerConfig } from '@ioc:Adonis/Core/AssetsManager';
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ import { AssetsManagerConfig } from '@ioc:Adonis/Core/AssetsManager'
 | be decrypted.
 |
 */
-export const appKey: string = Env.get('APP_KEY')
+export const appKey: string = Env.get('APP_KEY');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,79 +39,79 @@ export const appKey: string = Env.get('APP_KEY')
 |
 */
 export const http: ServerConfig = {
-  /*
-  |--------------------------------------------------------------------------
-  | Allow method spoofing
-  |--------------------------------------------------------------------------
-  |
-  | Method spoofing enables defining custom HTTP methods using a query string
-  | `_method`. This is usually required when you are making traditional
-  | form requests and wants to use HTTP verbs like `PUT`, `DELETE` and
-  | so on.
-  |
-  */
-  allowMethodSpoofing: false,
+    /*
+    |--------------------------------------------------------------------------
+    | Allow method spoofing
+    |--------------------------------------------------------------------------
+    |
+    | Method spoofing enables defining custom HTTP methods using a query string
+    | `_method`. This is usually required when you are making traditional
+    | form requests and wants to use HTTP verbs like `PUT`, `DELETE` and
+    | so on.
+    |
+    */
+    allowMethodSpoofing: false,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Subdomain offset
-  |--------------------------------------------------------------------------
-  */
-  subdomainOffset: 2,
+    /*
+    |--------------------------------------------------------------------------
+    | Subdomain offset
+    |--------------------------------------------------------------------------
+    */
+    subdomainOffset: 2,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Request Ids
-  |--------------------------------------------------------------------------
-  |
-  | Setting this value to `true` will generate a unique request id for each
-  | HTTP request and set it as `x-request-id` header.
-  |
-  */
-  generateRequestId: false,
+    /*
+    |--------------------------------------------------------------------------
+    | Request Ids
+    |--------------------------------------------------------------------------
+    |
+    | Setting this value to `true` will generate a unique request id for each
+    | HTTP request and set it as `x-request-id` header.
+    |
+    */
+    generateRequestId: false,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Trusting proxy servers
-  |--------------------------------------------------------------------------
-  |
-  | Define the proxy servers that AdonisJs must trust for reading `X-Forwarded`
-  | headers.
-  |
-  */
-  trustProxy: proxyAddr.compile('loopback'),
+    /*
+    |--------------------------------------------------------------------------
+    | Trusting proxy servers
+    |--------------------------------------------------------------------------
+    |
+    | Define the proxy servers that AdonisJs must trust for reading `X-Forwarded`
+    | headers.
+    |
+    */
+    trustProxy: proxyAddr.compile('loopback'),
 
-  /*
-  |--------------------------------------------------------------------------
-  | Generating Etag
-  |--------------------------------------------------------------------------
-  |
-  | Whether or not to generate an etag for every response.
-  |
-  */
-  etag: false,
+    /*
+    |--------------------------------------------------------------------------
+    | Generating Etag
+    |--------------------------------------------------------------------------
+    |
+    | Whether or not to generate an etag for every response.
+    |
+    */
+    etag: false,
 
-  /*
-  |--------------------------------------------------------------------------
-  | JSONP Callback
-  |--------------------------------------------------------------------------
-  */
-  jsonpCallbackName: 'callback',
+    /*
+    |--------------------------------------------------------------------------
+    | JSONP Callback
+    |--------------------------------------------------------------------------
+    */
+    jsonpCallbackName: 'callback',
 
-  /*
-  |--------------------------------------------------------------------------
-  | Cookie settings
-  |--------------------------------------------------------------------------
-  */
-  cookie: {
-    domain: '',
-    path: '/',
-    maxAge: '2h',
-    httpOnly: true,
-    secure: false,
-    sameSite: false,
-  },
-}
+    /*
+    |--------------------------------------------------------------------------
+    | Cookie settings
+    |--------------------------------------------------------------------------
+    */
+    cookie: {
+        domain: '',
+        path: '/',
+        maxAge: '2h',
+        httpOnly: true,
+        secure: false,
+        sameSite: false,
+    },
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -119,53 +119,53 @@ export const http: ServerConfig = {
 |--------------------------------------------------------------------------
 */
 export const logger: LoggerConfig = {
-  /*
-  |--------------------------------------------------------------------------
-  | Application name
-  |--------------------------------------------------------------------------
-  |
-  | The name of the application you want to add to the log. It is recommended
-  | to always have app name in every log line.
-  |
-  | The `APP_NAME` environment variable is automatically set by AdonisJS by
-  | reading the `name` property from the `package.json` file.
-  |
-  */
-  name: Env.get('APP_NAME'),
+    /*
+    |--------------------------------------------------------------------------
+    | Application name
+    |--------------------------------------------------------------------------
+    |
+    | The name of the application you want to add to the log. It is recommended
+    | to always have app name in every log line.
+    |
+    | The `APP_NAME` environment variable is automatically set by AdonisJS by
+    | reading the `name` property from the `package.json` file.
+    |
+    */
+    name: Env.get('APP_NAME'),
 
-  /*
-  |--------------------------------------------------------------------------
-  | Toggle logger
-  |--------------------------------------------------------------------------
-  |
-  | Enable or disable logger application wide
-  |
-  */
-  enabled: true,
+    /*
+    |--------------------------------------------------------------------------
+    | Toggle logger
+    |--------------------------------------------------------------------------
+    |
+    | Enable or disable logger application wide
+    |
+    */
+    enabled: true,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Logging level
-  |--------------------------------------------------------------------------
-  |
-  | The level from which you want the logger to flush logs. It is recommended
-  | to make use of the environment variable, so that you can define log levels
-  | at deployment level and not code level.
-  |
-  */
-  level: Env.get('LOG_LEVEL', 'info'),
+    /*
+    |--------------------------------------------------------------------------
+    | Logging level
+    |--------------------------------------------------------------------------
+    |
+    | The level from which you want the logger to flush logs. It is recommended
+    | to make use of the environment variable, so that you can define log levels
+    | at deployment level and not code level.
+    |
+    */
+    level: Env.get('LOG_LEVEL', 'info'),
 
-  /*
-  |--------------------------------------------------------------------------
-  | Pretty print
-  |--------------------------------------------------------------------------
-  |
-  | It is highly advised NOT to use `prettyPrint` in production, since it
-  | can have huge impact on performance.
-  |
-  */
-  prettyPrint: Env.get('NODE_ENV') === 'development',
-}
+    /*
+    |--------------------------------------------------------------------------
+    | Pretty print
+    |--------------------------------------------------------------------------
+    |
+    | It is highly advised NOT to use `prettyPrint` in production, since it
+    | can have huge impact on performance.
+    |
+    */
+    prettyPrint: Env.get('NODE_ENV') === 'development',
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -173,38 +173,38 @@ export const logger: LoggerConfig = {
 |--------------------------------------------------------------------------
 */
 export const profiler: ProfilerConfig = {
-  /*
-  |--------------------------------------------------------------------------
-  | Toggle profiler
-  |--------------------------------------------------------------------------
-  |
-  | Enable or disable profiler
-  |
-  */
-  enabled: true,
+    /*
+    |--------------------------------------------------------------------------
+    | Toggle profiler
+    |--------------------------------------------------------------------------
+    |
+    | Enable or disable profiler
+    |
+    */
+    enabled: true,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Blacklist actions/row labels
-  |--------------------------------------------------------------------------
-  |
-  | Define an array of actions or row labels that you want to disable from
-  | getting profiled.
-  |
-  */
-  blacklist: [],
+    /*
+    |--------------------------------------------------------------------------
+    | Blacklist actions/row labels
+    |--------------------------------------------------------------------------
+    |
+    | Define an array of actions or row labels that you want to disable from
+    | getting profiled.
+    |
+    */
+    blacklist: [],
 
-  /*
-  |--------------------------------------------------------------------------
-  | Whitelist actions/row labels
-  |--------------------------------------------------------------------------
-  |
-  | Define an array of actions or row labels that you want to whitelist for
-  | the profiler. When whitelist is defined, then `blacklist` is ignored.
-  |
-  */
-  whitelist: [],
-}
+    /*
+    |--------------------------------------------------------------------------
+    | Whitelist actions/row labels
+    |--------------------------------------------------------------------------
+    |
+    | Define an array of actions or row labels that you want to whitelist for
+    | the profiler. When whitelist is defined, then `blacklist` is ignored.
+    |
+    */
+    whitelist: [],
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -215,7 +215,7 @@ export const profiler: ProfilerConfig = {
 | to the default config https://git.io/JT0WE
 |
 */
-export const validator: ValidatorConfig = {}
+export const validator: ValidatorConfig = {};
 
 /*
 |--------------------------------------------------------------------------
@@ -226,51 +226,51 @@ export const validator: ValidatorConfig = {}
 |
 */
 export const assets: AssetsManagerConfig = {
-  /*
-  |--------------------------------------------------------------------------
-  | Driver
-  |--------------------------------------------------------------------------
-  |
-  | Currently we only support webpack encore and may introduce more drivers
-  | in the future
-  |
-  */
-  driver: 'encore',
+    /*
+    |--------------------------------------------------------------------------
+    | Driver
+    |--------------------------------------------------------------------------
+    |
+    | Currently we only support webpack encore and may introduce more drivers
+    | in the future
+    |
+    */
+    driver: 'encore',
 
-  /*
-  |--------------------------------------------------------------------------
-  | Public path
-  |--------------------------------------------------------------------------
-  |
-  | Directory to search for the "manifest.json" and the "entrypoints.json"
-  | files
-  |
-  */
-  publicPath: Application.publicPath('assets'),
+    /*
+    |--------------------------------------------------------------------------
+    | Public path
+    |--------------------------------------------------------------------------
+    |
+    | Directory to search for the "manifest.json" and the "entrypoints.json"
+    | files
+    |
+    */
+    publicPath: Application.publicPath('assets'),
 
-  /*
-  |--------------------------------------------------------------------------
-  | Script tag
-  |--------------------------------------------------------------------------
-  |
-  | Define attributes for the entryPointScripts tags
-  |
-  */
-  script: {
-    attributes: {
-      defer: true,
+    /*
+    |--------------------------------------------------------------------------
+    | Script tag
+    |--------------------------------------------------------------------------
+    |
+    | Define attributes for the entryPointScripts tags
+    |
+    */
+    script: {
+        attributes: {
+            defer: true,
+        },
     },
-  },
 
-  /*
-  |--------------------------------------------------------------------------
-  | Style tag
-  |--------------------------------------------------------------------------
-  |
-  | Define attributes for the entryPointStyles tags
-  |
-  */
-  style: {
-    attributes: {},
-  },
-}
+    /*
+    |--------------------------------------------------------------------------
+    | Style tag
+    |--------------------------------------------------------------------------
+    |
+    | Define attributes for the entryPointStyles tags
+    |
+    */
+    style: {
+        attributes: {},
+    },
+};

@@ -1,3 +1,13 @@
+/**
+ * Maps name to the decorated component.
+ * @param tagName Name of the component in HTML file.
+ */
+const Tag = (tagName: string) => {
+    return (constructor: Function) => {
+        window.customElements.define(tagName, constructor as CustomElementConstructor);
+    };
+};
+
 class Component extends HTMLElement {
     private _state: any = {};
     private _template: HTMLTemplateElement;
@@ -20,16 +30,22 @@ class Component extends HTMLElement {
 
     public setState(newStateSlice: any) {
         this._state = { ...this.state, ...newStateSlice };
-        // TODO: Update component?
     }
 
-    constructor(templateString: string) {
+    constructor(templateString?: string) {
         super();
         this.attachShadow({ mode: 'open' });
         this.template = document.createElement('template');
-        this.template.innerHTML = templateString;
+
+        if (this.template) {
+            this.template.innerHTML = templateString as string;
+        } else {
+            this.template = document.createElement('template');
+            this.template.innerHTML = '';
+        }
+
         this.shadowRoot!.appendChild(this.template.content.cloneNode(true));
     }
 }
 
-export { Component };
+export { Component, Tag };
