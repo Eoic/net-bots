@@ -1,6 +1,8 @@
 import '../css/app.css';
 import { Engine } from './engine';
-import { CodeEditor } from '../js/components/editor/code-editor';
+import '../js/components/editor/file-tree';
+import '../js/components/editor/code-editor';
+import '../js/components/editor/scripting-panel';
 
 class App {
     constructor() {

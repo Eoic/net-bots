@@ -1,3 +1,4 @@
+import CodeFlask from 'codeflask';
 import { Component, Tag } from '../core/component';
 
 const template = `
@@ -9,6 +10,14 @@ const template = `
 class CodeEditor extends Component {
     constructor() {
         super(template);
+        const editorNode = this.shadowRoot!.querySelector('#editor') as HTMLElement;
+
+        new CodeFlask(editorNode, {
+            language: 'js',
+            styleParent: this.shadowRoot!,
+            lineNumbers: true,
+            tabSize: 4,
+        });
     }
 }
 

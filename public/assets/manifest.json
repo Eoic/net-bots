@@ -1,5 +1,6 @@
 {
   "assets/app.css": "http://localhost:8080/assets/app.css",
   "assets/app.js": "http://localhost:8080/assets/app.js",
+  "assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-745825.js": "http://localhost:8080/assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-745825.js",
   "assets/vendors-node_modules_ecsy_src_index_js-node_modules_mini-css-extract-plugin_dist_hmr_hotModul-648e64.js": "http://localhost:8080/assets/vendors-node_modules_ecsy_src_index_js-node_modules_mini-css-extract-plugin_dist_hmr_hotModul-648e64.js"
 }
