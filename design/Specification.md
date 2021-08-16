@@ -1,13 +1,13 @@
-# NetBots - multiplayer robot programming game.
+# NOTE: Currently, this is not really a specification and more of a list of spontaneous suggestions and ideas which may or may not be considered for implementation.
 
-## NetBots Universe
+## NetBots - multiplayer robot programming game.
 ### Summary
 Browser based programming game where players can code behavior of bots in a persistent online world. Bots can gather resources, build structures and conquer territory by building outposts. Programming can be done through game code editor by writing JavaScript or through graph editor by placing and connection specific nodes (TODO: Look into NodeRED).
 
 ### Functional requirements
 1. Bots should be able to:
     * Mine resources present in the world.
-    * Communicate with each other by passing messages at a certain range.
+    * Communicate with each other by passing messages through channels.
     * Clone themselves when specific conditions are met (spends energy).
     * Can haul other bots without energy to recharging station.
     * Build these structures:
@@ -30,28 +30,48 @@ Browser based programming game where players can code behavior of bots in a pers
 3. Game map does not have boundaries - bots can wander in eny direction endlessly.
 4. Bots who run out of energy cannot move or perform any tasks.
 5. Each tile of the map shoud have temperature (bots may not be able to function properly with default modules or efficiently if temperature is too low / high).
-6. "Fog of war" shoud be present. Each bot can reveal portions of the map with its field of view (which can be extended through external modules).  
+6. "Fog of war" shoud be present. Each bot can reveal portions of the map with its field of view (which can be extended through external bot modules).  
 7. Bots should be able to attach modules to improve resistances in extreme temperatures, increase movement, building or mining speed, increase view range (circular).
+8. Exchanging messages between bots:
+    * Messages can be seen by a third party (other bots) at a certain range.
+    * Messages should support encryption (implemented by player).
 
 ### Entities
 This sections describes entities of the game. Keep in mind that this is not a representation of the game classes or database tables.
 
-| Bot                    |                                                                                                                                   |
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Position  : vector     | Position in the game world (2D tile coordinates)                                                                                  |
-| Rotation  : float      | Rotation in radians                                                                                                               |
-| Scale     : vector     | Scale in the game world which is fixed to the number of tiles in width and height (e.g. 1x1, 2x1, 5x5)                            |
-| Health    : float      | Basically, it is a metric of robot's structural integrity. It is decreased when robot takes damage from guns or other hazards.    |
-| Energy    : float      | Energy is spent when job is performed (each unit of work consumes energy).                                                        |
-| Modules   : array      | List of attached modules extending or improving bot's functionality                                                               |
+#### Bot
+| Name      | Type       | Description                                                                                                                       |
+------------|------------|------------------------------------------------------------------------------------------------------------------------------------
+| Position  | vector     | Position in the game world (2D tile coordinates)                                                                                  |
+| Rotation  | float      | Rotation in radians                                                                                                               |
+| Scale     | vector     | Scale in the game world which is fixed to the number of tiles in width and height (e.g. 1x1, 2x1, 5x5)                            |
+| Health    | float      | Basically, it is a metric of robot's structural integrity. It is decreased when robot takes damage from guns or other hazards.    |
+| Energy    | float      | Energy is spent when job is performed (each unit of work consumes energy).                                                        |
+| Modules   | array      | List of attached modules extending or improving bot's functionality                                                               |
 
-| Resource          |
----------------------
-| Type     : string | Type of resource. Could be material for power plant, stone, some kind metal for buildings of production.                                  |  
-| Hardness : float  | Each performed unit of work (mining in this case) subtracts capacity from the tile. Hardness determines how much is subtracted in inverse | 
-| Capacity : flloat | How much resources are left in this tile.
+#### Resource
+| Name     | Type   | Description                                                                                                                               |
+-----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------
+| Type     | string | Type of resource. Could be material for power plant, stone, some kind metal for buildings of production.                                  |  
+| Hardness | float  | Each performed unit of work (mining in this case) subtracts capacity from the tile. Hardness determines how much is subtracted in inverse | 
+| Capacity | float  | How much resources are left in this tile.                                                                                                 |
 
-| Module            |
-------------------------------------------------------------------------------------------------
-| Effect type       | Type of provided effect (e.g. movement, work speed, field of view range) |
-| Effect strength   | How influential is this effect to the default value.                     |
+#### Module
+| Name            | Type    | Description                                                              |  
+------------------|---------|---------------------------------------------------------------------------
+| Effect type     | integer | Type of provided effect (e.g. movement, work speed, field of view range) |
+| Effect strength | float   | How influential is this effect to the default value.                     |
+
+### Other ideas / suggestions / thoughts
+* Technology research (in the game).
+* Z coordinate
+* Day / night cycle (could affect solar panels / modules utilizing solar power).
+* Bot can locate resources and other object at a circular range.
+* Some kind of globally accessible (to player's bots) jobs database, where bots could query for available tasks and their coordinates. In this way, player could implement primitive job queue.
+* Resource trading and delivery.
+    * Predefined delivery routes.
+* Hostility rating counter based on inflicted damage to structures, other bots, time between these actions (new colony starts at neutral value).
+* Game world map display showing occupied areas, structures (where map is discovered).
+* Lights.
+* Building sensors and boolean gates (e.g. and, nand, or, xor).
+* Mines (security).
