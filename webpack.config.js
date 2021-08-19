@@ -1,5 +1,6 @@
 const { join } = require('path');
 const Encore = require('@symfony/webpack-encore');
+const path = require('path');
 
 /*
 |--------------------------------------------------------------------------
@@ -156,7 +157,12 @@ Encore.configureDevServerOptions((options) => {
 | favorite CSS precompiler
 |
 */
-Encore.enableSassLoader();
+// Encore.enableSassLoader();
+
+// Encore.addLoader({
+//     test: /\.css$/,
+//     loader: 'css-loader',
+// });
 
 Encore.addLoader({
     test: /\.(vert|frag)$/i,
@@ -180,9 +186,7 @@ Encore.addLoader({
 |
 */
 const config = Encore.getWebpackConfig();
-config.infrastructureLogging = {
-    level: 'warn',
-};
+config.infrastructureLogging = { level: 'warn' };
 config.stats = 'errors-warnings';
 
 /*

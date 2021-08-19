@@ -26,6 +26,7 @@
     "sass-loader": "^12.0.0",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.4",
+    "typings-for-css-modules-loader": "^1.7.0",
     "youch": "^2.2.2",
     "youch-terminal": "^1.1.1"
   },
@@ -37,6 +38,8 @@
     "@adonisjs/view": "^6.0.3",
     "codeflask": "^1.4.1",
     "ecsy": "^0.4.2",
+    "jss": "^10.7.1",
+    "jss-preset-default": "^10.7.1",
     "lit-html": "^1.4.1",
     "pixi.js": "^6.0.4",
     "proxy-addr": "^2.0.7",

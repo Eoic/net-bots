@@ -1,3 +1,4 @@
+import '../../../css/editor.css';
 import { Component, Tag } from '../core/component';
 
 const template = `
@@ -23,18 +24,19 @@ const template = `
         .panel-drawer {
             height: 25px;
             background-color: #1a1a1a;
-            cursor: ns-resize;
+            cursor: row-resize;
             display: flex;
             padding: 10px;
             gap: 8px;
         }
     </style>
 
-    <div class='panel'>
+    <link rel='stylesheet' href='http://localhost:8080/assets/app.css'>
+
+    <div class='panel' id='panel'>
         <div class='panel-drawer'>
-            <button> Run </button>
-            <button> Save changes </button>
-            <button> Discard changes </button>
+            <button class="tab"> Editor </button>
+            <button class="tab"> Console </button>
         </div>
         <div class='panel-grid'>
             <slot name='file-tree'></slot>
