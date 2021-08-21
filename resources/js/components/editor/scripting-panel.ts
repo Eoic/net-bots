@@ -1,42 +1,12 @@
-import '../../../css/editor.css';
 import { Component, Tag } from '../core/component';
 
 const template = `
-    <style>
-        .panel {
-            position: fixed;
-            min-height: 25vh;
-            height: 300px;
-            bottom: 0;
-            left: 0;
-            width: 100vw;
-            background-color: #1a1a1a;
-        }
-
-        .panel-grid {
-            display: grid;
-            grid-template-areas:
-                "file-tree editor";
-            grid-template-columns: minmax(240px, 0.1fr) 1fr;
-            grid-template-rows: 1fr;
-        }
-
-        .panel-drawer {
-            height: 25px;
-            background-color: #1a1a1a;
-            cursor: row-resize;
-            display: flex;
-            padding: 10px;
-            gap: 8px;
-        }
-    </style>
-
     <link rel='stylesheet' href='http://localhost:8080/assets/app.css'>
 
     <div class='panel' id='panel'>
-        <div class='panel-drawer'>
-            <button class="tab"> Editor </button>
-            <button class="tab"> Console </button>
+        <div id='drawer' class='panel-drawer'>
+            <button class="tab btn"> Editor </button>
+            <button class="tab btn"> Console </button>
         </div>
         <div class='panel-grid'>
             <slot name='file-tree'></slot>
@@ -47,8 +17,61 @@ const template = `
 
 @Tag('scripting-panel')
 class ScriptingPanel extends Component {
+    private drawer: HTMLElement | null | undefined;
+    private panel: HTMLElement | null | undefined;
+    private drawerHeight: number;
+
     constructor() {
         super(template);
+        this.setState({ isResizing: false });
+        this.drawer = this.shadowRoot?.getElementById('drawer');
+        this.drawerHeight = parseInt(window.getComputedStyle(this.drawer as Element)['height']);
+        this.panel = this.shadowRoot?.getElementById('panel');
+        this.bindEvents();
+    }
+
+    private bindEvents() {
+        window.addEventListener('mousedown', (event) => this.handleMouseDown(event));
+        window.addEventListener('mouseup', (event) => this.handleMouseUp(event));
+        window.addEventListener('mousemove', (event) => this.handleMouseMove(event));
+        this.drawer?.addEventListener('mouseenter', (event) => this.handleMouseEnter(event));
+        this.drawer?.addEventListener('mouseleave', (event) => this.handleMouseLeave(event));
+    }
+
+    private handleMouseDown(_event: MouseEvent) {
+        if (this.state.canResize) {
+            this.setState({ isResizing: true });
+        }
+    }
+
+    private handleMouseUp(_event: MouseEvent) {
+        this.setState({ isResizing: false });
+    }
+
+    private handleMouseMove(event: MouseEvent) {
+        if (!this.state.isResizing) return;
+
+        console.log(this.drawerHeight);
+
+        let position = window.innerHeight - event.pageY + this.drawerHeight / 2;
+
+        if (position < this.drawerHeight) {
+            position = this.drawerHeight;
+        }
+
+        if (event.pageY < this.drawerHeight / 2) {
+            position = window.innerHeight;
+        }
+
+        this.panel!.style.height = position + 'px';
+    }
+
+    private handleMouseEnter(_event: MouseEvent) {
+        this.setState({ canResize: true });
+    }
+
+    private handleMouseLeave(_event: MouseEvent) {
+        this.setState({ canResize: false });
     }
 }
 

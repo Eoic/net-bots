@@ -1,0 +1,19 @@
+@use '../utilities/colors.scss' as colors;
+
+.btn {
+    border: 0;
+    font-size: 16px;
+    padding: 8px;
+    background-color: colors.$base-color;
+    color: colors.$text-color;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: colors.$hover-color;
+    }
+
+    &:active {
+        background-color: colors.$base-color-light;
+    }
+}

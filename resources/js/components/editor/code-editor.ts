@@ -11,7 +11,6 @@ class CodeEditor extends Component {
     constructor() {
         super(template);
         const editorNode = this.shadowRoot!.querySelector('#editor') as HTMLElement;
-
         new CodeFlask(editorNode, {
             language: 'js',
             styleParent: this.shadowRoot!,

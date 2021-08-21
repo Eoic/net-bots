@@ -1,0 +1,30 @@
+@use '../utilities/colors.scss' as colors;
+
+.panel {
+    position: fixed;
+    height: 300px;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background-color: colors.$base-color;
+}
+
+.panel-grid {
+    display: grid;
+    grid-template-areas:
+        "file-tree editor";
+    grid-template-columns: minmax(240px, 0.1fr) 1fr;
+    grid-template-rows: 1fr;
+}
+
+.panel-drawer {
+    background-color: colors.$base-color-dark;
+    cursor: row-resize;
+    display: flex;
+    gap: 0;
+}
+
+.tab {
+    min-width: 80px;
+    background-color: transparent;
+}

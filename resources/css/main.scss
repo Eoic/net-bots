@@ -1,0 +1,17 @@
+@use './base/reset.scss';
+@use './components/buttons.scss';
+@use './utilities/colors.scss' as colors;
+@use './components/panel.scss';
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+
+html, body {
+    background-color: colors.$background;
+    font-family: 'Source Code Pro', monospace;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root {
+    position: fixed;
+}

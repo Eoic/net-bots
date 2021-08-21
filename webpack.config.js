@@ -164,6 +164,8 @@ Encore.configureDevServerOptions((options) => {
 //     loader: 'css-loader',
 // });
 
+Encore.enableSassLoader();
+
 Encore.addLoader({
     test: /\.(vert|frag)$/i,
     loader: 'raw-loader',
