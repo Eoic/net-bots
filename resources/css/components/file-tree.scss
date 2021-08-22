@@ -1,4 +1,65 @@
+@use '../utilities/colors.scss' as colors;
+
 .file-tree {
-    background-color: white;
+    background-color: transparent;
     grid-area: file-tree;
+
+    & > .toolbar {
+        padding: 8px 12px;
+        row-gap: 8px;
+        column-gap: 6px;
+        display: grid;
+
+        & button {
+            width: 30px;
+            height: 30px;
+            background-color: colors.$base-color-light;
+
+            &:hover {
+                background-color: colors.$hover-color;
+            }
+
+            &:active {
+                background-color: colors.$base-color-dark;
+            }
+        }
+
+        & input.search {
+            border-radius: 3px;
+            border: none;
+            padding: 6px;
+            background-color: colors.$base-color-light;
+            color: colors.$text-color;
+            width: 100%;
+
+            &::placeholder {
+                color: colors.$text-color;
+                opacity: 0.9;
+            }
+        }
+
+        .divider {
+            height: 30px;
+            width: 2px;
+            background-color: colors.$base-color-light;
+            display: inline;
+        }
+
+        & > .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .file-list {
+        & > button {
+            text-align: left;
+
+            & > i.fas {
+                width: 14px;
+                text-align: center;
+            }
+        }
+    }
 }

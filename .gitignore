@@ -7,3 +7,4 @@ coverage
 tmp
 TODO
 .vs/
+resources/js/vendor/*

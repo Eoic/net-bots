@@ -1,10 +1,16 @@
 <div class='panel' id='panel'>
     <div id='drawer' class='panel-drawer'>
-        <button class="tab btn"> Editor </button>
-        <button class="tab btn"> Console </button>
+        <button class="tab btn">
+            <i class="fas fa-code"></i>
+            Editor
+        </button>
+        <button class="tab btn">
+            <i class="fas fa-terminal"></i>
+            Console
+        </button>
     </div>
     <div class='panel-grid'>
-        @!component('../components/editor')
-        @!component('../components/file-tree')
+        @!component('components/editor')
+        @!component('components/file-tree')
     </div>
 </div>

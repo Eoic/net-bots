@@ -9,6 +9,12 @@
       "css": [
         "http://localhost:8080/assets/app.css"
       ]
+    },
+    "icons": {
+      "js": [
+        "http://localhost:8080/assets/vendors-node_modules_webpack-dev-server_client_index_js_http_0_0_0_0_host_localhost_port_8080-3982fe.js",
+        "http://localhost:8080/assets/icons.js"
+      ]
     }
   }
 }

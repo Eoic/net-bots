@@ -1,0 +1,16 @@
+@use '../utilities/colors.scss' as colors;
+
+label.icon {
+    left: 6px;
+    position: absolute;
+    top: calc(50% - 0.5em);
+    color: colors.$text-color;
+}
+
+input.icon {
+    padding-left: 25px !important;
+}
+
+.input-wrapper {
+    position: relative;
+}

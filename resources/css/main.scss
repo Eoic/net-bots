@@ -1,8 +1,10 @@
 @use './base/reset.scss';
 @use './components/buttons.scss';
+@use './components/input.scss';
 @use './utilities/colors.scss' as colors;
 @use './components/editor-panel.scss';
 @use './components/file-tree.scss';
+@use './utilities/editor-syntax.scss';
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
 
 html, body {

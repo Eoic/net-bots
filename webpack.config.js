@@ -47,6 +47,7 @@ Encore.setPublicPath('/assets');
 |
 */
 Encore.addEntry('app', './resources/js/app.js');
+Encore.addEntry('icons', './resources/js/vendor/font-awesome-5.js');
 
 /*
 |--------------------------------------------------------------------------

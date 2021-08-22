@@ -16,4 +16,17 @@
     &:active {
         background-color: colors.$base-color-light;
     }
+
+    &.round {
+        border-radius: 3px;
+    }
+
+    &.small {
+        padding: 4px;
+        font-size: medium;
+    }
+
+    &.full-width {
+        width: 100%;
+    }
 }

@@ -1,6 +1,8 @@
 {
   "assets/app.css": "http://localhost:8080/assets/app.css",
   "assets/app.js": "http://localhost:8080/assets/app.js",
+  "assets/icons.js": "http://localhost:8080/assets/icons.js",
   "assets/vendors-node_modules_webpack-dev-server_client_index_js_http_0_0_0_0_host_localhost_port_8080-3982fe.js": "http://localhost:8080/assets/vendors-node_modules_webpack-dev-server_client_index_js_http_0_0_0_0_host_localhost_port_8080-3982fe.js",
-  "assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-3e4167.js": "http://localhost:8080/assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-3e4167.js"
+  "assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-3e4167.js": "http://localhost:8080/assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-3e4167.js",
+  "assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-cd66d1.js": "http://localhost:8080/assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-cd66d1.js"
 }
