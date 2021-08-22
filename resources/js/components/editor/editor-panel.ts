@@ -22,8 +22,8 @@ class EditorPanel extends Component {
         this.drawer?.addEventListener('mouseleave', (event) => this.handleMouseLeave(event));
     }
 
-    private handleMouseDown(_event: MouseEvent) {
-        if (this.state.canResize) {
+    private handleMouseDown(event: MouseEvent) {
+        if (this.state.canResize && this.drawer?.isEqualNode(event.target as Node)) {
             this.setState({ isResizing: true });
         }
     }
@@ -34,8 +34,6 @@ class EditorPanel extends Component {
 
     private handleMouseMove(event: MouseEvent) {
         if (!this.state.isResizing) return;
-
-        console.log(this.drawerHeight);
 
         let position = window.innerHeight - event.pageY + this.drawerHeight / 2;
 
