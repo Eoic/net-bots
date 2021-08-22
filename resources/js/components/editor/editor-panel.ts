@@ -1,32 +1,16 @@
-import { Component, Tag } from '../core/component';
+import { Component } from '../core/component';
 
-const template = `
-    <link rel='stylesheet' href='http://localhost:8080/assets/app.css'>
-
-    <div class='panel' id='panel'>
-        <div id='drawer' class='panel-drawer'>
-            <button class="tab btn"> Editor </button>
-            <button class="tab btn"> Console </button>
-        </div>
-        <div class='panel-grid'>
-            <slot name='file-tree'></slot>
-            <slot name='editor'></slot>
-        </div>
-    </div>
-`;
-
-@Tag('scripting-panel')
-class ScriptingPanel extends Component {
+class EditorPanel extends Component {
     private drawer: HTMLElement | null | undefined;
     private panel: HTMLElement | null | undefined;
     private drawerHeight: number;
 
     constructor() {
-        super(template);
+        super();
         this.setState({ isResizing: false });
-        this.drawer = this.shadowRoot?.getElementById('drawer');
+        this.drawer = document.getElementById('drawer');
         this.drawerHeight = parseInt(window.getComputedStyle(this.drawer as Element)['height']);
-        this.panel = this.shadowRoot?.getElementById('panel');
+        this.panel = document.getElementById('panel');
         this.bindEvents();
     }
 
@@ -75,4 +59,4 @@ class ScriptingPanel extends Component {
     }
 }
 
-export { ScriptingPanel };
+export { EditorPanel };

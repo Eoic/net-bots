@@ -1,11 +1,11 @@
 import '../css/main.scss';
 import { Engine } from './engine';
-import '../js/components/editor/file-tree';
-import '../js/components/editor/code-editor';
-import '../js/components/editor/scripting-panel';
+import { Editor } from './components/editor/editor';
+import { EditorPanel } from './components/editor/editor-panel';
 
 class App {
     constructor() {
+        this.components = [Editor, EditorPanel];
         this.engine = new Engine({
             width: window.innerWidth,
             height: window.innerHeight,
@@ -14,6 +14,13 @@ class App {
         });
 
         this.engine.run();
+        this.initComponents();
+    }
+
+    initComponents() {
+        this.components.forEach((componentType) => {
+            new componentType();
+        });
     }
 }
 

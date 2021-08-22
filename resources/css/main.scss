@@ -1,7 +1,8 @@
 @use './base/reset.scss';
 @use './components/buttons.scss';
 @use './utilities/colors.scss' as colors;
-@use './components/panel.scss';
+@use './components/editor-panel.scss';
+@use './components/file-tree.scss';
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
 
 html, body {
