@@ -1,6 +1,5 @@
 import CodeFlask from 'codeflask';
 
-// Code editor options.
 const editorOptions: CodeFlask.options = {
     tabSize: 4,
     language: 'js',
