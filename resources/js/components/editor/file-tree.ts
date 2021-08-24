@@ -5,7 +5,6 @@ class DirectoryNode {
     public readonly id: string;
     private _name: string;
     public selected: boolean;
-    public ancestor: DirectoryNode | undefined;
 
     public get name() {
         return this._name;
@@ -21,28 +20,30 @@ class DirectoryNode {
         this._name = value;
     }
 
-    constructor(name: string, ancestor?: DirectoryNode) {
+    constructor(name: string) {
         this.id = UUID4.generate();
         this.name = name;
         this.selected = false;
-        this.ancestor = ancestor;
     }
 }
 
 class FolderNode extends DirectoryNode {
+    public ancestor: FolderNode | undefined;
     public nodes: Array<FileNode | FolderNode>;
     public nodeMap: Map<string, FileNode | FolderNode>;
     public isOpen: boolean;
 
-    constructor(name: string, ancestor?: DirectoryNode) {
-        super(name, ancestor);
+    constructor(name: string, ancestor?: FolderNode) {
+        super(name);
         this.nodes = [];
         this.isOpen = false;
+        this.ancestor = ancestor;
         this.nodeMap = new Map<string, FileNode | FolderNode>();
     }
 
     public add(node: FileNode | FolderNode) {
         if (this.nodeMap.has(node.name)) {
+            // TODO: Fix counter appending.
             let counterNumber = 1;
             let isFound = false;
 
@@ -62,27 +63,46 @@ class FolderNode extends DirectoryNode {
         this.nodes.push(node);
         this.nodeMap.set(node.name, node);
     }
+
+    public toggle() {
+        this.isOpen = !this.isOpen;
+    }
 }
 
 class FileNode extends DirectoryNode {
     public content: string;
+    public ancestor: FolderNode | undefined;
 
-    constructor(name: string, ancestor?: DirectoryNode) {
-        super(name, ancestor);
+    constructor(name: string, ancestor?: FolderNode) {
+        super(name);
         this.content = '';
+        this.ancestor = ancestor;
     }
 }
 
 class FileTree extends Component {
     private root: FolderNode;
     private fileList: HTMLElement | null;
+    private directoryNodesLUT: Map<string, FileNode | FolderNode>;
+    private templateDisplayMap: Map<string, (node: FileNode | FolderNode, depth: number) => Node | undefined>;
 
     constructor() {
         super();
         this.root = new FolderNode('Root');
         this.fileList = document.getElementById('file-list');
+        this.directoryNodesLUT = new Map();
+        this.templateDisplayMap = new Map([
+            [FileNode.name, (node: FileNode | FolderNode, depth: number) => this.getFileTemplate(node, depth)],
+            [FolderNode.name, (node: FileNode | FolderNode, depth: number) => this.getFolderTemplate(node, depth)],
+        ]);
+
         this.initFileTree();
+        this.bindEvents();
         this.update();
+    }
+
+    private bindEvents() {
+        this.fileList?.addEventListener('click', (event) => this.handleClick(event));
     }
 
     /**
@@ -96,8 +116,11 @@ class FileTree extends Component {
      *  |-- Folder 4
      */
     private initFileTree() {
+        this.root.isOpen = true;
         const folder1 = new FolderNode('Folder 1', this.root);
         const folder2 = new FolderNode('Folder 2', this.root);
+        this.root.add(new FileNode('Top level file', this.root));
+        folder2.isOpen = true;
         this.root.add(folder1);
         this.root.add(folder2);
         const file1 = new FileNode('File 1', folder1);
@@ -109,16 +132,31 @@ class FileTree extends Component {
         const folder4 = new FolderNode('Folder 4', folder2);
         const folder5 = new FolderNode('Folder 4', folder2);
         folder2.add(file3);
+        folder2.add(file3);
+        folder2.add(file3);
+        folder2.add(file3);
+        folder2.add(file3);
+        folder2.add(file3);
+        folder2.add(file3);
         folder2.add(folder3);
         folder2.add(folder4);
         folder2.add(folder5);
         const file4 = new FileNode('File 4', folder3);
-        const file5 = new FileNode('File 4', folder3);
+        const file5 = new FileNode('File 4 Very long file name exceeding default file tree width', folder3);
         folder3.add(file4);
+        folder3.add(file5);
+        folder3.add(file5);
+        folder3.add(file5);
+        folder3.add(file5);
+        folder3.add(file5);
         folder3.add(file5);
     }
 
-    private getFileTemplate(node: FileNode | FolderNode, depth = 0): Node | undefined {
+    private getPadding(count: number) {
+        return [...new Array(count * 2).keys()].map((_key) => '&nbsp; ').join('');
+    }
+
+    private getFileTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const fileTemplate = document.createElement('template');
 
         fileTemplate.innerHTML = `
@@ -130,8 +168,17 @@ class FileTree extends Component {
         return fileTemplate.content.firstElementChild?.cloneNode(true);
     }
 
-    private getPadding(count: number) {
-        return [...new Array(count * 2).keys()].map((_key) => '&nbsp; ').join('');
+    private getFolderTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
+        const folderTemplate = document.createElement('template');
+        const arrowDirection = (node as FolderNode).isOpen ? 'down' : 'right';
+
+        folderTemplate.innerHTML = `
+            <button class='btn full-width' id=${node.id}>
+                ${this.getPadding(depth)} <i class='fas fa-arrow-${arrowDirection}'></i> ${node.name}
+            </button>
+        `;
+
+        return folderTemplate.content.firstElementChild?.cloneNode(true);
     }
 
     private traverse(
@@ -139,21 +186,47 @@ class FileTree extends Component {
         displayCallback: (node: FileNode | FolderNode, depth: number) => void,
         depth: number = 0
     ) {
-        displayCallback(node, depth);
-
-        if (node instanceof FolderNode) {
-            node.nodes.forEach((folderNode) => this.traverse(folderNode, displayCallback, depth + 1));
+        if (node.ancestor && !node.ancestor?.isOpen) {
+            return;
         }
+
+        displayCallback(node, depth);
+        node instanceof FolderNode && node.nodes.forEach((folderNode) => this.traverse(folderNode, displayCallback, depth + 1));
     }
 
     public update() {
-        this.traverse(this.root, (node: FileNode | FolderNode, depth: number) => {
-            const fileElement = this.getFileTemplate(node, depth);
+        if (this.fileList) {
+            this.fileList.innerHTML = '';
+        }
 
-            if (fileElement) {
-                this.fileList?.appendChild(fileElement);
+        this.traverse(this.root, (node: FileNode | FolderNode, depth: number) => {
+            const nodeTemplateMethod = this.templateDisplayMap.get(node.constructor.name);
+
+            if (nodeTemplateMethod) {
+                const nodeTemplate = nodeTemplateMethod(node, depth);
+
+                if (nodeTemplate) {
+                    this.fileList?.appendChild(nodeTemplate);
+                }
             }
+
+            this.directoryNodesLUT.set(node.id, node);
         });
+    }
+
+    private handleClick(event: MouseEvent) {
+        const selectedNode = this.directoryNodesLUT.get((event.target as HTMLElement).id);
+
+        if (!selectedNode) {
+            return;
+        }
+
+        if (selectedNode instanceof FolderNode) {
+            selectedNode.toggle();
+            this.update();
+        }
+
+        console.log(selectedNode);
     }
 }
 

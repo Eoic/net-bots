@@ -14,6 +14,7 @@
             width: 30px;
             height: 30px;
             background-color: colors.$base-color-light;
+            display: block;
 
             &:hover {
                 background-color: colors.$hover-color;
@@ -53,12 +54,16 @@
     }
 
     .file-list {
+        white-space: nowrap;
+        overflow-x: auto;
+
         & > button {
             text-align: left;
 
             & > i.fas {
                 width: 14px;
                 text-align: center;
+                pointer-events: none;
             }
         }
     }
