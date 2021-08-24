@@ -2,16 +2,18 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/assets/788.f7469ba9.js",
-        "/assets/app.4f8c4563.js"
+        "http://localhost:8080/assets/vendors-node_modules_webpack-dev-server_client_index_js_http_0_0_0_0_host_localhost_port_8080-3982fe.js",
+        "http://localhost:8080/assets/vendors-node_modules_codeflask_build_codeflask_module_js-node_modules_ecsy_src_index_js-node_-3e4167.js",
+        "http://localhost:8080/assets/app.js"
       ],
       "css": [
-        "/assets/app.c2c7fa87.css"
+        "http://localhost:8080/assets/app.css"
       ]
     },
     "icons": {
       "js": [
-        "/assets/icons.4f4ca66e.js"
+        "http://localhost:8080/assets/vendors-node_modules_webpack-dev-server_client_index_js_http_0_0_0_0_host_localhost_port_8080-3982fe.js",
+        "http://localhost:8080/assets/icons.js"
       ]
     }
   }

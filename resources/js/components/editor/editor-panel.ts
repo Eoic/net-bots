@@ -11,6 +11,11 @@ class EditorPanel extends Component {
         this.drawer = document.getElementById('drawer');
         this.drawerHeight = parseInt(window.getComputedStyle(this.drawer as Element)['height']);
         this.panel = document.getElementById('panel');
+
+        if (localStorage.getItem('panelHeight')) {
+            this.panel!.style.height = localStorage.getItem('panelHeight') || '250px';
+        }
+
         this.bindEvents();
     }
 
@@ -18,6 +23,7 @@ class EditorPanel extends Component {
         window.addEventListener('mousedown', (event) => this.handleMouseDown(event));
         window.addEventListener('mouseup', (event) => this.handleMouseUp(event));
         window.addEventListener('mousemove', (event) => this.handleMouseMove(event));
+        window.addEventListener('resize', (event) => this.handleWindowResize(event));
         this.drawer?.addEventListener('mouseenter', (event) => this.handleMouseEnter(event));
         this.drawer?.addEventListener('mouseleave', (event) => this.handleMouseLeave(event));
     }
@@ -30,6 +36,7 @@ class EditorPanel extends Component {
 
     private handleMouseUp(_event: MouseEvent) {
         this.setState({ isResizing: false });
+        localStorage.setItem('panelHeight', `${this.panel?.style.height}`);
     }
 
     private handleMouseMove(event: MouseEvent) {
@@ -54,6 +61,13 @@ class EditorPanel extends Component {
 
     private handleMouseLeave(_event: MouseEvent) {
         this.setState({ canResize: false });
+    }
+
+    private handleWindowResize(_event: Event) {
+        if (parseInt(window.getComputedStyle(this.panel as Element)['height']) > window.innerHeight) {
+            this.panel!.style.height = `${window.innerHeight}px`;
+            localStorage.setItem('panelHeight', `${this.panel?.style.height}`);
+        }
     }
 }
 
