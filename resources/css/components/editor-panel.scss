@@ -15,10 +15,12 @@
         "file-tree editor";
     grid-template-columns: minmax(240px, 0.1fr) 1fr;
     grid-template-rows: 1fr;
+    height: 100%;
 }
 
 .panel-drawer {
     background-color: colors.$base-color-dark;
+    border-bottom: 1px solid colors.$border-color;
     cursor: row-resize;
     display: flex;
     gap: 0;

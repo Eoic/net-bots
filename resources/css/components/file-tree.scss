@@ -3,6 +3,7 @@
 .file-tree {
     background-color: transparent;
     grid-area: file-tree;
+    border-right: 1px solid colors.$border-color;
 
     & > .toolbar {
         padding: 8px 12px;
