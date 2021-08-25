@@ -153,7 +153,7 @@ class FileTree extends Component {
     }
 
     private getPadding(count: number) {
-        return [...new Array(count * 2).keys()].map((_key) => '&nbsp; ').join('');
+        return [...new Array((count - 1) * 2).keys()].map((_key) => '&nbsp; ').join('');
     }
 
     private getFileTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
@@ -202,7 +202,7 @@ class FileTree extends Component {
         this.traverse(this.root, (node: FileNode | FolderNode, depth: number) => {
             const nodeTemplateMethod = this.templateDisplayMap.get(node.constructor.name);
 
-            if (nodeTemplateMethod) {
+            if (nodeTemplateMethod && node.ancestor) {
                 const nodeTemplate = nodeTemplateMethod(node, depth);
 
                 if (nodeTemplate) {
