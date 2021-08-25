@@ -17,6 +17,10 @@
         background-color: colors.$base-color-light;
     }
 
+    &.active {
+        background-color: colors.$base-color-light;
+    }
+
     &.round {
         border-radius: 3px;
     }

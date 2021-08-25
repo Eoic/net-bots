@@ -4,7 +4,7 @@ import { Component } from '../core/component';
 class DirectoryNode {
     public readonly id: string;
     private _name: string;
-    public selected: boolean;
+    public isSelected: boolean;
 
     public get name() {
         return this._name;
@@ -23,7 +23,7 @@ class DirectoryNode {
     constructor(name: string) {
         this.id = UUID4.generate();
         this.name = name;
-        this.selected = false;
+        this.isSelected = false;
     }
 }
 
@@ -83,6 +83,8 @@ class FileNode extends DirectoryNode {
 class FileTree extends Component {
     private root: FolderNode;
     private fileList: HTMLElement | null;
+    private fileTree: HTMLElement | null;
+    private selectedNode: FileNode | FolderNode | undefined;
     private directoryNodesLUT: Map<string, FileNode | FolderNode>;
     private templateDisplayMap: Map<string, (node: FileNode | FolderNode, depth: number) => Node | undefined>;
 
@@ -90,6 +92,7 @@ class FileTree extends Component {
         super();
         this.root = new FolderNode('Root');
         this.fileList = document.getElementById('file-list');
+        this.fileTree = document.getElementById('file-tree');
         this.directoryNodesLUT = new Map();
         this.templateDisplayMap = new Map([
             [FileNode.name, (node: FileNode | FolderNode, depth: number) => this.getFileTemplate(node, depth)],
@@ -103,6 +106,8 @@ class FileTree extends Component {
 
     private bindEvents() {
         this.fileList?.addEventListener('click', (event) => this.handleClick(event));
+        this.fileList?.addEventListener('contextmenu', (event) => this.handleNodeContextMenu(event));
+        this.fileTree?.addEventListener('contextmenu', (event) => this.handleTreeContextMenu(event));
     }
 
     /**
@@ -127,29 +132,24 @@ class FileTree extends Component {
         const file2 = new FileNode('File 2', folder1);
         folder1.add(file1);
         folder1.add(file2);
-        const file3 = new FileNode('File 3', folder2);
+        // const file3 = new FileNode('File 3', folder2);
         const folder3 = new FolderNode('Folder 3', folder2);
         const folder4 = new FolderNode('Folder 4', folder2);
         const folder5 = new FolderNode('Folder 4', folder2);
-        folder2.add(file3);
-        folder2.add(file3);
-        folder2.add(file3);
-        folder2.add(file3);
-        folder2.add(file3);
-        folder2.add(file3);
-        folder2.add(file3);
+
+        for (let i = 0; i < 10; i++) {
+            folder2.add(new FileNode(`File ${Math.round(Math.random() * 1000) + 100}`, folder2));
+        }
+
         folder2.add(folder3);
         folder2.add(folder4);
         folder2.add(folder5);
         const file4 = new FileNode('File 4', folder3);
-        const file5 = new FileNode('File 4 Very long file name exceeding default file tree width', folder3);
         folder3.add(file4);
-        folder3.add(file5);
-        folder3.add(file5);
-        folder3.add(file5);
-        folder3.add(file5);
-        folder3.add(file5);
-        folder3.add(file5);
+
+        for (let i = 0; i < 5; i++) {
+            folder5.add(new FileNode(`File ${Math.round(Math.random() * 1000) + 100}`, folder5));
+        }
     }
 
     private getPadding(count: number) {
@@ -160,7 +160,7 @@ class FileTree extends Component {
         const fileTemplate = document.createElement('template');
 
         fileTemplate.innerHTML = `
-            <button class='btn full-width' id=${node.id}>
+            <button class='btn full-width ${node.isSelected ? 'active' : ''}' id=${node.id}>
                 ${this.getPadding(depth)} <i class='fas fa-file-code'></i> ${node.name}
             </button>
         `;
@@ -173,7 +173,7 @@ class FileTree extends Component {
         const arrowDirection = (node as FolderNode).isOpen ? 'down' : 'right';
 
         folderTemplate.innerHTML = `
-            <button class='btn full-width' id=${node.id}>
+            <button class='btn full-width ${node.isSelected ? 'active' : ''}' id=${node.id}>
                 ${this.getPadding(depth)} <i class='fas fa-arrow-${arrowDirection}'></i> ${node.name}
             </button>
         `;
@@ -215,18 +215,38 @@ class FileTree extends Component {
     }
 
     private handleClick(event: MouseEvent) {
-        const selectedNode = this.directoryNodesLUT.get((event.target as HTMLElement).id);
+        if (this.selectedNode) {
+            this.selectedNode.isSelected = false;
+        }
 
-        if (!selectedNode) {
+        this.selectedNode = this.directoryNodesLUT.get((event.target as HTMLElement).id);
+
+        if (!this.selectedNode) {
             return;
         }
 
-        if (selectedNode instanceof FolderNode) {
-            selectedNode.toggle();
-            this.update();
+        this.selectedNode.isSelected = true;
+
+        if (this.selectedNode instanceof FolderNode) {
+            this.selectedNode.toggle();
         }
 
-        console.log(selectedNode);
+        window.location.hash = '#file-list';
+        this.update();
+    }
+
+    private handleNodeContextMenu(event) {
+        if (event.target.parentNode.id === 'file-list') {
+            event.preventDefault();
+            console.log('File node');
+        }
+    }
+
+    private handleTreeContextMenu(event) {
+        if (event.target.parentNode.id === 'file-tree') {
+            event.preventDefault();
+            console.log('File tree');
+        }
     }
 }
 
