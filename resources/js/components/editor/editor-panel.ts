@@ -4,13 +4,20 @@ class EditorPanel extends Component {
     private drawer: HTMLElement | null | undefined;
     private panel: HTMLElement | null | undefined;
     private drawerHeight: number;
+    private panelButtons: NodeListOf<Element>;
+    private panelTabsMap: Map<string, HTMLElement | null>;
 
     constructor() {
         super();
-        this.setState({ isResizing: false });
+        this.setState({ isResizing: false, activeTab: 'tab-0' });
         this.drawer = document.getElementById('drawer');
         this.drawerHeight = parseInt(window.getComputedStyle(this.drawer as Element)['height']);
         this.panel = document.getElementById('panel');
+        this.panelButtons = document.querySelectorAll('button[data-tab]');
+        this.panelTabsMap = new Map([
+            ['tab-0', document.getElementById('code-editor')],
+            ['tab-1', document.getElementById('console')],
+        ]);
 
         if (localStorage.getItem('panelHeight')) {
             this.panel!.style.height = localStorage.getItem('panelHeight') || '250px';
@@ -26,6 +33,24 @@ class EditorPanel extends Component {
         window.addEventListener('resize', (event) => this.handleWindowResize(event));
         this.drawer?.addEventListener('mouseenter', (event) => this.handleMouseEnter(event));
         this.drawer?.addEventListener('mouseleave', (event) => this.handleMouseLeave(event));
+        this.panelButtons.forEach((button) => {
+            button.addEventListener('click', (event: MouseEvent) => this.handleTabSelect(event));
+        });
+    }
+
+    private handleTabSelect(event: MouseEvent) {
+        const selectedTab = (event.target as HTMLElement).dataset.tab;
+
+        this.panelButtons.forEach((button: HTMLElement) => {
+            if (button.dataset.tab !== selectedTab) {
+                button.classList.remove('active');
+                this.panelTabsMap.get(button.dataset.tab || '')?.classList.add('hidden');
+            } else {
+                button.classList.add('active');
+            }
+        });
+
+        this.panelTabsMap.get(selectedTab || '')?.classList.remove('hidden');
     }
 
     private handleMouseDown(event: MouseEvent) {

@@ -9,6 +9,10 @@
     transition: all 0.2s ease-in-out;
     cursor: pointer;
 
+    & > i.fas {
+        pointer-events: none;
+    }
+
     &:hover {
         background-color: colors.$hover-color;
     }

@@ -170,11 +170,11 @@ class FileTree extends Component {
 
     private getFolderTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const folderTemplate = document.createElement('template');
-        const arrowDirection = (node as FolderNode).isOpen ? 'down' : 'right';
+        const arrowDirection = (node as FolderNode).isOpen ? 'minus' : 'plus';
 
         folderTemplate.innerHTML = `
             <button class='btn full-width ${node.isSelected ? 'active' : ''}' id=${node.id}>
-                ${this.getPadding(depth)} <i class='fas fa-arrow-${arrowDirection}'></i> ${node.name}
+                ${this.getPadding(depth)} <i class='fas fa-${arrowDirection}'></i> ${node.name}
             </button>
         `;
 
