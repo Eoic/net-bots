@@ -1,5 +1,18 @@
 @use '../utilities/colors.scss' as colors;
 
+.input {
+    border-radius: 3px;
+    border: none;
+    padding: 6px;
+    background-color: colors.$base-color-light;
+    color: colors.$text-color;
+
+    &::placeholder {
+        color: colors.$text-color;
+        opacity: 0.9;
+    }
+}
+
 label.icon {
     left: 6px;
     position: absolute;

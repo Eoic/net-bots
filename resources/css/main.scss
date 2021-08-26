@@ -5,6 +5,7 @@
 @use './components/editor-panel.scss';
 @use './components/file-tree.scss';
 @use './utilities/editor-syntax.scss';
+@use './components/console.scss';
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
 
 html, body {
@@ -21,4 +22,9 @@ html, body {
 
 .hidden {
     display: none;
+}
+
+.full-width {
+    width: 100%;
+    display: block;
 }

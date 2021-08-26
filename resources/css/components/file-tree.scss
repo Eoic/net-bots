@@ -27,11 +27,6 @@
         }
 
         & input.search {
-            border-radius: 3px;
-            border: none;
-            padding: 6px;
-            background-color: colors.$base-color-light;
-            color: colors.$text-color;
             width: 100%;
 
             &::placeholder {

@@ -24,6 +24,8 @@
     cursor: row-resize;
     display: flex;
     gap: 0;
+    position: relative;
+    z-index: 2;
 }
 
 .tab {
