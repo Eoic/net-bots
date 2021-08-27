@@ -2,6 +2,7 @@
 @use './components/buttons.scss';
 @use './components/input.scss';
 @use './utilities/colors.scss' as colors;
+@use './variables.scss' as variables;
 @use './components/editor-panel.scss';
 @use './components/file-tree.scss';
 @use './utilities/editor-syntax.scss';
@@ -26,5 +27,10 @@ html, body {
 
 .full-width {
     width: 100%;
+    display: block;
+}
+
+.full-width-min {
+    min-width: 100%;
     display: block;
 }

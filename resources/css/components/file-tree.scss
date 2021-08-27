@@ -5,6 +5,10 @@
     grid-area: file-tree;
     border-right: 1px solid colors.$border-color;
 
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+
     & > .toolbar {
         padding: 8px 12px;
         row-gap: 8px;
@@ -52,6 +56,11 @@
     .file-list {
         white-space: nowrap;
         overflow-x: auto;
+
+        position: absolute;
+        overflow-y: auto;
+        height: calc(100% - 119px);
+        width: -moz-available;
 
         & > button {
             text-align: left;

@@ -138,7 +138,7 @@ class FileTree extends Component {
         const folder5 = new FolderNode('Folder 4', folder2);
 
         for (let i = 0; i < 10; i++) {
-            folder2.add(new FileNode(`File ${Math.round(Math.random() * 1000) + 100}`, folder2));
+            folder2.add(new FileNode(`File ${Math.round(Math.random() * 1000000) + 100}`, folder2));
         }
 
         folder2.add(folder3);
@@ -148,7 +148,7 @@ class FileTree extends Component {
         folder3.add(file4);
 
         for (let i = 0; i < 5; i++) {
-            folder5.add(new FileNode(`File ${Math.round(Math.random() * 1000) + 100}`, folder5));
+            folder5.add(new FileNode(`File with long title ${Math.round(Math.random() * 1000000000) + 10000000}`, folder5));
         }
     }
 
@@ -160,7 +160,7 @@ class FileTree extends Component {
         const fileTemplate = document.createElement('template');
 
         fileTemplate.innerHTML = `
-            <button class='btn full-width ${node.isSelected ? 'active' : ''}' id=${node.id}>
+            <button class='btn full-width-min ${node.isSelected ? 'active' : ''}' id=${node.id}>
                 ${this.getPadding(depth)} <i class='fas fa-file-code'></i> ${node.name}
             </button>
         `;
@@ -173,7 +173,7 @@ class FileTree extends Component {
         const arrowDirection = (node as FolderNode).isOpen ? 'minus' : 'plus';
 
         folderTemplate.innerHTML = `
-            <button class='btn full-width ${node.isSelected ? 'active' : ''}' id=${node.id}>
+            <button class='btn full-width-min ${node.isSelected ? 'active' : ''}' id=${node.id}>
                 ${this.getPadding(depth)} <i class='fas fa-${arrowDirection}'></i> ${node.name}
             </button>
         `;

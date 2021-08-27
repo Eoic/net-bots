@@ -1,0 +1,14 @@
+For every second:
+    1. Read game world data (DB).
+
+    2. for player in players:
+        2.1. Update context.
+        2.2. Run users code in isolatred VM.
+
+    3. Update game world data (DB).
+    4. Store result (snapshot) to the queue (optional?).
+    5. Send update to all connected clients.
+
+------------------------------------------------------------
+
+Add player script execution to queue (use some message broker)?
