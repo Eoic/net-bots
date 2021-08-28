@@ -51,6 +51,11 @@ class FolderNode extends DirectoryNode {
         }
 
         this.nodes.push(node);
+        this.nodes.sort((left, right) => {
+            if (left instanceof FileNode) return -1;
+            else if (right instanceof FileNode) return 1;
+            else return 0;
+        });
     }
 
     public delete(node: FileNode | FolderNode) {
@@ -59,6 +64,24 @@ class FolderNode extends DirectoryNode {
 
         if (targetIndex !== -1) {
             ancestor.nodes = ancestor.nodes.filter((item) => item.id !== node.id);
+        }
+    }
+
+    public clone(node: FileNode | FolderNode, defaultAncestor?: FolderNode) {
+        let ancestor = node.ancestor ? node.ancestor : this;
+
+        if (defaultAncestor) {
+            ancestor = defaultAncestor;
+        }
+
+        if (node instanceof FileNode) {
+            const nodeCopy = new FileNode(node.name, ancestor);
+            nodeCopy.content = node.content;
+            ancestor.add(nodeCopy);
+        } else if (node instanceof FolderNode) {
+            const nodeCopy = new FolderNode(node.name, ancestor);
+            ancestor.add(nodeCopy);
+            node.nodes.forEach((innerNode) => this.clone(innerNode, nodeCopy));
         }
     }
 
@@ -161,7 +184,7 @@ class FileTree extends Component {
         this.fileList?.addEventListener('contextmenu', (event) => this.handleNodeContextMenu(event));
         this.fileTree?.addEventListener('contextmenu', (event) => this.handleTreeContextMenu(event));
         this.contextMenu?.addEventListener('mousedown', () => this.handleContextMenuMouseDown());
-        this.contextMenu?.addEventListener('focusout', (event) => this.handleContextMenuClose(event));
+        this.contextMenu?.addEventListener('focusout', () => this.handleContextMenuClose());
         this.contextMenu?.addEventListener('mouseenter', () => this.handleContextMenuEnter());
         this.contextMenu?.addEventListener('mouseleave', () => this.handleContextMenuLeave());
     }
@@ -188,7 +211,7 @@ class FileTree extends Component {
         const file2 = new FileNode('File 2', folder1);
         folder1.add(file1);
         folder1.add(file2);
-        // const file3 = new FileNode('File 3', folder2);
+
         const folder3 = new FolderNode('Folder 3', folder2);
         const folder4 = new FolderNode('Folder 4', folder2);
         const folder5 = new FolderNode('Folder 4', folder2);
@@ -239,14 +262,24 @@ class FileTree extends Component {
 
     private showContextMenu(event: MouseEvent, visibleButtons: string[]) {
         if (!this.contextMenu) return;
+
+        const contextMenuPosition = { x: event.clientX, y: event.clientY };
         this.contextMenu.classList.remove('hidden');
-        this.contextMenu.style.left = `${event.clientX}px`;
-        this.contextMenu.style.top = `${event.clientY}px`;
+
+        if (event.clientX + this.contextMenu.offsetWidth > window.innerWidth) {
+            contextMenuPosition.x -= this.contextMenu.offsetWidth;
+        }
+
+        if (event.clientY + this.contextMenu.offsetHeight > window.innerHeight) {
+            contextMenuPosition.y -= this.contextMenu.offsetHeight;
+        }
+
+        this.contextMenu.style.left = `${contextMenuPosition.x}px`;
+        this.contextMenu.style.top = `${contextMenuPosition.y}px`;
 
         this.contextMenu.querySelectorAll('button').forEach((button) => {
-            if (!visibleButtons.includes(button.id)) {
-                button.style.display = 'none';
-            } else button.style.display = 'inherit';
+            if (!visibleButtons.includes(button.id)) button.style.display = 'none';
+            else button.style.display = 'flex';
         });
 
         this.contextMenu.focus();
@@ -326,7 +359,7 @@ class FileTree extends Component {
         }
     }
 
-    private handleContextMenuClose(_event) {
+    private handleContextMenuClose() {
         if (this.canCloseContextMenu) {
             this.contextMenu?.classList.add('hidden');
         }
@@ -345,19 +378,29 @@ class FileTree extends Component {
     }
 
     // Context menu action event handlers.
+    private getValidContextNode() {
+        if (!this.contextMenuFocusElement) return;
+
+        const id = this.contextMenuFocusElement.id;
+        const node = this.directoryNodesLUT.get(id);
+        return node;
+    }
+
     private handleRename() {
         console.log('Renaming', this.contextMenuFocusElement);
     }
 
     private handleClone() {
-        console.log('Cloning', this.contextMenuFocusElement);
+        const node = this.getValidContextNode();
+
+        if (node) {
+            this.root.clone(node);
+            this.update();
+        }
     }
 
     private handleDelete() {
-        if (!this.contextMenuFocusElement) return;
-
-        const id = this.contextMenuFocusElement.id;
-        const node = this.directoryNodesLUT.get(id);
+        const node = this.getValidContextNode();
 
         if (node) {
             this.root.delete(node);
