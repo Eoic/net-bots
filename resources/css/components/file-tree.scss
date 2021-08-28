@@ -4,7 +4,6 @@
     background-color: transparent;
     grid-area: file-tree;
     border-right: 1px solid colors.$border-color;
-
     position: relative;
     box-sizing: border-box;
     height: 100%;
@@ -61,6 +60,8 @@
         overflow-y: auto;
         height: calc(100% - 119px);
         width: -moz-available;
+        width: -webkit-fill-available !important;
+        width: stretch !important;
 
         & > button {
             text-align: left;

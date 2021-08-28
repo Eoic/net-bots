@@ -1,8 +1,8 @@
 import '../css/main.scss';
 import { Engine } from './engine';
 import { Editor } from './components/editor/editor';
-import { EditorPanel } from './components/editor/editor-panel';
 import { FileTree } from './components/editor/file-tree';
+import { EditorPanel } from './components/editor/editor-panel';
 
 class App {
     constructor() {

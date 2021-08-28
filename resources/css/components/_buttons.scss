@@ -25,6 +25,10 @@
         background-color: colors.$base-color-light;
     }
 
+    &.focused {
+        background-color: colors.$hover-color;
+    }
+
     &.round {
         border-radius: 3px;
     }

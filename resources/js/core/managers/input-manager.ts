@@ -116,7 +116,6 @@ export class InputManager {
         return currentState;
     }
 
-    // TODO: Allow setting multiple axes?
     public setAxis(vertical: [string, string], horizontal: [string, string]) {
         this.axisMap.set('vertical', vertical);
         this.axisMap.set('horizontal', horizontal);
