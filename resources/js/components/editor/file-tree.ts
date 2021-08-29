@@ -108,7 +108,6 @@ const ContextMenuTemplate = `
     </button>
     <button id='clone' class='btn full-width'>
         <span> Clone </span>
-        <span> Ctrl + D </span>
     </button>
     <button id='delete' class='btn full-width'>
         <span> Delete </span>
@@ -138,9 +137,10 @@ class FileTree extends Component {
     private fileList: HTMLElement | null;
     private fileTree: HTMLElement | null;
     private contextMenu: HTMLElement | null;
-    private contextMenuFocusElement: HTMLElement | null;
     private fileTreeOverlay: HTMLElement | null;
+    private contextMenuFocusElement: HTMLElement | null;
     private canCloseContextMenu: boolean;
+    private isEditingFilename: boolean;
     private selectedNode: FileNode | FolderNode | undefined;
     private directoryNodesLUT: Map<string, FileNode | FolderNode>;
     private templateDisplayMap: Map<string, (node: FileNode | FolderNode, depth: number) => Node | undefined>;
@@ -154,6 +154,7 @@ class FileTree extends Component {
         this.contextMenu = document.getElementById('file-tree-context-menu');
         this.directoryNodesLUT = new Map();
         this.canCloseContextMenu = true;
+        this.isEditingFilename = false;
         this.templateDisplayMap = new Map([
             [FileNode.name, (node: FileNode | FolderNode, depth: number) => this.getFileTemplate(node, depth)],
             [FolderNode.name, (node: FileNode | FolderNode, depth: number) => this.getFolderTemplate(node, depth)],
@@ -196,6 +197,7 @@ class FileTree extends Component {
         this.contextMenu?.addEventListener('focusout', () => this.handleContextMenuClose());
         this.contextMenu?.addEventListener('mouseenter', () => this.handleContextMenuEnter());
         this.contextMenu?.addEventListener('mouseleave', () => this.handleContextMenuLeave());
+        window?.addEventListener('keyup', (event) => this.handleKeyPress(event));
     }
 
     /**
@@ -334,6 +336,7 @@ class FileTree extends Component {
         });
 
         this.fileTreeOverlay?.classList.add('hidden');
+        this.isEditingFilename = false;
     }
 
     private handleClick(event: MouseEvent) {
@@ -422,6 +425,7 @@ class FileTree extends Component {
         this.bindInputEvents(inputElement, node);
         this.contextMenuFocusElement?.replaceWith(inputElement.firstElementChild as Node);
         this.fileTreeOverlay?.classList.remove('hidden');
+        this.isEditingFilename = true;
 
         const input = document.getElementById('filename') as HTMLInputElement;
         input?.focus();
@@ -429,7 +433,8 @@ class FileTree extends Component {
     }
 
     private bindInputEvents(inputElement: HTMLDivElement, node: FileNode | FolderNode) {
-        inputElement.firstElementChild?.addEventListener('focusout', () => {
+        inputElement.firstElementChild?.addEventListener('focusout', (event: FocusEvent) => {
+            node.name = (event.target as HTMLInputElement).value;
             this.update();
         });
 
@@ -473,6 +478,10 @@ class FileTree extends Component {
         if (this.contextMenuFocusElement && this.contextMenuFocusElement instanceof HTMLElement) {
             this.contextMenuFocusElement.classList.add('focused');
         }
+    }
+
+    private handleKeyPress(_event) {
+        if (this.isEditingFilename) return;
     }
 }
 
