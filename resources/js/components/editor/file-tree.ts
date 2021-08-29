@@ -122,6 +122,13 @@ const ContextMenuTemplate = `
     </button>
 `;
 
+const FilenameInputTemplate = (value: string, iconType: string) => `
+    <div class='input-wrapper'>
+        <input id='filename' class='input filename icon' value='${value}' autofocus>
+        <label for='filename' class='fas fa-${iconType} icon'></label>
+    </div>
+`;
+
 const TreeMenuElements = ['new-file', 'new-folder'];
 const FileMenuElements = ['rename', 'clone', 'delete'];
 const FolderMenuElements = ['rename', 'clone', 'delete', 'new-file', 'new-folder'];
@@ -132,6 +139,7 @@ class FileTree extends Component {
     private fileTree: HTMLElement | null;
     private contextMenu: HTMLElement | null;
     private contextMenuFocusElement: HTMLElement | null;
+    private fileTreeOverlay: HTMLElement | null;
     private canCloseContextMenu: boolean;
     private selectedNode: FileNode | FolderNode | undefined;
     private directoryNodesLUT: Map<string, FileNode | FolderNode>;
@@ -142,6 +150,7 @@ class FileTree extends Component {
         this.root = new FolderNode('Root');
         this.fileList = document.getElementById('file-list');
         this.fileTree = document.getElementById('file-tree');
+        this.fileTreeOverlay = document.getElementById('file-tree-overlay');
         this.contextMenu = document.getElementById('file-tree-context-menu');
         this.directoryNodesLUT = new Map();
         this.canCloseContextMenu = true;
@@ -323,6 +332,8 @@ class FileTree extends Component {
 
             this.directoryNodesLUT.set(node.id, node);
         });
+
+        this.fileTreeOverlay?.classList.add('hidden');
     }
 
     private handleClick(event: MouseEvent) {
@@ -397,7 +408,39 @@ class FileTree extends Component {
     }
 
     private handleRename() {
-        console.log('Renaming', this.contextMenuFocusElement);
+        const node = this.getValidContextNode();
+
+        if (!node) return;
+
+        const inputElement = document.createElement('div');
+
+        inputElement.innerHTML = FilenameInputTemplate(
+            node.name,
+            node instanceof FileNode ? 'file-code' : node.isOpen ? 'minus' : 'plus'
+        );
+
+        this.bindInputEvents(inputElement, node);
+        this.contextMenuFocusElement?.replaceWith(inputElement.firstElementChild as Node);
+        this.fileTreeOverlay?.classList.remove('hidden');
+
+        const input = document.getElementById('filename') as HTMLInputElement;
+        input?.focus();
+        input?.select();
+    }
+
+    private bindInputEvents(inputElement: HTMLDivElement, node: FileNode | FolderNode) {
+        inputElement.firstElementChild?.addEventListener('focusout', () => {
+            this.update();
+        });
+
+        inputElement.firstElementChild?.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                node.name = (event.target as HTMLInputElement).value;
+                this.update();
+            } else if (event.key === 'Escape') {
+                this.update();
+            }
+        });
     }
 
     private handleClone() {
