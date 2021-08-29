@@ -24,11 +24,11 @@ html, body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
-.invisible {
-    visibility: hidden;
+.flex {
+    display: flex !important;
 }
 
 .full-width {

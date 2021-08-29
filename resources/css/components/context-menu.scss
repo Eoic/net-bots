@@ -3,7 +3,7 @@
 .context-menu {
     position: absolute;
     z-index: 1000;
-    border-radius: 3px;
+    border-radius: 4px;
     border: 1px solid colors.$border-color;
     top: 0;
 
@@ -12,15 +12,5 @@
         justify-content: space-between;
         text-align: left;
         column-gap: 16px;
-    }
-
-    .btn:first-child {
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-    }
-
-    .btn:last-child {
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
     }
 }

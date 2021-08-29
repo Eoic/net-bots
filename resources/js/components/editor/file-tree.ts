@@ -263,6 +263,21 @@ class FileTree extends Component {
     private showContextMenu(event: MouseEvent, visibleButtons: string[]) {
         if (!this.contextMenu) return;
 
+        const buttons = this.contextMenu.querySelectorAll('button');
+
+        buttons.forEach((button) => {
+            button.classList.remove('round-top', 'round-bottom');
+            if (!visibleButtons.includes(button.id)) button.style.display = 'none';
+            else button.style.display = 'flex';
+        });
+
+        const shownButtons: HTMLElement[] = [].filter.call(buttons, (button: HTMLElement) => button.style.display === 'flex');
+
+        if (shownButtons.length > 0) {
+            shownButtons[0].classList.add('round-top');
+            shownButtons[shownButtons.length - 1].classList.add('round-bottom');
+        }
+
         const contextMenuPosition = { x: event.clientX, y: event.clientY };
         this.contextMenu.classList.remove('hidden');
 
@@ -276,12 +291,6 @@ class FileTree extends Component {
 
         this.contextMenu.style.left = `${contextMenuPosition.x}px`;
         this.contextMenu.style.top = `${contextMenuPosition.y}px`;
-
-        this.contextMenu.querySelectorAll('button').forEach((button) => {
-            if (!visibleButtons.includes(button.id)) button.style.display = 'none';
-            else button.style.display = 'flex';
-        });
-
         this.contextMenu.focus();
     }
 
@@ -355,6 +364,7 @@ class FileTree extends Component {
 
         if ((target.parentNode as HTMLElement).id === 'file-tree') {
             event.preventDefault();
+            this.contextMenuFocusElement = null;
             this.showContextMenu(event, TreeMenuElements);
         }
     }
