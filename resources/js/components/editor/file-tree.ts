@@ -432,7 +432,7 @@ class FileTree extends Component {
         input?.select();
     }
 
-    private bindInputEvents(inputElement: HTMLDivElement, node: FileNode | FolderNode) {
+    private bindInputEvents(inputElement: HTMLDivElement, node: FileNode | FolderNode, append: boolean = false) {
         inputElement.firstElementChild?.addEventListener('focusout', (event: FocusEvent) => {
             node.name = (event.target as HTMLInputElement).value;
             this.update();
@@ -441,8 +441,17 @@ class FileTree extends Component {
         inputElement.firstElementChild?.addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
                 node.name = (event.target as HTMLInputElement).value;
+
+                if (append) {
+                    node.ancestor?.add(node);
+                }
+
                 this.update();
             } else if (event.key === 'Escape') {
+                if (append) {
+                    node.ancestor?.delete(node);
+                }
+
                 this.update();
             }
         });
@@ -467,7 +476,30 @@ class FileTree extends Component {
     }
 
     private handleNewFile() {
-        console.log('Creating new file', this.contextMenuFocusElement);
+        let targetNode: HTMLElement | null = null;
+        const inputElement = document.createElement('div');
+        inputElement.innerHTML = FilenameInputTemplate('', 'file-code');
+        targetNode = document.getElementById(this.selectedNode?.id || '');
+
+        this.bindInputEvents(
+            inputElement,
+            new FileNode('', this.selectedNode && this.selectedNode instanceof FolderNode ? this.selectedNode : this.root),
+            true
+        );
+
+        if (!this.selectedNode) {
+            this.fileList?.prepend(inputElement);
+        } else if (this.selectedNode instanceof FileNode) {
+            this.fileList?.insertBefore(inputElement, targetNode);
+        } else if (this.selectedNode instanceof FolderNode) {
+            this.selectedNode.isOpen = true;
+            targetNode?.after(inputElement);
+        }
+
+        this.fileTreeOverlay?.classList.remove('hidden');
+        const input = document.getElementById('filename') as HTMLInputElement;
+        input?.focus();
+        input?.select();
     }
 
     private handleNewFolder() {
