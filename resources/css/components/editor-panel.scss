@@ -1,8 +1,18 @@
 @use '../utilities/colors.scss' as colors;
 
-// .editor {
-//     cursor: col-resize;
-// }
+.drawer-vertical {
+    cursor: col-resize;
+    position: absolute;
+    height: 100%;
+    width: 6px;
+    z-index: 1000;
+    display: block;
+    margin-left: -3px;
+
+    &:hover {
+        background-color: colors.$hover-color;
+    }
+}
 
 .panel {
     position: fixed;
@@ -17,7 +27,7 @@
     display: grid;
     grid-template-areas:
         "file-tree editor";
-    grid-template-columns: minmax(240px, 0.1fr) 1fr;
+    grid-template-columns: minmax(240px, 0.1fr) 1px 1fr;
     grid-template-rows: 1fr;
     height: 100%;
 }

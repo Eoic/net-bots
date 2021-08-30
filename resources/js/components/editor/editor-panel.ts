@@ -6,11 +6,13 @@ class EditorPanel extends Component {
     private drawerHeight: number;
     private panelButtons: NodeListOf<Element>;
     private panelTabsMap: Map<string, HTMLElement | null>;
+    private editorNode: HTMLElement;
 
     constructor() {
         super();
         this.setState({ isResizing: false, activeTab: 'tab-0' });
         this.drawer = document.getElementById('drawer');
+        this.editorNode = document.getElementById('editor') as HTMLElement;
         this.drawerHeight = parseInt(window.getComputedStyle(this.drawer as Element)['height']);
         this.panel = document.getElementById('panel');
         this.panelButtons = document.querySelectorAll('button[data-tab]');
@@ -24,6 +26,7 @@ class EditorPanel extends Component {
         }
 
         this.bindEvents();
+        this.addDrawer();
     }
 
     private bindEvents() {
@@ -36,6 +39,12 @@ class EditorPanel extends Component {
         this.panelButtons.forEach((button) => {
             button.addEventListener('click', (event: MouseEvent) => this.handleTabSelect(event));
         });
+    }
+
+    private addDrawer() {
+        const drawer = document.createElement('div');
+        drawer.classList.add('drawer-vertical');
+        this.editorNode.appendChild(drawer);
     }
 
     private handleTabSelect(event: MouseEvent) {

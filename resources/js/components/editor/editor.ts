@@ -11,7 +11,7 @@ class Editor {
     private editor: CodeFlask;
 
     constructor() {
-        const editorNode = document.querySelector('#editor') as HTMLElement;
+        const editorNode = document.getElementById('editor') as HTMLElement;
         this.editor = new CodeFlask(editorNode, editorOptions);
         this.editor.updateCode(`import CodeFlask from 'codeflask';
 
