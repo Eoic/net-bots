@@ -1,5 +1,10 @@
 class Component {
     private _state: any = {};
+    protected params: object | undefined;
+
+    constructor(params?: object) {
+        this.params = params;
+    }
 
     public get state() {
         return Object.freeze(this._state);

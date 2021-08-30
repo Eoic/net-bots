@@ -1,10 +1,12 @@
 import { UUID4 } from '../../utils/uuid';
 import { Component } from '../core/component';
+import { Constructable } from '../core/interfaces/constructable';
 
 class DirectoryNode {
     public readonly id: string;
     private _name: string;
     public isSelected: boolean;
+    public depth: number;
 
     public get name() {
         return this._name;
@@ -24,6 +26,7 @@ class DirectoryNode {
         this.id = UUID4.generate();
         this.name = name;
         this.isSelected = false;
+        this.depth = 0;
     }
 }
 
@@ -121,8 +124,8 @@ const ContextMenuTemplate = `
     </button>
 `;
 
-const FilenameInputTemplate = (value: string, iconType: string) => `
-    <div class='input-wrapper'>
+const FilenameInputTemplate = (value: string, iconType: string, depth: number = 0) => `
+    <div class='input-wrapper' style='margin-left: ${(depth - 1) * 20}px'>
         <input id='filename' class='input filename icon' value='${value}' autofocus>
         <label for='filename' class='fas fa-${iconType} icon'></label>
     </div>
@@ -131,6 +134,9 @@ const FilenameInputTemplate = (value: string, iconType: string) => `
 const TreeMenuElements = ['new-file', 'new-folder'];
 const FileMenuElements = ['rename', 'clone', 'delete'];
 const FolderMenuElements = ['rename', 'clone', 'delete', 'new-file', 'new-folder'];
+
+const FileIcon = 'file-code';
+const FolderIcon = { OPEN: 'minus', CLOSED: 'plus' };
 
 class FileTree extends Component {
     private root: FolderNode;
@@ -142,11 +148,12 @@ class FileTree extends Component {
     private canCloseContextMenu: boolean;
     private isEditingFilename: boolean;
     private selectedNode: FileNode | FolderNode | undefined;
+    private focusedNode: FileNode | FolderNode | undefined;
     private directoryNodesLUT: Map<string, FileNode | FolderNode>;
     private templateDisplayMap: Map<string, (node: FileNode | FolderNode, depth: number) => Node | undefined>;
 
-    constructor() {
-        super();
+    constructor(params: object) {
+        super(params);
         this.root = new FolderNode('Root');
         this.fileList = document.getElementById('file-list');
         this.fileTree = document.getElementById('file-tree');
@@ -160,7 +167,6 @@ class FileTree extends Component {
             [FolderNode.name, (node: FileNode | FolderNode, depth: number) => this.getFolderTemplate(node, depth)],
         ]);
 
-        this.initFileTree();
         this.initContextMenu();
         this.bindEvents();
         this.update();
@@ -171,8 +177,8 @@ class FileTree extends Component {
             ['rename', () => this.handleRename()],
             ['clone', () => this.handleClone()],
             ['delete', () => this.handleDelete()],
-            ['new-file', () => this.handleNewFile()],
-            ['new-folder', () => this.handleNewFolder()],
+            ['new-file', () => this.handleNewNode(FileNode)],
+            ['new-folder', () => this.handleNewNode(FolderNode)],
         ]);
 
         this.contextMenu!.innerHTML = ContextMenuTemplate;
@@ -200,48 +206,6 @@ class FileTree extends Component {
         window?.addEventListener('keyup', (event) => this.handleKeyPress(event));
     }
 
-    /**
-     * Folder 1
-     *  |-- File 1
-     *  |-- File 2
-     * Folder 2
-     *  |-- File 3
-     *  |-- Folder 3
-     *       |-- File 4
-     *  |-- Folder 4
-     */
-    private initFileTree() {
-        this.root.isOpen = true;
-        const folder1 = new FolderNode('Folder 1', this.root);
-        const folder2 = new FolderNode('Folder 2', this.root);
-        this.root.add(new FileNode('Top level file', this.root));
-        // folder2.isOpen = true;
-        this.root.add(folder1);
-        this.root.add(folder2);
-        const file1 = new FileNode('File 1', folder1);
-        const file2 = new FileNode('File 2', folder1);
-        folder1.add(file1);
-        folder1.add(file2);
-
-        const folder3 = new FolderNode('Folder 3', folder2);
-        const folder4 = new FolderNode('Folder 4', folder2);
-        const folder5 = new FolderNode('Folder 4', folder2);
-
-        for (let i = 0; i < 10; i++) {
-            folder2.add(new FileNode(`File`, folder2));
-        }
-
-        folder2.add(folder3);
-        folder2.add(folder4);
-        folder2.add(folder5);
-        const file4 = new FileNode('File 4', folder3);
-        folder3.add(file4);
-
-        for (let i = 0; i < 5; i++) {
-            folder5.add(new FileNode(`File with long title`, folder5));
-        }
-    }
-
     private getPadding(count: number) {
         return [...new Array((count - 1) * 2).keys()].map((_key) => '&nbsp; ').join('');
     }
@@ -260,7 +224,7 @@ class FileTree extends Component {
 
     private getFolderTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const folderTemplate = document.createElement('template');
-        const arrowDirection = (node as FolderNode).isOpen ? 'minus' : 'plus';
+        const arrowDirection = (node as FolderNode).isOpen ? FolderIcon.OPEN : FolderIcon.CLOSED;
 
         folderTemplate.innerHTML = `
             <button class='btn full-width-min ${node.isSelected ? 'active' : ''}' id=${node.id}>
@@ -332,10 +296,11 @@ class FileTree extends Component {
                 }
             }
 
+            node.depth = depth;
             this.directoryNodesLUT.set(node.id, node);
         });
 
-        this.fileTreeOverlay?.classList.add('hidden');
+        this.showOverlay(false);
         this.isEditingFilename = false;
     }
 
@@ -363,12 +328,12 @@ class FileTree extends Component {
         const target = event.target as HTMLElement;
         if (!event.target || !target.parentNode) return;
 
-        const node: FileNode | FolderNode | undefined = this.directoryNodesLUT.get(target.id);
+        this.focusedNode = this.directoryNodesLUT.get(target.id);
 
-        if ((target.parentNode as HTMLElement).id === 'file-list' && node) {
+        if ((target.parentNode as HTMLElement).id === 'file-list' && this.focusedNode) {
             event.preventDefault();
             this.contextMenuFocusElement = event.target as HTMLElement;
-            this.showContextMenu(event, node instanceof FileNode ? FileMenuElements : FolderMenuElements);
+            this.showContextMenu(event, this.focusedNode instanceof FileNode ? FileMenuElements : FolderMenuElements);
         }
     }
 
@@ -386,6 +351,7 @@ class FileTree extends Component {
     private handleContextMenuClose() {
         if (this.canCloseContextMenu) {
             this.contextMenu?.classList.add('hidden');
+            this.focusedNode = undefined;
         }
 
         this.canCloseContextMenu = true;
@@ -401,7 +367,6 @@ class FileTree extends Component {
         this.canCloseContextMenu = false;
     }
 
-    // Context menu action event handlers.
     private getValidContextNode() {
         if (!this.contextMenuFocusElement) return;
 
@@ -419,12 +384,13 @@ class FileTree extends Component {
 
         inputElement.innerHTML = FilenameInputTemplate(
             node.name,
-            node instanceof FileNode ? 'file-code' : node.isOpen ? 'minus' : 'plus'
+            node instanceof FileNode ? FileIcon : node.isOpen ? FolderIcon.OPEN : FolderIcon.CLOSED,
+            node.depth
         );
 
         this.bindInputEvents(inputElement, node);
         this.contextMenuFocusElement?.replaceWith(inputElement.firstElementChild as Node);
-        this.fileTreeOverlay?.classList.remove('hidden');
+        this.showOverlay(true);
         this.isEditingFilename = true;
 
         const input = document.getElementById('filename') as HTMLInputElement;
@@ -440,18 +406,11 @@ class FileTree extends Component {
 
         inputElement.firstElementChild?.addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
+                if (append) node.ancestor?.add(node);
                 node.name = (event.target as HTMLInputElement).value;
-
-                if (append) {
-                    node.ancestor?.add(node);
-                }
-
                 this.update();
             } else if (event.key === 'Escape') {
-                if (append) {
-                    node.ancestor?.delete(node);
-                }
-
+                if (append) node.ancestor?.delete(node);
                 this.update();
             }
         });
@@ -475,45 +434,50 @@ class FileTree extends Component {
         }
     }
 
-    private handleNewFile() {
-        let targetNode: HTMLElement | null = null;
+    private handleNewNode(nodeType: Constructable<FileNode | FolderNode>) {
         const inputElement = document.createElement('div');
-        inputElement.innerHTML = FilenameInputTemplate('', 'file-code');
-        targetNode = document.getElementById(this.selectedNode?.id || '');
+        const localRootNode = this.focusedNode ? this.focusedNode : this.selectedNode ? this.selectedNode : this.root;
 
-        this.bindInputEvents(
-            inputElement,
-            new FileNode('', this.selectedNode && this.selectedNode instanceof FolderNode ? this.selectedNode : this.root),
-            true
+        if (localRootNode instanceof FolderNode) {
+            localRootNode.isOpen = true;
+            this.update();
+        }
+
+        const targetNode = document.getElementById(localRootNode?.id || '');
+        const newDirectoryNode = new nodeType('', localRootNode instanceof FolderNode ? localRootNode : this.root);
+        inputElement.innerHTML = FilenameInputTemplate(
+            '',
+            newDirectoryNode instanceof FileNode ? FileIcon : FolderIcon.CLOSED,
+            localRootNode instanceof FolderNode ? localRootNode.depth + 1 : localRootNode.depth || 0
         );
+        this.bindInputEvents(inputElement, newDirectoryNode, true);
 
-        if (!this.selectedNode) {
+        if (!targetNode) {
             this.fileList?.prepend(inputElement);
-        } else if (this.selectedNode instanceof FileNode) {
+        } else if (localRootNode instanceof FileNode) {
             this.fileList?.insertBefore(inputElement, targetNode);
-        } else if (this.selectedNode instanceof FolderNode) {
-            this.selectedNode.isOpen = true;
+        } else if (localRootNode instanceof FolderNode) {
             targetNode?.after(inputElement);
         }
 
-        this.fileTreeOverlay?.classList.remove('hidden');
+        this.showOverlay(true);
         const input = document.getElementById('filename') as HTMLInputElement;
         input?.focus();
         input?.select();
     }
 
-    private handleNewFolder() {
-        console.log('Creating new folder', this.contextMenuFocusElement);
-    }
-
     private handleContextMenuEnter() {
-        if (this.contextMenuFocusElement && this.contextMenuFocusElement instanceof HTMLElement) {
-            this.contextMenuFocusElement.classList.add('focused');
-        }
+        if (!this.contextMenuFocusElement || !(this.contextMenuFocusElement instanceof HTMLElement)) return;
+        this.contextMenuFocusElement.classList.add('focused');
     }
 
     private handleKeyPress(_event) {
         if (this.isEditingFilename) return;
+    }
+
+    private showOverlay(isVisible: boolean) {
+        if (isVisible) this.fileTreeOverlay?.classList.remove('hidden');
+        else this.fileTreeOverlay?.classList.add('hidden');
     }
 }
 

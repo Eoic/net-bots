@@ -6,8 +6,22 @@ import { EditorPanel } from './components/editor/editor-panel';
 
 class App {
     constructor() {
-        this.components = [Editor, EditorPanel, FileTree];
         this.componentMap = new Map();
+        this.components = [
+            {
+                type: Editor,
+            },
+            {
+                type: EditorPanel,
+            },
+            {
+                type: FileTree,
+                params: {
+                    core: this,
+                },
+            },
+        ];
+
         this.engine = new Engine({
             width: window.innerWidth,
             height: window.innerHeight,
@@ -17,8 +31,8 @@ class App {
     }
 
     initComponents() {
-        this.components.forEach((componentType) => {
-            const componentInstance = new componentType();
+        this.components.forEach((componentData) => {
+            const componentInstance = new componentData.type(componentData.params);
             this.componentMap.set(componentInstance.constructor.name, componentInstance);
         });
     }
