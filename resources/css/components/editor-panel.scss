@@ -1,5 +1,9 @@
 @use '../utilities/colors.scss' as colors;
 
+.editor {
+    z-index: 20;
+}
+
 .drawer-vertical {
     cursor: col-resize;
     position: absolute;

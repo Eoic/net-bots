@@ -90,11 +90,13 @@ class EditorPanel extends Component {
             resizeDirection = Direction.Y;
         } else isResizing = false;
 
+        this.codeEditorPanel!.style.userSelect = 'none';
         this.setState({ isResizing, resizeDirection });
     }
 
     private handleMouseUp(_event: MouseEvent) {
         this.setState({ isResizing: false });
+        this.codeEditorPanel!.style.userSelect = 'initial';
         localStorage.setItem('panelHeight', `${this.panel?.style.height}`);
     }
 

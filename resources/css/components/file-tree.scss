@@ -16,6 +16,7 @@
         display: grid;
         width: max-content;
         border-right: 1px solid colors.$base-color-light;
+        z-index: 10;
 
         & button {
             width: 30px;

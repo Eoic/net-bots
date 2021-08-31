@@ -168,6 +168,7 @@ class FileTree extends Component {
         ]);
 
         this.initContextMenu();
+        this.initToolbar();
         this.bindEvents();
         this.update();
     }
@@ -192,6 +193,18 @@ class FileTree extends Component {
                 this.contextMenuFocusElement = null;
                 this.contextMenu?.classList.add('hidden');
             });
+        });
+    }
+
+    private initToolbar() {
+        const toolbarActionsMap = new Map<string, any>([
+            ['tool-new-file', () => this.handleNewNode(FileNode)],
+            ['tool-new-folder', () => this.handleNewNode(FolderNode)],
+        ]);
+
+        toolbarActionsMap.forEach((actionHandler, id) => {
+            const button = document?.getElementById(id);
+            button?.addEventListener('click', (event) => actionHandler(event));
         });
     }
 
