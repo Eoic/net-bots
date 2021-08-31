@@ -8,6 +8,7 @@
     z-index: 1000;
     display: block;
     margin-left: -3px;
+    transition: 0.3s;
 
     &:hover {
         background-color: colors.$hover-color;
@@ -27,7 +28,7 @@
     display: grid;
     grid-template-areas:
         "file-tree editor";
-    grid-template-columns: minmax(240px, 0.1fr) 1px 1fr;
+    grid-template-columns: 240px 1px 1fr;
     grid-template-rows: 1fr;
     height: 100%;
 }
