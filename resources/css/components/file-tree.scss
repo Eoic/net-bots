@@ -1,23 +1,25 @@
 @use '../utilities/colors.scss' as colors;
 
 .file-tree {
+    display: grid;
     background-color: transparent;
     grid-area: file-tree;
     border-right: 1px solid colors.$border-color;
     position: relative;
     box-sizing: border-box;
     height: 100%;
+    grid-template-columns: 20px 1fr;
 
     & > .toolbar {
-        padding: 8px 12px;
+        padding: 6px 6px;
         row-gap: 8px;
-        column-gap: 6px;
         display: grid;
+        width: max-content;
+        border-right: 1px solid colors.$base-color-light;
 
         & button {
             width: 30px;
             height: 30px;
-            background-color: colors.$base-color-light;
             display: block;
 
             &:hover {
@@ -25,7 +27,7 @@
             }
 
             &:active {
-                background-color: colors.$base-color-dark;
+                background-color: colors.$base-color-light;
             }
         }
 
@@ -47,8 +49,8 @@
 
         & > .actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            row-gap: 8px;
         }
     }
 
@@ -57,10 +59,11 @@
         overflow-x: auto;
         position: absolute;
         overflow-y: auto;
-        height: calc(100% - 119px);
+        height: calc(100% - 36px);
         width: -moz-available;
         width: -webkit-fill-available !important;
         width: stretch !important;
+        margin-left: 42px;
 
         & > button {
             text-align: left;

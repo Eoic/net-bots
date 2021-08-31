@@ -103,7 +103,14 @@ class EditorPanel extends Component {
 
         if (this.state.resizeDirection === Direction.X) {
             if (!this.codeEditorPanel) return;
-            const newWidth = event.pageX >= window.innerWidth ? window.innerWidth - 3 : event.pageX;
+            let newWidth = event.pageX;
+
+            if (event.pageX >= window.innerWidth) {
+                newWidth = window.innerWidth - 3;
+            } else if (event.pageX <= 42) {
+                newWidth = 42;
+            }
+
             this.codeEditorPanel.style.gridTemplateColumns = GridColumnsTemplate(newWidth);
         } else if (this.state.resizeDirection === Direction.Y) {
             let position = window.innerHeight - event.pageY + this.drawerYHeight / 2;
