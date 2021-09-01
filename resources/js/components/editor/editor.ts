@@ -1,4 +1,6 @@
 import CodeFlask from 'codeflask';
+import { Events } from '../events';
+import { EventManager } from '../../core/managers/event-manager';
 
 const editorOptions: CodeFlask.options = {
     tabSize: 4,
@@ -13,28 +15,11 @@ class Editor {
     constructor() {
         const editorNode = document.getElementById('editor') as HTMLElement;
         this.editor = new CodeFlask(editorNode, editorOptions);
-        this.editor.updateCode(`import CodeFlask from 'codeflask';
-
-// Code editor options.
-const editorOptions: CodeFlask.options = {
-    tabSize: 4,
-    language: 'js',
-    lineNumbers: true,
-    defaultTheme: false,
-};
-
-class Editor {
-    private editor: CodeFlask;
-
-    constructor() {
-        const editorNode = document.querySelector('#editor') as HTMLElement;
-        this.editor = new CodeFlask(editorNode, editorOptions);
-        this.editor.updateCode('// Write code here.');
+        this.editor.onUpdate((code: string) => EventManager.dispatch(Events.CODE_UPDATE, { code }));
     }
-}
 
-export { Editor };
-        `);
+    public updateCode(content: string) {
+        this.editor.updateCode(content);
     }
 }
 

@@ -16,9 +16,6 @@ class App {
             },
             {
                 type: FileTree,
-                params: {
-                    core: this,
-                },
             },
         ];
 
@@ -32,7 +29,7 @@ class App {
 
     initComponents() {
         this.components.forEach((componentData) => {
-            const componentInstance = new componentData.type(componentData.params);
+            const componentInstance = new componentData.type({ components: this.componentMap });
             this.componentMap.set(componentInstance.constructor.name, componentInstance);
         });
     }

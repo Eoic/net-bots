@@ -1,4 +1,5 @@
 import { Component } from '../core/component';
+import { DrawerXWidth, ToolbarWidth } from '../constants';
 
 const GridColumnsTemplate = (width: number = 240) => `${width}px 1px 1fr`;
 
@@ -108,9 +109,9 @@ class EditorPanel extends Component {
             let newWidth = event.pageX;
 
             if (event.pageX >= window.innerWidth) {
-                newWidth = window.innerWidth - 3;
-            } else if (event.pageX <= 42) {
-                newWidth = 42;
+                newWidth = window.innerWidth - DrawerXWidth / 2;
+            } else if (event.pageX <= ToolbarWidth) {
+                newWidth = ToolbarWidth;
             }
 
             this.codeEditorPanel.style.gridTemplateColumns = GridColumnsTemplate(newWidth);

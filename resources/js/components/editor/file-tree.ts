@@ -1,8 +1,11 @@
+import { Editor } from './editor';
+import { Events } from '../events';
 import { UUID4 } from '../../utils/uuid';
 import { Component } from '../core/component';
 import { Constructable } from '../core/interfaces/constructable';
+import { EventManager } from '../../core/managers/event-manager';
 
-class DirectoryNode {
+export class DirectoryNode {
     public readonly id: string;
     private _name: string;
     public isSelected: boolean;
@@ -30,7 +33,7 @@ class DirectoryNode {
     }
 }
 
-class FolderNode extends DirectoryNode {
+export class FolderNode extends DirectoryNode {
     public ancestor: FolderNode | undefined;
     public nodes: Array<FileNode | FolderNode>;
     public isOpen: boolean;
@@ -80,6 +83,7 @@ class FolderNode extends DirectoryNode {
         if (node instanceof FileNode) {
             const nodeCopy = new FileNode(node.name, ancestor);
             nodeCopy.content = node.content;
+            nodeCopy.contentBuffer = node.contentBuffer;
             ancestor.add(nodeCopy);
         } else if (node instanceof FolderNode) {
             const nodeCopy = new FolderNode(node.name, ancestor);
@@ -93,14 +97,20 @@ class FolderNode extends DirectoryNode {
     }
 }
 
-class FileNode extends DirectoryNode {
+export class FileNode extends DirectoryNode {
     public content: string;
+    public contentBuffer: string;
     public ancestor: FolderNode | undefined;
 
     constructor(name: string, ancestor?: FolderNode) {
         super(name);
         this.content = '';
+        this.contentBuffer = '';
         this.ancestor = ancestor;
+    }
+
+    public saveContent() {
+        this.content = this.contentBuffer;
     }
 }
 
@@ -200,6 +210,7 @@ class FileTree extends Component {
         const toolbarActionsMap = new Map<string, any>([
             ['tool-new-file', () => this.handleNewNode(FileNode)],
             ['tool-new-folder', () => this.handleNewNode(FolderNode)],
+            ['tool-save', () => this.handleSave()],
         ]);
 
         toolbarActionsMap.forEach((actionHandler, id) => {
@@ -217,6 +228,7 @@ class FileTree extends Component {
         this.contextMenu?.addEventListener('mouseenter', () => this.handleContextMenuEnter());
         this.contextMenu?.addEventListener('mouseleave', () => this.handleContextMenuLeave());
         window?.addEventListener('keyup', (event) => this.handleKeyPress(event));
+        EventManager.on(Events.CODE_UPDATE, (eventData: object) => this.handleCodeUpdate(eventData));
     }
 
     private getPadding(count: number) {
@@ -332,6 +344,9 @@ class FileTree extends Component {
 
         if (this.selectedNode instanceof FolderNode) {
             this.selectedNode.toggle();
+        } else {
+            const editorComponent = (this.params as any).components.get(Editor.name);
+            editorComponent.updateCode(this.selectedNode.contentBuffer);
         }
 
         this.update();
@@ -491,6 +506,16 @@ class FileTree extends Component {
     private showOverlay(isVisible: boolean) {
         if (isVisible) this.fileTreeOverlay?.classList.remove('hidden');
         else this.fileTreeOverlay?.classList.add('hidden');
+    }
+
+    private handleSave() {
+        if (!this.selectedNode || this.selectedNode instanceof FolderNode) return;
+        this.selectedNode.saveContent();
+    }
+
+    private handleCodeUpdate(eventData: object) {
+        if (!(this.selectedNode instanceof FileNode)) return;
+        this.selectedNode.contentBuffer = (eventData as any).code || '';
     }
 }
 

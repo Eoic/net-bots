@@ -33,19 +33,7 @@ export class Event {
 }
 
 export class EventManager {
-    private _events: Map<string, Event>;
-
-    private get events() {
-        return this._events;
-    }
-
-    private set events(value) {
-        this._events = value;
-    }
-
-    constructor() {
-        this.events = new Map<string, Event>();
-    }
+    private static events = new Map<string, Event>();
 
     /**
      * Adds new event to the event manager. If event with the given name already exists, new callback is added for
@@ -53,7 +41,7 @@ export class EventManager {
      * @param name      Event name.
      * @param callback  Event callback.
      */
-    public on(name: string, callback: (event?: object) => void) {
+    public static on(name: string, callback: (event?: object) => void) {
         if (this.events.has(name)) {
             const event = this.events.get(name);
             event?.registerCallback(callback);
@@ -70,9 +58,9 @@ export class EventManager {
      * @param name Event name.
      * @param eventData Event data.
      */
-    public dispatch(name: string, eventData?: object) {
+    public static dispatch(name: string, eventData?: object) {
         if (!this.events.has(name)) {
-            console.error(`Cannot dispatch event "${name}" because it does not exist.`);
+            console.error(`Cannot dispatch event "${name}" because it does not exist on this event listener.`);
             return;
         }
 
