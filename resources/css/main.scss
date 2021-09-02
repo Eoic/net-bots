@@ -2,7 +2,7 @@
 @use './components/buttons.scss';
 @use './components/input.scss';
 @use './utilities/colors.scss' as colors;
-@use './variables.scss' as variables;
+@use './utilities/variables.scss';
 @use './components/editor-panel.scss';
 @use './components/file-tree.scss';
 @use './utilities/editor-syntax.scss';

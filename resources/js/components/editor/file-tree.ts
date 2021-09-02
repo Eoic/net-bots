@@ -19,7 +19,7 @@ export class DirectoryNode {
         if (!value || value.trim() === '') {
             value = 'Untitled';
         } else if (value.length > 255) {
-            value = value.substr(0, 255);
+            value = value.substring(0, 255);
         }
 
         this._name = value;
@@ -141,10 +141,12 @@ const FilenameInputTemplate = (value: string, iconType: string, depth: number = 
     </div>
 `;
 
+// Context menu element ids.
 const TreeMenuElements = ['new-file', 'new-folder'];
 const FileMenuElements = ['rename', 'clone', 'delete'];
 const FolderMenuElements = ['rename', 'clone', 'delete', 'new-file', 'new-folder'];
 
+// Directory node icons.
 const FileIcon = 'file-code';
 const FolderIcon = { OPEN: 'minus', CLOSED: 'plus' };
 
@@ -183,11 +185,14 @@ class FileTree extends Component {
         this.update();
     }
 
+    /**
+     * Creates context menu element and adds event listeners to its buttons.
+     */
     private initContextMenu() {
         const contextActionsMap = new Map<string, any>([
             ['rename', () => this.handleRename()],
             ['clone', () => this.handleClone()],
-            ['delete', () => this.handleDelete()],
+            ['delete', () => this.handleDelete(() => this.getValidContextNode())],
             ['new-file', () => this.handleNewNode(FileNode)],
             ['new-folder', () => this.handleNewNode(FolderNode)],
         ]);
@@ -206,11 +211,13 @@ class FileTree extends Component {
         });
     }
 
+    /**
+     * Adds event listeners to file tree toolbar buttons.
+     */
     private initToolbar() {
         const toolbarActionsMap = new Map<string, any>([
             ['tool-new-file', () => this.handleNewNode(FileNode)],
             ['tool-new-folder', () => this.handleNewNode(FolderNode)],
-            ['tool-save', () => this.handleSave()],
         ]);
 
         toolbarActionsMap.forEach((actionHandler, id) => {
@@ -219,6 +226,9 @@ class FileTree extends Component {
         });
     }
 
+    /**
+     * Adds event listeners to file tree elements.
+     */
     private bindEvents() {
         this.fileList?.addEventListener('click', (event) => this.handleClick(event));
         this.fileList?.addEventListener('contextmenu', (event) => this.handleNodeContextMenu(event));
@@ -231,10 +241,12 @@ class FileTree extends Component {
         EventManager.on(Events.CODE_UPDATE, (eventData: object) => this.handleCodeUpdate(eventData));
     }
 
-    private getPadding(count: number) {
-        return [...new Array((count - 1) * 2).keys()].map((_key) => '&nbsp; ').join('');
-    }
-
+    /**
+     * Creates HTML representations for the FileNode instance.
+     * @param node Directory node instance.
+     * @param depth How many ancestors link to this node.
+     * @returns {Node} File HTML element node.
+     */
     private getFileTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const fileTemplate = document.createElement('template');
 
@@ -247,6 +259,12 @@ class FileTree extends Component {
         return fileTemplate.content.firstElementChild?.cloneNode(true);
     }
 
+    /**
+     * Creates HTML representation of the FolderNode instance.
+     * @param node Directory node instance.
+     * @param depth How many ancestors link to this node.
+     * @returns {Node} Folder HTML element.
+     */
     private getFolderTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const folderTemplate = document.createElement('template');
         const arrowDirection = (node as FolderNode).isOpen ? FolderIcon.OPEN : FolderIcon.CLOSED;
@@ -260,6 +278,21 @@ class FileTree extends Component {
         return folderTemplate.content.firstElementChild?.cloneNode(true);
     }
 
+    /**
+     * Creates spacing according proportional to the given number.
+     * @param count Node depth in the tree.
+     * @returns {string} String of spaces.
+     */
+    private getPadding(count: number): string {
+        return [...new Array((count - 1) * 2).keys()].map((_key) => '&nbsp; ').join('');
+    }
+
+    /**
+     * Handles opening of the file tree context menu. List of buttons supplied to this element
+     * are givent according to element that was clicked on.
+     * @param event Mouse event data.
+     * @param visibleButtons List of context menu button ids, which should be visible.
+     */
     private showContextMenu(event: MouseEvent, visibleButtons: string[]) {
         if (!this.contextMenu) return;
 
@@ -294,6 +327,12 @@ class FileTree extends Component {
         this.contextMenu.focus();
     }
 
+    /**
+     * Walk over all elements in the file tree and given callback.
+     * @param node Directory node instance.
+     * @param displayCallback Rendering method for representing tree nodes.
+     * @param depth How many ancestors link to the current node.
+     */
     private traverse(
         node: FileNode | FolderNode,
         displayCallback: (node: FileNode | FolderNode, depth: number) => void,
@@ -307,6 +346,10 @@ class FileTree extends Component {
         node instanceof FolderNode && node.nodes.forEach((folderNode) => this.traverse(folderNode, displayCallback, depth + 1));
     }
 
+    /**
+     * Re-renders entire tree representation, keeping state of
+     * the file tree nodes (e.g. is folder open, file content)
+     */
     public update() {
         if (this.fileList) this.fileList.innerHTML = '';
 
@@ -327,6 +370,34 @@ class FileTree extends Component {
 
         this.showOverlay(false);
         this.isEditingFilename = false;
+    }
+
+    /**
+     * Called every time code in the editor has been updated. Once called,
+     * content of the selected file node is updated.
+     * @param eventData Editor event data, containing changed source code.
+     */
+    private handleCodeUpdate(eventData: object) {
+        if (!(this.selectedNode instanceof FileNode)) return;
+        this.selectedNode.contentBuffer = (eventData as any).code || '';
+    }
+
+    /**
+     * When enabled, shows semi transparent overlay over all file tree content.
+     * Used during file creation and filename editing.
+     * @param isVisible Is overlay visible.
+     */
+    private showOverlay(isVisible: boolean) {
+        if (isVisible) this.fileTreeOverlay?.classList.remove('hidden');
+        else this.fileTreeOverlay?.classList.add('hidden');
+    }
+
+    private getValidContextNode(): FileNode | FolderNode | undefined {
+        if (!this.contextMenuFocusElement) return;
+
+        const id = this.contextMenuFocusElement.id;
+        const node = this.directoryNodesLUT.get(id);
+        return node;
     }
 
     private handleClick(event: MouseEvent) {
@@ -395,14 +466,6 @@ class FileTree extends Component {
         this.canCloseContextMenu = false;
     }
 
-    private getValidContextNode() {
-        if (!this.contextMenuFocusElement) return;
-
-        const id = this.contextMenuFocusElement.id;
-        const node = this.directoryNodesLUT.get(id);
-        return node;
-    }
-
     private handleRename() {
         const node = this.getValidContextNode();
 
@@ -453,8 +516,8 @@ class FileTree extends Component {
         }
     }
 
-    private handleDelete() {
-        const node = this.getValidContextNode();
+    private handleDelete(getValidNodeCallback: { (): FolderNode | FileNode | undefined; (): any }) {
+        const node = getValidNodeCallback();
 
         if (node) {
             this.root.delete(node);
@@ -499,23 +562,12 @@ class FileTree extends Component {
         this.contextMenuFocusElement.classList.add('focused');
     }
 
-    private handleKeyPress(_event) {
+    private handleKeyPress(event: KeyboardEvent) {
         if (this.isEditingFilename) return;
-    }
 
-    private showOverlay(isVisible: boolean) {
-        if (isVisible) this.fileTreeOverlay?.classList.remove('hidden');
-        else this.fileTreeOverlay?.classList.add('hidden');
-    }
-
-    private handleSave() {
-        if (!this.selectedNode || this.selectedNode instanceof FolderNode) return;
-        this.selectedNode.saveContent();
-    }
-
-    private handleCodeUpdate(eventData: object) {
-        if (!(this.selectedNode instanceof FileNode)) return;
-        this.selectedNode.contentBuffer = (eventData as any).code || '';
+        if (event.key === 'Delete') {
+            this.handleDelete(() => this.selectedNode);
+        }
     }
 }
 

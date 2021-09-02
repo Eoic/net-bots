@@ -36,8 +36,8 @@ export class EventManager {
     private static events = new Map<string, Event>();
 
     /**
-     * Adds new event to the event manager. If event with the given name already exists, new callback is added for
-     * the existing event object.
+     * Adds new event to the event manager. If event with the given name already
+     * exists, new callback is added for the existing event object.
      * @param name      Event name.
      * @param callback  Event callback.
      */
