@@ -182,6 +182,7 @@ class FileTree extends Component {
         this.initContextMenu();
         this.initToolbar();
         this.bindEvents();
+        this.loadData();
         this.update();
     }
 
@@ -276,6 +277,14 @@ class FileTree extends Component {
         `;
 
         return folderTemplate.content.firstElementChild?.cloneNode(true);
+    }
+
+    private loadData() {
+        const initialFile = new FileNode('main', this.root);
+        initialFile.isSelected = true;
+        this.selectedNode = initialFile;
+        this.root.add(initialFile);
+        this.root.isOpen = true;
     }
 
     /**

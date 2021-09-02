@@ -15,6 +15,7 @@ class Editor {
     constructor() {
         const editorNode = document.getElementById('editor') as HTMLElement;
         this.editor = new CodeFlask(editorNode, editorOptions);
+        this.editor.updateCode('');
         this.editor.onUpdate((code: string) => EventManager.dispatch(Events.CODE_UPDATE, { code }));
     }
 
