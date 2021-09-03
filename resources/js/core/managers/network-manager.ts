@@ -1,0 +1,3 @@
+class NetworkManager {}
+
+export { NetworkManager };

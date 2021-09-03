@@ -1,0 +1,3 @@
+class Console {}
+
+export { Console };

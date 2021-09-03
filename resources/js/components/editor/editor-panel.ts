@@ -15,7 +15,7 @@ class EditorPanel extends Component {
     private panel: HTMLElement | null | undefined;
     private drawerYHeight: number;
     private panelButtons: NodeListOf<Element>;
-    private panelTabsMap: Map<string, HTMLElement | null>;
+    private panelTabsMap: Map<string, any>;
     private editorNode: HTMLElement;
     private codeEditorPanel: HTMLElement | null;
     private consolePanel: HTMLElement | null;
@@ -34,8 +34,8 @@ class EditorPanel extends Component {
         this.codeEditorPanel = document.getElementById('code-editor');
         this.consolePanel = document.getElementById('console');
         this.panelTabsMap = new Map([
-            ['tab-0', this.codeEditorPanel],
-            ['tab-1', this.consolePanel],
+            ['tab-0', { tab: this.codeEditorPanel, handleTabSwitch: () => {} }],
+            ['tab-1', { tab: this.consolePanel, handleTabSwitch: () => this.handleConsoleTabSwitch() }],
         ]);
         this.drawerX = this.appendDrawerX();
         this.drawerY = document.getElementById('drawer');
@@ -71,13 +71,17 @@ class EditorPanel extends Component {
         this.panelButtons.forEach((button: HTMLElement) => {
             if (button.dataset.tab !== selectedTab) {
                 button.classList.remove('active');
-                this.panelTabsMap.get(button.dataset.tab || '')?.classList.add('hidden');
+                const panelData = this.panelTabsMap.get(button.dataset.tab || '');
+                panelData?.tab.classList.add('hidden');
+                panelData?.handleTabSwitch();
             } else {
                 button.classList.add('active');
             }
         });
 
-        this.panelTabsMap.get(selectedTab || '')?.classList.remove('hidden');
+        const panelData = this.panelTabsMap.get(selectedTab || '');
+        panelData?.tab.classList.remove('hidden');
+        panelData?.handleTabSwitch();
     }
 
     private handleMouseDown(event: MouseEvent) {
@@ -147,6 +151,12 @@ class EditorPanel extends Component {
 
     private loadUserPrefs() {
         this.panel!.style.height = localStorage.getItem('panelHeight') || '250px';
+    }
+
+    private handleConsoleTabSwitch() {
+        const commandInputNode = document.getElementById('command-input') as HTMLInputElement;
+        commandInputNode?.focus();
+        commandInputNode?.select();
     }
 }
 
