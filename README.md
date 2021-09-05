@@ -13,7 +13,3 @@ Client side of the multiplayer robot programming game NetBots.
 ## Usage
 By default, development server runs at http://127.0.0.1:3333/.  
 Also, game server should be running. If you didn't setup the server yet, see [NetBots Server](http://github.com/Eoic/net-bots-server).
-
-## Contributors
-
-- [Karolis Strazdas](https://github.com/Eoic) - creator and maintainer
