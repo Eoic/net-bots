@@ -21,10 +21,10 @@ export class Engine {
         this.registerComponents([Position, Renderable, Velocity, Interactable, BotController]);
         this.registerSystems([MoveableSystem, RendererSystem, InteractableSystem]);
         this.grid = new Grid(this.app.renderer, {
-            tilesPerXAxis: 64,
-            tilesPerYAxis: 64,
-            tileWidth: 64,
-            tileHeight: 64,
+            tilesPerXAxis: 256,
+            tilesPerYAxis: 256,
+            tileWidth: 32,
+            tileHeight: 32,
             fillColor: 0xf0f0f0,
             outlineColor: 0xd9d9d9,
             isDragEnabled: true,

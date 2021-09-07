@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
+import SimplexNoise from 'simplex-noise';
 import { Renderer } from '@pixi/core';
 import { Graphics } from '@pixi/graphics';
-import { AbstractRenderer, Container, TilingSprite } from 'pixi.js';
+import { AbstractRenderer, Container, Sprite } from 'pixi.js';
 import { MAX_ZOOM, MIN_ZOOM, ZOOM_SCALE } from './constants';
 import { MathUtils } from './math-utils';
 
@@ -14,6 +15,19 @@ export interface GridConfig {
     outlineColor: number;
     isDragEnabled: boolean;
     isZoomEnabled: boolean;
+}
+
+// TODO: Make GUI for color, color count and height range selection.
+export const TerrainLUT = (height: number) => {
+    if (height < -0.8) {
+        return 0x4A6D7C; // Blue
+    } else if (height >= -0.8 && height <= 0.3) {
+        return 0x607466; // Green
+    } else if (height > 0.3 && height <= 0.5) {
+        return 0x42444D; // Gray
+    } else if (height > 0.5) {
+        return 0x32373B; // Gray
+    }
 }
 
 export class Grid extends Container {
@@ -39,18 +53,29 @@ export class Grid extends Container {
         this.bindEvents();
     }
 
-    private generateSprite(): TilingSprite {
+    private generateSprite(): Sprite {
+        /*
+            fillColor: 0xf0f0f0,
+            outlineColor: 0xd9d9d9,
+        */
         const graphics = new Graphics();
-        const { tilesPerXAxis, tilesPerYAxis, tileWidth, tileHeight, fillColor, outlineColor } = this.config;
-        graphics.lineStyle(1, outlineColor, 1, 0);
-        graphics.beginFill(fillColor);
-        graphics.drawRect(0, 0, tileWidth, tileHeight);
-        graphics.endFill();
+        const { tilesPerXAxis, tilesPerYAxis, tileWidth, tileHeight, } = this.config;
+        const simplex = new SimplexNoise(Math.random);
 
-        return new TilingSprite(
-            this.renderer.generateTexture(graphics),
-            tilesPerXAxis * tileWidth,
-            tilesPerYAxis * tileHeight
+        for (let x = 0; x < tilesPerXAxis; x++) {
+            for (let y = 0; y < tilesPerYAxis; y++) {
+                const height = simplex.noise2D(x * 0.02, y * 0.02);
+                graphics.lineStyle(1, 0xFFFFFF, 0.05, 0);
+                graphics.beginFill(TerrainLUT(height));
+                graphics.drawRect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+                graphics.endFill();
+            }
+        }
+
+        return new Sprite(
+            this.renderer.generateTexture(graphics)
+            // tilesPerXAxis * tileWidth,
+            // tilesPerYAxis * tileHeight
         );
     }
 
