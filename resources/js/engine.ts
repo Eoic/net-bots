@@ -21,8 +21,8 @@ export class Engine {
         this.registerComponents([Position, Renderable, Velocity, Interactable, BotController]);
         this.registerSystems([MoveableSystem, RendererSystem, InteractableSystem]);
         this.grid = new Grid(this.app.renderer, {
-            tilesPerXAxis: 30,
-            tilesPerYAxis: 18,
+            tilesPerXAxis: 64,
+            tilesPerYAxis: 64,
             tileWidth: 64,
             tileHeight: 64,
             fillColor: 0xf0f0f0,
@@ -72,7 +72,7 @@ export class Engine {
             .createEntity()
             .addComponent(Velocity, { x: 5, y: 5 })
             .addComponent(Position, { x: position.x, y: position.y })
-            .addComponent(Renderable, { sprite: this.getSprite(parent), width: sprite.width, height: sprite.height })
+            .addComponent(Renderable, { sprite, width: sprite.width, height: sprite.height })
             .addComponent(Interactable)
             .addComponent(BotController, { speed: 0.2 });
     }
@@ -84,7 +84,6 @@ export class Engine {
         graphics.endFill();
         const texture = this.app.renderer.generateTexture(graphics);
         const sprite = new Sprite(texture);
-        this.app.stage.addChild(sprite);
         parent.addChild(sprite);
         return sprite;
     }
