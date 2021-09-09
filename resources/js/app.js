@@ -1,8 +1,9 @@
 import '../css/main.scss';
 import { Engine } from './engine';
-import { Editor } from './components/editor/editor';
-import { FileTree } from './components/editor/file-tree';
-import { EditorPanel } from './components/editor/editor-panel';
+import { Editor } from './ui/editor/editor';
+import { FileTree } from './ui/editor/file-tree';
+import { EditorPanel } from './ui/editor/editor-panel';
+import { Camera } from './rendering/camera';
 
 class App {
     constructor() {
@@ -25,6 +26,8 @@ class App {
             backgroundColor: 0x585858,
             antialias: true,
         });
+
+        this.camera = new Camera();
     }
 
     initComponents() {

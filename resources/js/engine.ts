@@ -5,6 +5,7 @@ import { Position, Renderable, Velocity, Interactable, BotController } from './c
 import { MoveableSystem, RendererSystem, InteractableSystem } from './core/systems';
 import { InputManager, Keys } from './core/managers/input-manager';
 import { Grid } from './utils/grid';
+import { EventManager } from './core/managers/event-manager';
 
 export class Engine {
     public app: Application;
@@ -21,8 +22,8 @@ export class Engine {
         this.registerComponents([Position, Renderable, Velocity, Interactable, BotController]);
         this.registerSystems([MoveableSystem, RendererSystem, InteractableSystem]);
         this.grid = new Grid(this.app.renderer, {
-            tilesPerXAxis: 256,
-            tilesPerYAxis: 256,
+            tilesPerXAxis: 128,
+            tilesPerYAxis: 128,
             tileWidth: 32,
             tileHeight: 32,
             fillColor: 0xf0f0f0,
@@ -42,6 +43,9 @@ export class Engine {
 
     private handleEvents() {
         window.onresize = () => this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        window.addEventListener('mousedown', (event) => EventManager.dispatch('mousedown', event));
+        window.addEventListener('mousemove', (event) => EventManager.dispatch('mousemove', event));
+        window.addEventListener('mouseup', (event) => EventManager.dispatch('mouseup', event));
     }
 
     public run() {

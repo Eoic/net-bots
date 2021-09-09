@@ -23,6 +23,11 @@ export class Vector2 {
         this._y = y;
     }
 
+    public set(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+
     public dot(vector: Vector2): number {
         return this.x * vector.x + this.y * vector.y;
     }
@@ -31,6 +36,10 @@ export class Vector2 {
         this.x *= scalar;
         this.y *= scalar;
         return this;
+    }
+
+    public add(vector: Vector2): Vector2 {
+        return new Vector2(this.x + vector.x, this.y + vector.y);
     }
 
     public subtract(vector: Vector2): Vector2 {
