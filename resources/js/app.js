@@ -8,18 +8,7 @@ import { Camera } from './rendering/camera';
 class App {
     constructor() {
         this.componentMap = new Map();
-        this.components = [
-            {
-                type: Editor,
-            },
-            {
-                type: EditorPanel,
-            },
-            {
-                type: FileTree,
-            },
-        ];
-
+        this.components = [Editor, EditorPanel, FileTree];
         this.engine = new Engine({
             width: window.innerWidth,
             height: window.innerHeight,
@@ -31,8 +20,8 @@ class App {
     }
 
     initComponents() {
-        this.components.forEach((componentData) => {
-            const componentInstance = new componentData.type({ components: this.componentMap });
+        this.components.forEach((component) => {
+            const componentInstance = new component({ components: this.componentMap });
             this.componentMap.set(componentInstance.constructor.name, componentInstance);
         });
     }

@@ -4,26 +4,29 @@ import { Application, IApplicationOptions, Sprite, Ticker } from 'pixi.js';
 import { Position, Renderable, Velocity, Interactable, BotController } from './core/components';
 import { MoveableSystem, RendererSystem, InteractableSystem } from './core/systems';
 import { InputManager, Keys } from './core/managers/input-manager';
-import { Grid } from './utils/grid';
 import { EventManager } from './core/managers/event-manager';
+import { Camera } from './rendering/camera';
+import { Map } from './utils/map';
 
 export class Engine {
     public app: Application;
     public ticker: Ticker;
     public world: World;
-    private grid: Grid;
+    private map: Map;
+    private mainCamera: Camera;
 
     constructor(options: IApplicationOptions) {
         this.app = new PIXI.Application(options);
+        this.mainCamera = new Camera();
         this.ticker = PIXI.Ticker.shared;
         this.ticker.autoStart = false;
         this.world = new World();
         this.handleEvents();
         this.registerComponents([Position, Renderable, Velocity, Interactable, BotController]);
         this.registerSystems([MoveableSystem, RendererSystem, InteractableSystem]);
-        this.grid = new Grid(this.app.renderer, {
-            tilesPerXAxis: 128,
-            tilesPerYAxis: 128,
+        this.map = new Map(this.app.renderer, this.mainCamera, {
+            tilesPerXAxis: 80,
+            tilesPerYAxis: 45,
             tileWidth: 32,
             tileHeight: 32,
             fillColor: 0xf0f0f0,
@@ -32,13 +35,14 @@ export class Engine {
             isZoomEnabled: false,
         });
 
-        this.app.stage.addChild(this.grid);
-        this.createPlayerEntity(this.grid, { x: 768, y: 512 });
+        this.app.stage.addChild(this.map);
+        this.createPlayerEntity(this.map, { x: 768, y: 512 });
         InputManager.instance.addKey(Keys.W);
         InputManager.instance.addKey(Keys.A);
         InputManager.instance.addKey(Keys.S);
         InputManager.instance.addKey(Keys.D);
         document.getElementById('root')?.appendChild(this.app.view);
+        console.log(this.mainCamera);
     }
 
     private handleEvents() {
@@ -46,6 +50,7 @@ export class Engine {
         window.addEventListener('mousedown', (event) => EventManager.dispatch('mousedown', event));
         window.addEventListener('mousemove', (event) => EventManager.dispatch('mousemove', event));
         window.addEventListener('mouseup', (event) => EventManager.dispatch('mouseup', event));
+        window.addEventListener('wheel', (event) => EventManager.dispatch('wheel', event));
     }
 
     public run() {
@@ -54,6 +59,7 @@ export class Engine {
         this.ticker.add((delta) => {
             this.world.execute(delta, performance.now());
             InputManager.instance.update();
+            this.map.update();
         });
     }
 

@@ -25,11 +25,7 @@ class MoveableSystem extends System {
                 return;
             }
 
-            const direction = new Vector2(
-                InputManager.instance.getAxis('horizontal'),
-                InputManager.instance.getAxis('vertical')
-            );
-
+            const direction = new Vector2(InputManager.instance.getAxis('horizontal'), InputManager.instance.getAxis('vertical'));
             const lastValidX = this.positionRoundingMethod.get(direction.x)!(position.x / width) * width;
             const lastValidY = this.positionRoundingMethod.get(direction.y)!(position.y / height) * height;
             const target = new Vector2(lastValidX + width * direction.x, lastValidY + height * direction.y);

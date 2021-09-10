@@ -1,53 +1,55 @@
-import { EventManager } from '../core/managers/event-manager';
 import { Vector2 } from '../utils/vector2';
+import { EventManager } from '../core/managers/event-manager';
 
 class Camera {
-    private offset: Vector2;
-    private panOrigin: Vector2;
+    public pivot: Vector2;
+    public offset: Vector2;
+    public scale: number = 1;
     private isMouseHeld: boolean;
+    private dragStartPosition: Vector2;
 
     constructor() {
-        this.offset = new Vector2();
-        this.panOrigin = new Vector2();
         this.isMouseHeld = false;
-        EventManager.on('mousedown', (event) => this.handlePanStart(event));
-        EventManager.on('mousemove', (event) => this.handlePan(event));
-        EventManager.on('mouseup', () => this.handlePanEnd());
+        this.pivot = new Vector2();
+        this.offset = new Vector2();
+        this.dragStartPosition = new Vector2();
+        EventManager.on('mousedown', (event: MouseEvent) => this.handleDragStart(event));
+        EventManager.on('mousemove', (event: MouseEvent) => this.handleDrag(event));
+        EventManager.on('mouseup', () => this.handleDragEnd());
+        EventManager.on('wheel', (event) => this.handleZoom(event));
     }
 
     public worldToScreenSpace(worldPoint: Vector2): Vector2 {
         return worldPoint.subtract(this.offset);
     }
 
-    public screenToWorldSpace(screenPoint: Vector2) {
+    public screenToWorldSpace(screenPoint: Vector2): Vector2 {
         return screenPoint.add(this.offset);
     }
 
-    public handlePanStart(event) {
+    public handleDragStart(event: MouseEvent) {
         this.isMouseHeld = true;
-        this.panOrigin.set(event.x, event.y);
+        this.dragStartPosition.set(event.x, event.y);
     }
 
-    public handlePan(event) {
-        if (!this.isMouseHeld) {
-            return;
-        }
+    public handleDrag(event: MouseEvent) {
+        if (!this.isMouseHeld) return;
 
         const mousePosition = new Vector2(event.x, event.y);
-        const positionChange = mousePosition.subtract(this.panOrigin);
+        const positionChange = mousePosition.subtract(this.dragStartPosition);
         this.offset = this.offset.subtract(positionChange);
-        this.panOrigin.copy(mousePosition);
+        this.dragStartPosition.copy(mousePosition);
     }
 
-    public handlePanEnd() {
+    public handleDragEnd() {
         this.isMouseHeld = false;
     }
 
-    public update() {}
+    public handleZoom(_event) {
+        // if (event.deltaY > 0) this.scale *= 0.99;
+        // else if (event.deltaY < 0) this.scale *= 1.01;
+        // this.pivot.copy(this.screenToWorldSpace(new Vector2(event.clientX * this.scale, event.clientY * this.scale)));
+    }
 }
 
 export { Camera };
-
-/**
- * TODO: Add CameraController system to update object positions (instead of this).
- */
