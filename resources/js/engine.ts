@@ -1,10 +1,9 @@
 import { World } from 'ecsy';
 import * as PIXI from 'pixi.js';
-import { Application, IApplicationOptions, Sprite, Ticker } from 'pixi.js';
+import { Application, IApplicationOptions, Ticker } from 'pixi.js';
 import { Position, Renderable, Velocity, Interactable, BotController } from './core/components';
 import { MoveableSystem, RendererSystem, InteractableSystem } from './core/systems';
-import { InputManager, Keys } from './core/managers/input-manager';
-import { EventManager } from './core/managers/event-manager';
+import { InputManager } from './core/managers/input-manager';
 import { Camera } from './rendering/camera';
 import { Map } from './utils/map';
 
@@ -14,16 +13,19 @@ export class Engine {
     public world: World;
     private map: Map;
     private mainCamera: Camera;
+    private root: HTMLElement | null;
 
     constructor(options: IApplicationOptions) {
         this.app = new PIXI.Application(options);
-        this.mainCamera = new Camera();
+        this.root = document.getElementById('root');
         this.ticker = PIXI.Ticker.shared;
         this.ticker.autoStart = false;
         this.world = new World();
-        this.handleEvents();
         this.registerComponents([Position, Renderable, Velocity, Interactable, BotController]);
         this.registerSystems([MoveableSystem, RendererSystem, InteractableSystem]);
+        this.root!.appendChild(this.app.view);
+        this.mainCamera = new Camera(this.root!);
+        this.handleEvents();
         this.map = new Map(this.app.renderer, this.mainCamera, {
             tilesPerXAxis: 80,
             tilesPerYAxis: 45,
@@ -34,23 +36,17 @@ export class Engine {
             isDragEnabled: true,
             isZoomEnabled: false,
         });
-
         this.app.stage.addChild(this.map);
-        this.createPlayerEntity(this.map, { x: 768, y: 512 });
-        InputManager.instance.addKey(Keys.W);
-        InputManager.instance.addKey(Keys.A);
-        InputManager.instance.addKey(Keys.S);
-        InputManager.instance.addKey(Keys.D);
-        document.getElementById('root')?.appendChild(this.app.view);
-        console.log(this.mainCamera);
+        
+        // this.createPlayerEntity(this.map, { x: 768, y: 512 });
+        // InputManager.instance.addKey(Keys.W);
+        // InputManager.instance.addKey(Keys.A);
+        // InputManager.instance.addKey(Keys.S);
+        // InputManager.instance.addKey(Keys.D);
     }
 
     private handleEvents() {
         window.onresize = () => this.app.renderer.resize(window.innerWidth, window.innerHeight);
-        window.addEventListener('mousedown', (event) => EventManager.dispatch('mousedown', event));
-        window.addEventListener('mousemove', (event) => EventManager.dispatch('mousemove', event));
-        window.addEventListener('mouseup', (event) => EventManager.dispatch('mouseup', event));
-        window.addEventListener('wheel', (event) => EventManager.dispatch('wheel', event));
     }
 
     public run() {
@@ -75,26 +71,26 @@ export class Engine {
         });
     }
 
-    private createPlayerEntity(parent, position) {
-        const sprite = this.getSprite(parent);
+    // private createPlayerEntity(parent, position) {
+    //     const sprite = this.getSprite(parent);
 
-        this.world
-            .createEntity()
-            .addComponent(Velocity, { x: 5, y: 5 })
-            .addComponent(Position, { x: position.x, y: position.y })
-            .addComponent(Renderable, { sprite, width: sprite.width, height: sprite.height })
-            .addComponent(Interactable)
-            .addComponent(BotController, { speed: 0.2 });
-    }
+    //     this.world
+    //         .createEntity()
+    //         .addComponent(Velocity, { x: 5, y: 5 })
+    //         .addComponent(Position, { x: position.x, y: position.y })
+    //         .addComponent(Renderable, { sprite, width: sprite.width, height: sprite.height })
+    //         .addComponent(Interactable)
+    //         .addComponent(BotController, { speed: 0.2 });
+    // }
 
-    private getSprite(parent) {
-        const graphics = new PIXI.Graphics();
-        graphics.beginFill(0x4073ff);
-        graphics.drawRect(0, 0, 64, 64);
-        graphics.endFill();
-        const texture = this.app.renderer.generateTexture(graphics);
-        const sprite = new Sprite(texture);
-        parent.addChild(sprite);
-        return sprite;
-    }
+    // private getSprite(parent) {
+    //     const graphics = new PIXI.Graphics();
+    //     graphics.beginFill(0x4073ff);
+    //     graphics.drawRect(0, 0, 64, 64);
+    //     graphics.endFill();
+    //     const texture = this.app.renderer.generateTexture(graphics);
+    //     const sprite = new Sprite(texture);
+    //     parent.addChild(sprite);
+    //     return sprite;
+    // }
 }

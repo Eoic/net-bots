@@ -48,8 +48,6 @@ export class Map extends Container {
     }
 
     public update() {
-        this.pivot.set(this.camera.pivot.x / this.camera.scale, this.camera.pivot.y / this.camera.scale);
         this.position.set(this.pivot.x - this.camera.offset.x, this.pivot.y - this.camera.offset.y);
-        this.scale.set(this.camera.scale, this.camera.scale);
     }
 }
