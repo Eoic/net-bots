@@ -1,7 +1,7 @@
 import { Component } from '../core/component';
-import { DrawerXWidth, ToolbarWidth } from '../constants';
+import { DefaultFileTreeWidth, DrawerXWidth, ToolbarWidth } from '../constants';
 
-const GridColumnsTemplate = (width: number = 240) => `${width}px 1px 1fr`;
+const GridColumnsTemplate = (width: number = DefaultFileTreeWidth) => `${width}px 1px 1fr`;
 
 enum Direction {
     None = 'None',
@@ -157,6 +157,19 @@ class EditorPanel extends Component {
         const commandInputNode = document.getElementById('command-input') as HTMLInputElement;
         commandInputNode?.focus();
         commandInputNode?.select();
+    }
+
+    public setMinFileTreeWidth() {
+        if (!this.codeEditorPanel) return;
+
+        const columnTokens = window.getComputedStyle(this.codeEditorPanel).getPropertyValue('grid-template-columns').split(' ');
+        const currentWidth = parseInt(columnTokens[0]);
+
+        if (isNaN(currentWidth) || currentWidth >= DefaultFileTreeWidth) {
+            return;
+        }
+
+        this.codeEditorPanel.style.gridTemplateColumns = GridColumnsTemplate(DefaultFileTreeWidth);
     }
 }
 

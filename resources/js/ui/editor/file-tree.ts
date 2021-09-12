@@ -4,6 +4,7 @@ import { UUID4 } from '../../utils/uuid';
 import { Component } from '../core/component';
 import { Constructable } from '../core/interfaces/constructable';
 import { EventManager } from '../../core/managers/event-manager';
+import { EditorPanel } from './editor-panel';
 
 export class DirectoryNode {
     public readonly id: string;
@@ -535,6 +536,7 @@ class FileTree extends Component {
     }
 
     private handleNewNode(nodeType: Constructable<FileNode | FolderNode>) {
+        (this.params as any).components.get(EditorPanel.name).setMinFileTreeWidth();
         const inputElement = document.createElement('div');
         const localRootNode = this.focusedNode ? this.focusedNode : this.selectedNode ? this.selectedNode : this.root;
 
