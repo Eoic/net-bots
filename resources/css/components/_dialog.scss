@@ -1,0 +1,19 @@
+.alert {
+    z-index: 1000;
+    position: absolute;
+    row-gap: 12px;
+    max-width: 450px;
+    background-color: #FFFFFF;
+    border-radius: 3px;
+    padding: 16px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & .alert-title {
+        font-size: 1.35rem;
+        font-weight: bold;
+    }
+}

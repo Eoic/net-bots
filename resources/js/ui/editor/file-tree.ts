@@ -5,6 +5,7 @@ import { Component } from '../core/component';
 import { Constructable } from '../core/interfaces/constructable';
 import { EventManager } from '../../core/managers/event-manager';
 import { EditorPanel } from './editor-panel';
+import { Alert } from '../dialogs/alert';
 
 export class DirectoryNode {
     public readonly id: string;
@@ -530,8 +531,16 @@ class FileTree extends Component {
         const node = getValidNodeCallback();
 
         if (node) {
-            this.root.delete(node);
-            this.update();
+            (this.params as any).components
+                .get(Alert.name)
+                .show(
+                    `Delete ${node instanceof FileNode ? 'file' : 'folder'} "${node.name}" permanently?`,
+                    'This action cannot be undone.'
+                )
+                .then(() => {
+                    this.root.delete(node);
+                    this.update();
+                });
         }
     }
 

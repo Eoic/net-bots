@@ -8,6 +8,7 @@
 @use './utilities/editor-syntax.scss';
 @use './components/console.scss';
 @use './components/context-menu.scss';
+@use './components/dialog';
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
 
 html, body {
@@ -47,4 +48,10 @@ html, body {
     position: absolute;
     background-color: #0000008f;
     z-index: 100;
+
+    &.center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

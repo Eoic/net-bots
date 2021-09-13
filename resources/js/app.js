@@ -3,11 +3,12 @@ import { Engine } from './engine';
 import { Editor } from './ui/editor/editor';
 import { FileTree } from './ui/editor/file-tree';
 import { EditorPanel } from './ui/editor/editor-panel';
+import { Alert } from './ui/dialogs/alert';
 
 class App {
     constructor() {
         this.componentMap = new Map();
-        this.components = [Editor, EditorPanel, FileTree];
+        this.components = [Alert, Editor, EditorPanel, FileTree];
         this.engine = new Engine({
             width: window.innerWidth,
             height: window.innerHeight,
