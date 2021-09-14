@@ -535,7 +535,9 @@ class FileTree extends Component {
                 .get(Alert.name)
                 .show(
                     `Delete ${node instanceof FileNode ? 'file' : 'folder'} "${node.name}" permanently?`,
-                    'This action cannot be undone.'
+                    'This action cannot be undone.',
+                    'danger',
+                    'trash-alt'
                 )
                 .then(() => {
                     this.root.delete(node);

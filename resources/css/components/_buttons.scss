@@ -1,10 +1,10 @@
 @use '../utilities/colors.scss' as colors;
 
 .btn {
-    border: 0;
     font-size: 16px;
-    padding: 8px;
+    padding: 8px 16px;
     background-color: colors.$base-color;
+    border: 1px solid colors.$base-color;
     color: colors.$text-color;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
@@ -15,18 +15,22 @@
 
     &:hover {
         background-color: colors.$hover-color;
+        border-color: colors.$hover-color;
     }
 
     &:active {
         background-color: colors.$base-color-light;
+        border-color: colors.$base-color-light;
     }
 
     &.active {
         background-color: colors.$base-color-light;
+        border-color: colors.$base-color-light;
     }
 
     &.focused {
         background-color: colors.$hover-color;
+        border-color: colors.$hover-color;
     }
 
     &.round {
@@ -49,7 +53,22 @@
     }
 
     // Variants.
+    &.light {
+        background-color: #FFFFFF;
+        border-color: colors.$base-color;
+        color: colors.$base-color;
+
+        &:hover {
+            filter: brightness(90%);
+        }
+
+        &:active {
+            filter: brightness(82%);
+        }
+    }
+
     &.danger {
         background-color: colors.$danger;
+        border-color: colors.$danger;
     }
 }

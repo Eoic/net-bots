@@ -50,4 +50,8 @@
 .tab {
     min-width: 98px;
     background-color: transparent;
+
+    &.btn {
+        border: 0;
+    }
 }
