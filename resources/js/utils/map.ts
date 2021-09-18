@@ -2,6 +2,7 @@ import { Renderer } from '@pixi/core';
 import { Graphics } from '@pixi/graphics';
 import { Camera } from '../rendering/camera';
 import { AbstractRenderer, Container, Sprite, TilingSprite } from 'pixi.js';
+import { Vector2 } from './vector2';
 
 export interface MapConfig {
     tilesPerXAxis: number;
@@ -18,6 +19,7 @@ export class Map extends Container {
     private camera: Camera;
     private config: MapConfig;
     private renderer: Renderer | AbstractRenderer;
+    public mouseTilePos: Vector2;
 
     public get width() {
         return this.config.tileWidth * this.config.tilesPerXAxis;
@@ -33,6 +35,7 @@ export class Map extends Container {
         this.camera = camera;
         this.interactive = true;
         this.renderer = renderer;
+        this.mouseTilePos = new Vector2();
         this.addChild(this.generateSprite());
         this.position.set(window.innerWidth / 2, window.innerHeight / 2);
     }
@@ -44,7 +47,26 @@ export class Map extends Container {
         graphics.beginFill(fillColor);
         graphics.drawRect(0, 0, tileWidth, tileHeight);
         graphics.endFill();
-        return new TilingSprite(this.renderer.generateTexture(graphics), tilesPerXAxis * tileWidth, tilesPerYAxis * tileHeight);
+
+        const sprite = new TilingSprite(
+            this.renderer.generateTexture(graphics),
+            tilesPerXAxis * tileWidth,
+            tilesPerYAxis * tileHeight
+        );
+
+        sprite.interactive = true;
+        sprite.on('mousemove', (event) => {
+            if (!event.target) return;
+
+            const mousePosition = new Vector2().setFromObject(event.data.global);
+            const worldPosition = this.camera.screenToWorldSpace(mousePosition);
+            this.mouseTilePos.set(
+                Math.floor(worldPosition.x / this.config.tileWidth),
+                Math.floor(worldPosition.y / this.config.tileHeight)
+            );
+        });
+
+        return sprite;
     }
 
     public update() {

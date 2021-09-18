@@ -14,6 +14,7 @@ export class Engine {
     private map: Map;
     private mainCamera: Camera;
     private root: HTMLElement | null;
+    private mouseTilePosition: PIXI.Text;
 
     constructor(options: IApplicationOptions) {
         this.app = new PIXI.Application(options);
@@ -39,6 +40,20 @@ export class Engine {
 
         this.app.stage.addChild(this.map);
         this.createPlayerEntity(this.map, { x: 768, y: 512 });
+
+        this.mouseTilePosition = new PIXI.Text(
+            'Position: (0, 0)',
+            new PIXI.TextStyle({
+                fill: '#d4d4d4',
+                fontFamily: 'Verdana',
+                fontWeight: 'bold',
+                letterSpacing: 1,
+                stroke: '#2f2f2f',
+                strokeThickness: 2,
+            })
+        );
+
+        this.app.stage.addChild(this.mouseTilePosition);
     }
 
     private handleEvents() {
@@ -52,6 +67,7 @@ export class Engine {
             this.world.execute(delta, performance.now());
             InputManager.instance.update();
             this.map.update();
+            this.mouseTilePosition.text = `Position: ${this.map.mouseTilePos.toString()}`;
         });
     }
 
@@ -75,7 +91,7 @@ export class Engine {
             .addComponent(Velocity, { x: 5, y: 5 })
             .addComponent(Position, { x: position.x, y: position.y })
             .addComponent(Renderable, { sprite, width: sprite.width, height: sprite.height })
-            .addComponent(Interactable)
+            .addComponent(Interactable);
     }
 
     private getSprite(parent) {

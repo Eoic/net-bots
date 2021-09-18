@@ -28,6 +28,12 @@ export class Vector2 {
         this.y = y;
     }
 
+    public setFromObject(object: any & { x: number; y: number }) {
+        this.x = object.x;
+        this.y = object.y;
+        return this;
+    }
+
     public dot(vector: Vector2): number {
         return this.x * vector.x + this.y * vector.y;
     }
@@ -35,6 +41,12 @@ export class Vector2 {
     public multiplyScalar(scalar: number): Vector2 {
         this.x *= scalar;
         this.y *= scalar;
+        return this;
+    }
+
+    public divideScalar(scalar: number): Vector2 {
+        this.x /= scalar;
+        this.y /= scalar;
         return this;
     }
 
@@ -64,6 +76,10 @@ export class Vector2 {
         }
 
         return new Vector2(this.x / vectorLength, this.y / vectorLength);
+    }
+
+    public toString() {
+        return `(${this.x}, ${this.y})`;
     }
 
     public equal(vector: Vector2, tolerance = 1e-4) {
