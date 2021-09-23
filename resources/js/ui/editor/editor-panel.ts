@@ -19,6 +19,7 @@ class EditorPanel extends Component {
     private editorNode: HTMLElement;
     private codeEditorPanel: HTMLElement | null;
     private consolePanel: HTMLElement | null;
+    private devToolsPanel: HTMLElement | null;
 
     constructor() {
         super();
@@ -33,9 +34,11 @@ class EditorPanel extends Component {
         this.panelButtons = document.querySelectorAll('button[data-tab]');
         this.codeEditorPanel = document.getElementById('code-editor');
         this.consolePanel = document.getElementById('console');
+        this.devToolsPanel = document.getElementById('dev-tools');
         this.panelTabsMap = new Map([
             ['tab-0', { tab: this.codeEditorPanel, handleTabSwitch: () => {} }],
             ['tab-1', { tab: this.consolePanel, handleTabSwitch: () => this.handleConsoleTabSwitch() }],
+            ['tab-2', { tab: this.devToolsPanel, handleTabSwitch: () => {} }],
         ]);
         this.drawerX = this.appendDrawerX();
         this.drawerY = document.getElementById('drawer');

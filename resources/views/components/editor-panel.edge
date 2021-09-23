@@ -8,10 +8,17 @@
             <i class='fas fa-terminal'></i>
             Console
         </button>
+        <button class='tab btn' data-tab='tab-2'>
+            <i class='fas fa-cogs'></i>
+            Dev tools
+        </button>
     </div>
+
     <div id='code-editor' class='panel-grid'>
         @!component('components/editor')
         @!component('components/file-tree')
     </div>
+
     @!component('components/console')
+    @!component('components/dev-tools')
 </div>

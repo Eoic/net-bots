@@ -6,6 +6,9 @@ import { RendererSystem, InteractableSystem } from './core/systems';
 import { InputManager } from './core/managers/input-manager';
 import { Camera } from './rendering/camera';
 import { Map } from './utils/map';
+import { EventManager } from './core/managers/event-manager';
+import { DebugInfo } from './ui/dev/dev-tools';
+import { Events } from './ui/events';
 
 export class Engine {
     public app: Application;
@@ -14,7 +17,6 @@ export class Engine {
     private map: Map;
     private mainCamera: Camera;
     private root: HTMLElement | null;
-    private mouseTilePosition: PIXI.Text;
 
     constructor(options: IApplicationOptions) {
         this.app = new PIXI.Application(options);
@@ -40,34 +42,36 @@ export class Engine {
 
         this.app.stage.addChild(this.map);
         this.createPlayerEntity(this.map, { x: 768, y: 512 });
-
-        this.mouseTilePosition = new PIXI.Text(
-            'Position: (0, 0)',
-            new PIXI.TextStyle({
-                fill: '#d4d4d4',
-                fontFamily: 'Verdana',
-                fontWeight: 'bold',
-                letterSpacing: 1,
-                stroke: '#2f2f2f',
-                strokeThickness: 2,
-            })
-        );
-
-        this.app.stage.addChild(this.mouseTilePosition);
     }
 
     private handleEvents() {
         window.onresize = () => this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        window.addEventListener('mousemove', (event: MouseEvent) => {
+            EventManager.dispatch(
+                Events.DEBUG_INFO_UPDATE,
+                new DebugInfo('Coordinates', {
+                    title: 'Map position',
+                    value: this.map.mouseTilePos.toString(),
+                })
+            );
+
+            EventManager.dispatch(
+                Events.DEBUG_INFO_UPDATE,
+                new DebugInfo('Coordinates', {
+                    title: 'Screen position',
+                    value: `(${event.clientX}, ${event.clientY})`,
+                })
+            );
+        });
     }
 
     public run() {
         this.ticker.start();
 
         this.ticker.add((delta) => {
-            this.world.execute(delta, performance.now());
             InputManager.instance.update();
+            this.world.execute(delta, performance.now());
             this.map.update();
-            this.mouseTilePosition.text = `Position: ${this.map.mouseTilePos.toString()}`;
         });
     }
 

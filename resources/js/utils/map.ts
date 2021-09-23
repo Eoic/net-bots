@@ -1,8 +1,8 @@
+import { Vector2 } from './vector2';
 import { Renderer } from '@pixi/core';
 import { Graphics } from '@pixi/graphics';
 import { Camera } from '../rendering/camera';
 import { AbstractRenderer, Container, Sprite, TilingSprite } from 'pixi.js';
-import { Vector2 } from './vector2';
 
 export interface MapConfig {
     tilesPerXAxis: number;
@@ -55,11 +55,13 @@ export class Map extends Container {
         );
 
         sprite.interactive = true;
+
         sprite.on('mousemove', (event) => {
             if (!event.target) return;
 
             const mousePosition = new Vector2().setFromObject(event.data.global);
             const worldPosition = this.camera.screenToWorldSpace(mousePosition);
+
             this.mouseTilePos.set(
                 Math.floor(worldPosition.x / this.config.tileWidth),
                 Math.floor(worldPosition.y / this.config.tileHeight)
