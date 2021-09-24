@@ -28,7 +28,7 @@ export class Vector2 {
         this.y = y;
     }
 
-    public setFromObject(object: any & { x: number; y: number }) {
+    public setFromObject(object: any) {
         this.x = object.x;
         this.y = object.y;
         return this;

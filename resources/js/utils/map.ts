@@ -2,7 +2,7 @@ import { Vector2 } from './vector2';
 import { Renderer } from '@pixi/core';
 import { Graphics } from '@pixi/graphics';
 import { Camera } from '../rendering/camera';
-import { AbstractRenderer, Container, Sprite, TilingSprite } from 'pixi.js';
+import { AbstractRenderer, Container, Rectangle, Sprite, TilingSprite } from 'pixi.js';
 
 export interface MapConfig {
     tilesPerXAxis: number;
@@ -55,6 +55,8 @@ export class Map extends Container {
         );
 
         sprite.interactive = true;
+        sprite.hitArea = new Rectangle(0, 0, sprite.width, sprite.height);
+        console.log(sprite.hitArea);
 
         sprite.on('mousemove', (event) => {
             if (!event.target) return;
@@ -66,6 +68,10 @@ export class Map extends Container {
                 Math.floor(worldPosition.x / this.config.tileWidth),
                 Math.floor(worldPosition.y / this.config.tileHeight)
             );
+        });
+
+        sprite.on('mouseout', () => {
+            this.mouseTilePos.set(0, 0);
         });
 
         return sprite;

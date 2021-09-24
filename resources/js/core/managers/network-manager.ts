@@ -9,15 +9,16 @@ const WS_PROTOCOL = 'ws';
 class NetworkManager {
     private static socket: WebSocket;
     private static timeoutId: number;
-    private static retryAfterSeconds: number = 5;
     private static failedConnections: number = 0;
-    private static readonly failedConnectionsLimit = 10;
+    private static retryAfterSeconds: number = 3;
+    private static readonly failedConnectionsLimit: number = 20;
 
     public static connect() {
         this.updateStatus('Connecting...');
         this.socket = new WebSocket(`${WS_PROTOCOL}://${WS_SERVER_HOST}:${WS_SERVER_PORT}`);
 
         this.socket.addEventListener('open', () => {
+            this.failedConnections = 0;
             this.updateStatus('Online', 'success');
             clearInterval(this.timeoutId);
         });

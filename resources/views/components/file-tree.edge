@@ -1,17 +1,33 @@
 <div id='file-tree' class='file-tree'>
     <div id='toolbar' class='toolbar'>
         <div id='actions' class='actions'>
-            <button id='tool-new-file' class='btn round small square' title='New file'>
+            <button id='tool-new-file' class='btn round small square tooltip'>
                 <i class='fas fa-file-medical'></i>
+                <div class="right">
+                    <p> New file </p>
+                    <i></i>
+                </div>
             </button>
-            <button id='tool-new-folder' class='btn round small square' title='New folder'>
+            <button id='tool-new-folder' class='btn round small square tooltip'>
                 <i class='fas fa-folder-plus'></i>
+                <div class="right">
+                    <p> New folder </p>
+                    <i></i>
+                </div>
             </button>
-            <button class='btn round small square' title='Upload files'>
-                <i class='fas fa-file-import'> </i>
+            <button id='tool-upload-files' class='btn round small square tooltip'>
+                <i class='fas fa-file-import'></i>
+                <div class="right">
+                    <p> Upload files </p>
+                    <i></i>
+                </div>
             </button>
-            <button class='btn round small square' title='Run'>
+            <button id='tool-run' class='btn round small square tooltip'>
                 <i class='fas fa-play'></i>
+                <div class="right">
+                    <p> Run </p>
+                    <i></i>
+                </div>
             </button>
         </div>
     </div>

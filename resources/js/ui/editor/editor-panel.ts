@@ -1,5 +1,5 @@
 import { Component } from '../core/component';
-import { DefaultFileTreeWidth, DrawerXWidth, ToolbarWidth, PanelSnapDistance } from '../constants';
+import { DefaultFileTreeWidth, DrawerXWidth, ToolbarWidth, PanelSnapDistance, DefaultPanelHeight } from '../constants';
 
 const GridColumnsTemplate = (width: number = DefaultFileTreeWidth) => `${width}px 1px 1fr`;
 
@@ -153,7 +153,7 @@ class EditorPanel extends Component {
     }
 
     private loadUserPrefs() {
-        this.panel!.style.height = localStorage.getItem('panelHeight') || '250px';
+        this.panel!.style.height = localStorage.getItem('panelHeight') || `${DefaultPanelHeight}px`;
     }
 
     private handleConsoleTabSwitch() {

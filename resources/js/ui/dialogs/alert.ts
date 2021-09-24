@@ -25,11 +25,13 @@ class Alert extends Component {
     constructor() {
         super();
         this.alertNode = this.createElement('', '', '', '');
+
         window.addEventListener('keyup', (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 this.hide();
             }
         });
+
         document.body.appendChild(this.alertNode);
     }
 

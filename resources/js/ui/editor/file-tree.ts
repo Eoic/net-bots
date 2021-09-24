@@ -152,6 +152,9 @@ const FolderMenuElements = ['rename', 'clone', 'delete', 'new-file', 'new-folder
 const FileIcon = 'file-code';
 const FolderIcon = { OPEN: 'minus', CLOSED: 'plus' };
 
+// Type aliases.
+type FileTreeNode = FileNode | FolderNode | undefined;
+
 class FileTree extends Component {
     private root: FolderNode;
     private fileList: HTMLElement | null;
@@ -161,8 +164,8 @@ class FileTree extends Component {
     private contextMenuFocusElement: HTMLElement | null;
     private canCloseContextMenu: boolean;
     private isEditingFilename: boolean;
-    private selectedNode: FileNode | FolderNode | undefined;
-    private focusedNode: FileNode | FolderNode | undefined;
+    private selectedNode: FileTreeNode;
+    private focusedNode: FileTreeNode;
     private directoryNodesLUT: Map<string, FileNode | FolderNode>;
     private templateDisplayMap: Map<string, (node: FileNode | FolderNode, depth: number) => Node | undefined>;
 
@@ -403,7 +406,7 @@ class FileTree extends Component {
         else this.fileTreeOverlay?.classList.add('hidden');
     }
 
-    private getValidContextNode(): FileNode | FolderNode | undefined {
+    private getValidContextNode(): FileTreeNode {
         if (!this.contextMenuFocusElement) return;
 
         const id = this.contextMenuFocusElement.id;

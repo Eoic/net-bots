@@ -101,9 +101,9 @@ export class Engine {
     private getSprite(parent) {
         const graphics = new PIXI.Graphics();
         graphics.beginFill(0x4073ff);
-        graphics.drawRect(0, 0, 64, 64);
+        graphics.drawCircle(0, 0, 32);
         graphics.endFill();
-        const texture = this.app.renderer.generateTexture(graphics);
+        const texture = this.app.renderer.generateTexture(graphics, PIXI.SCALE_MODES.LINEAR, 2);
         const sprite = new Sprite(texture);
         parent.addChild(sprite);
         return sprite;
