@@ -102,6 +102,7 @@ export class FolderNode extends DirectoryNode {
 export class FileNode extends DirectoryNode {
     public content: string;
     public contentBuffer: string;
+    public isSaved: boolean;
     public ancestor: FolderNode | undefined;
 
     constructor(name: string, ancestor?: FolderNode) {
@@ -109,10 +110,12 @@ export class FileNode extends DirectoryNode {
         this.content = '';
         this.contentBuffer = '';
         this.ancestor = ancestor;
+        this.isSaved = true;
     }
 
     public saveContent() {
         this.content = this.contentBuffer;
+        this.isSaved = true;
     }
 }
 
@@ -255,10 +258,12 @@ class FileTree extends Component {
      */
     private getFileTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const fileTemplate = document.createElement('template');
+        console.log((node as FileNode).isSaved);
 
         fileTemplate.innerHTML = `
             <button class='btn full-width-min ${node.isSelected ? 'active' : ''}' id=${node.id}>
                 ${this.getPadding(depth)} <i class='fas fa-file-code'></i> ${node.name}
+                <span class="${(node as FileNode).isSaved ? 'hidden' : 'status unsaved'}"></span>
             </button>
         `;
 
@@ -290,6 +295,10 @@ class FileTree extends Component {
         this.selectedNode = initialFile;
         this.root.add(initialFile);
         this.root.isOpen = true;
+
+        // TODO: Move to separate method?
+        const editorComponent = (this.params as any).components.get(Editor.name);
+        editorComponent.update(this.selectedNode);
     }
 
     /**
@@ -427,7 +436,7 @@ class FileTree extends Component {
             this.selectedNode.toggle();
         } else {
             const editorComponent = (this.params as any).components.get(Editor.name);
-            editorComponent.update({ id: this.selectedNode.id, content: this.selectedNode.contentBuffer });
+            editorComponent.update(this.selectedNode);
         }
 
         this.update();
