@@ -23,3 +23,7 @@ import Route from '@ioc:Adonis/Core/Route';
 Route.get('/', async ({ view }) => {
     return view.render('engine');
 });
+
+Route.get('/editor', async ({ view }) => {
+    return view.render('editor');
+});

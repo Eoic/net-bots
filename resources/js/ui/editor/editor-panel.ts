@@ -1,7 +1,7 @@
 import { Component } from '../core/component';
 import { DefaultFileTreeWidth, DrawerXWidth, ToolbarWidth, PanelSnapDistance, DefaultPanelHeight } from '../constants';
 
-const GridColumnsTemplate = (width: number = DefaultFileTreeWidth) => `${width}px 1px 1fr`;
+const GridColumnsTemplate = (width: number = DefaultFileTreeWidth) => `${width}px 1fr`;
 
 enum Direction {
     None = 'None',
@@ -21,14 +21,16 @@ class EditorPanel extends Component {
     private consolePanel: HTMLElement | null;
     private devToolsPanel: HTMLElement | null;
 
-    constructor() {
+    constructor(params) {
         super();
+        this.params = params;
         this.setState({
             isResizing: false,
             canResizeX: false,
             canResizeY: false,
             activeTab: 'tab-0',
         });
+
         this.editorNode = document.getElementById('editor') as HTMLElement;
         this.panel = document.getElementById('panel');
         this.panelButtons = document.querySelectorAll('button[data-tab]');
@@ -121,6 +123,10 @@ class EditorPanel extends Component {
                 newWidth = ToolbarWidth;
             }
 
+            if (this.params) {
+                (this.params as any).components.get('Editor').editor.resize();
+            }
+
             this.codeEditorPanel.style.gridTemplateColumns = GridColumnsTemplate(newWidth);
         } else if (this.state.resizeDirection === Direction.Y) {
             let position = window.innerHeight - event.pageY + this.drawerYHeight / 2;
@@ -131,6 +137,10 @@ class EditorPanel extends Component {
 
             if (event.pageY < this.drawerYHeight / 2 + PanelSnapDistance) {
                 position = window.innerHeight;
+            }
+
+            if (this.params) {
+                (this.params as any).components.get('Editor').editor.resize();
             }
 
             this.panel!.style.height = position + 'px';
