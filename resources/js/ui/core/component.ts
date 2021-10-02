@@ -1,8 +1,8 @@
 class Component {
     private _state: any = {};
-    protected params: object | undefined;
+    protected params: ComponentParameters | undefined;
 
-    constructor(params?: object) {
+    constructor(params?: ComponentParameters) {
         this.params = params;
     }
 
@@ -19,4 +19,8 @@ class Component {
     }
 }
 
-export { Component };
+class ComponentParameters {
+    public components: Map<string, Component> = new Map();
+}
+
+export { Component, ComponentParameters };

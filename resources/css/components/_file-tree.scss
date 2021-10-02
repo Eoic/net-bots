@@ -71,6 +71,14 @@
             padding: 8px;
             border: 0;
 
+            // Ellipsis.
+            width: inherit;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            text-overflow: ellipsis;
+            min-width: 50px;
+
             & > i.fas {
                 width: 14px;
                 pointer-events: none;

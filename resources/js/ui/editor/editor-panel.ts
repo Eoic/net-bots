@@ -1,5 +1,6 @@
 import { Component } from '../core/component';
 import { DefaultFileTreeWidth, DrawerXWidth, ToolbarWidth, PanelSnapDistance, DefaultPanelHeight } from '../constants';
+import { Editor } from './editor';
 
 const GridColumnsTemplate = (width: number = DefaultFileTreeWidth) => `${width}px 1fr`;
 
@@ -123,10 +124,7 @@ class EditorPanel extends Component {
                 newWidth = ToolbarWidth;
             }
 
-            if (this.params) {
-                (this.params as any).components.get('Editor').editor.resize();
-            }
-
+            (this.params as any).components.get(Editor.name).editor.resize();
             this.codeEditorPanel.style.gridTemplateColumns = GridColumnsTemplate(newWidth);
         } else if (this.state.resizeDirection === Direction.Y) {
             let position = window.innerHeight - event.pageY + this.drawerYHeight / 2;
@@ -139,10 +137,7 @@ class EditorPanel extends Component {
                 position = window.innerHeight;
             }
 
-            if (this.params) {
-                (this.params as any).components.get('Editor').editor.resize();
-            }
-
+            (this.params as any).components.get(Editor.name).editor.resize();
             this.panel!.style.height = position + 'px';
         }
     }

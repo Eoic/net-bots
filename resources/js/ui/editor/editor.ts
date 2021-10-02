@@ -1,28 +1,36 @@
-// import { Events } from '../events';
 import * as ace from 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
 
-// import { EventManager } from '../../core/managers/event-manager';
-
 class Editor {
     private editor: any;
+    private sessions: Map<string, any>;
 
     constructor() {
         this.editor = ace.edit('editor');
+        this.editor.setTheme('ace/theme/pastel_on_dark');
         this.editor.setOptions({
             enableBasicAutocompletion: true,
             enableSnippets: true,
             enableLiveAutocompletion: true,
         });
-        this.editor.setTheme('ace/theme/pastel_on_dark');
+
         this.editor.session.setMode('ace/mode/javascript');
         this.editor.session.setValue('');
-        // this.editor.onUpdate((code: string) => EventManager.dispatch(Events.CODE_UPDATE, { code }));
+        this.sessions = new Map();
     }
 
-    public updateCode(content: string) {
-        this.editor.session.setValue(content);
+    public update(fileData: { id: string; content: string }) {
+        const { id, content } = fileData;
+
+        if (!this.sessions.has(id)) {
+            const session = ace.createEditSession(content, 'ace/mode/javascript');
+            this.sessions.set(id, session);
+            this.editor.setSession(session);
+            return;
+        }
+
+        this.editor.setSession(this.sessions.get(id));
     }
 }
 

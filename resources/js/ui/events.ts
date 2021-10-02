@@ -1,5 +1,5 @@
 export enum Events {
-    CODE_UPDATE = 'CodeUpdate',
+    SAVE_FILE = 'SaveFile',
     CAMERA_UPDATE = 'CameraUpdate',
     DEBUG_INFO_UPDATE = 'DebugInfoUpdate',
 }

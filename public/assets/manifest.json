@@ -3,7 +3,7 @@
   "assets/app.js": "http://localhost:8080/assets/app.js",
   "assets/icons.js": "http://localhost:8080/assets/icons.js",
   "assets/vendors-node_modules_webpack-dev-server_client_index_js_http_0_0_0_0_host_localhost_port_8080-3982fe.js": "http://localhost:8080/assets/vendors-node_modules_webpack-dev-server_client_index_js_http_0_0_0_0_host_localhost_port_8080-3982fe.js",
-  "assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_webpack-resolve-db2028.js": "http://localhost:8080/assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_webpack-resolve-db2028.js",
+  "assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_src-noconflict_-f01a9a.js": "http://localhost:8080/assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_src-noconflict_-f01a9a.js",
   "assets/worker-xquery.js": "http://localhost:8080/assets/63b15fb6fc8f897b22a4bf72b7e8452a.js",
   "assets/worker-javascript.js": "http://localhost:8080/assets/c56345ae11027262df8c5983822c7355.js",
   "assets/mode-php_laravel_blade.js": "http://localhost:8080/assets/4d57d8d576cd63242136f3c8271592f4.js",
@@ -417,6 +417,5 @@
   "assets/aql.js": "http://localhost:8080/assets/efc14cdf19554635e477781704353ec2.js",
   "assets/jsx.js": "http://localhost:8080/assets/ffd3b83e8b5878f4785591ff54b1dfff.js",
   "assets/d.js": "http://localhost:8080/assets/70074e0c785c9a808dea76c7c7d17af3.js",
-  "assets/mode-text.js": "http://localhost:8080/assets/25718a469574ade47e23567d8c543169.js",
-  "assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_src-noconflict_-f01a9a.js": "http://localhost:8080/assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_src-noconflict_-f01a9a.js"
+  "assets/mode-text.js": "http://localhost:8080/assets/25718a469574ade47e23567d8c543169.js"
 }
