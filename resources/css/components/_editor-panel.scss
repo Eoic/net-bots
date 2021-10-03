@@ -18,19 +18,25 @@
     top: 0;
     left: 43px;
     bottom: 0;
-    height: 100%;
     width: -moz-available;
-    background-color: red;
+    width: -webkit-fill-available;
+    width: stretch;
+    background-color: colors.$base-color;
+    color: colors.$text-color;
+    padding: 10px;
+    margin-left: 1px;
+    overflow: auto;
+    margin-bottom: 36px;
 }
 
 .drawer-vertical {
     cursor: col-resize;
     position: absolute;
     height: 100%;
-    width: 4px;
+    width: 7px;
     z-index: 1000;
     display: block;
-    margin-right: -3px;
+    margin-right: -4px;
     transition: 0.3s;
     right: 0;
 
@@ -55,6 +61,7 @@
     grid-template-columns: 240px 1fr;
     grid-template-rows: 1fr;
     height: 100%;
+    column-gap: 1px;
 }
 
 .panel-drawer {

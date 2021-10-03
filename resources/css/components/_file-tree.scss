@@ -9,6 +9,7 @@
     box-sizing: border-box;
     height: 100%;
     grid-template-columns: 20px 1fr;
+    margin-right: -1px;
 
     & > .toolbar {
         padding: 6px 6px;
@@ -16,7 +17,7 @@
         display: grid;
         width: max-content;
         border-right: 1px solid colors.$base-color-light;
-        z-index: 10;
+        z-index: 20;
 
         & button {
             width: 30px;

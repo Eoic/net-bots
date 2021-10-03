@@ -50,7 +50,8 @@ html, body {
     height: 100%;
     position: absolute;
     background-color: #0000008f;
-    z-index: 100;
+    // z-index: 100000000;
+    z-index: 30;
 
     &.center {
         display: flex;

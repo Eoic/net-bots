@@ -228,6 +228,13 @@ class FileTree extends Component {
         const toolbarActionsMap = new Map<string, any>([
             ['tool-new-file', () => this.handleNewNode(FileNode)],
             ['tool-new-folder', () => this.handleNewNode(FolderNode)],
+            [
+                'tool-editor-settings',
+                (event) => {
+                    this.toggleEditorSettings();
+                    event.target.classList.toggle('active');
+                },
+            ],
         ]);
 
         toolbarActionsMap.forEach((actionHandler, id) => {
@@ -605,6 +612,13 @@ class FileTree extends Component {
         if (event.key === 'Delete') {
             this.handleDelete(() => this.selectedNode);
         }
+    }
+
+    private toggleEditorSettings() {
+        const editor = this.params?.components.get(Editor.name) as Editor;
+        const editorPanel = this.params?.components.get(EditorPanel.name) as EditorPanel;
+        editor.toggleSettings();
+        editorPanel.setMinFileTreeWidth();
     }
 }
 

@@ -7,6 +7,7 @@ import { FileNode, FileTree } from './file-tree';
 class Editor extends Component {
     private editor: any;
     private sessions: Map<string, any>;
+    private settingsPanel: HTMLElement | null;
 
     constructor(params: ComponentParameters) {
         super(params);
@@ -34,9 +35,10 @@ class Editor extends Component {
             },
         });
 
-        this.editor.session.setMode('ace/mode/javascript');
-        this.editor.session.setValue('');
         this.sessions = new Map();
+        this.editor.session.setValue('');
+        this.editor.session.setMode('ace/mode/javascript');
+        this.settingsPanel = document.getElementById('editor-settings');
     }
 
     public update(file: FileNode) {
@@ -58,6 +60,10 @@ class Editor extends Component {
         }
 
         this.editor.setSession(this.sessions.get(id));
+    }
+
+    public toggleSettings() {
+        this.settingsPanel?.classList.toggle('hidden');
     }
 }
 

@@ -29,7 +29,7 @@
                     <i></i>
                 </div>
             </button>
-            <button id='tool-run' class='btn round small square tooltip'>
+            <button id='tool-editor-settings' class='btn round small square tooltip'>
                 <i class='fas fa-cog'></i>
                 <div class="right">
                     <p> Editor settings </p>
@@ -41,5 +41,7 @@
     <div id='drawer-vertical' class='drawer-vertical'></div>
     <div id='file-tree-overlay' class='overlay hidden'></div>
     <div id='file-list' class='file-list' tabindex='0'></div>
-    <div id='editor-settings' class='editor-settings hidden'></div>
+    <div id='editor-settings' class='editor-settings hidden'>
+        @!component('components/editor-settings')
+    </div>
 </div>
