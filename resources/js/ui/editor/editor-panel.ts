@@ -43,8 +43,8 @@ class EditorPanel extends Component {
             ['tab-1', { tab: this.consolePanel, handleTabSwitch: () => this.handleConsoleTabSwitch() }],
             ['tab-2', { tab: this.devToolsPanel, handleTabSwitch: () => {} }],
         ]);
-        this.drawerX = this.appendDrawerX();
-        this.drawerY = document.getElementById('drawer');
+        this.drawerX = document.getElementById('drawer-vertical');
+        this.drawerY = document.getElementById('drawer-horizontal');
         this.drawerYHeight = parseInt(window.getComputedStyle(this.drawerY as Element)['height']);
         this.loadUserPrefs();
         this.bindEvents();
@@ -62,11 +62,6 @@ class EditorPanel extends Component {
         this.panelButtons.forEach((button) => {
             button.addEventListener('click', (event: MouseEvent) => this.handleTabSelect(event));
         });
-    }
-
-    private appendDrawerX() {
-        const drawer = document.getElementById('drawer-vertical');
-        return drawer;
     }
 
     private handleTabSelect(event: MouseEvent) {
