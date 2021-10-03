@@ -102,20 +102,21 @@ export class FolderNode extends DirectoryNode {
 export class FileNode extends DirectoryNode {
     public content: string;
     public contentBuffer: string;
-    public isSaved: boolean;
     public ancestor: FolderNode | undefined;
+
+    public get isSaved() {
+        return this.content === this.contentBuffer;
+    }
 
     constructor(name: string, ancestor?: FolderNode) {
         super(name);
         this.content = '';
         this.contentBuffer = '';
         this.ancestor = ancestor;
-        this.isSaved = true;
     }
 
     public saveContent() {
         this.content = this.contentBuffer;
-        this.isSaved = true;
     }
 }
 
@@ -417,6 +418,10 @@ class FileTree extends Component {
         const id = this.contextMenuFocusElement.id;
         const node = this.directoryNodesLUT.get(id);
         return node;
+    }
+
+    public getNodeById(id: string): DirectoryNode | undefined {
+        return this.directoryNodesLUT.get(id);
     }
 
     private handleClick(event: MouseEvent) {

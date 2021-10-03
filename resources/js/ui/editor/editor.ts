@@ -18,6 +18,22 @@ class Editor extends Component {
             enableLiveAutocompletion: true,
         });
 
+        this.editor.commands.addCommand({
+            name: 'Save',
+            readonly: true,
+            bindKey: { win: 'Ctrl-S' },
+            exec: (editor) => {
+                const id = editor.session.fileId;
+                const fileTreeComponent = this.params!.components.get(FileTree.name) as FileTree;
+                const file = fileTreeComponent.getNodeById(id);
+
+                if (file && file instanceof FileNode) {
+                    file.content = file.contentBuffer;
+                    fileTreeComponent.update();
+                }
+            },
+        });
+
         this.editor.session.setMode('ace/mode/javascript');
         this.editor.session.setValue('');
         this.sessions = new Map();
@@ -28,9 +44,10 @@ class Editor extends Component {
 
         if (!this.sessions.has(id)) {
             const session = ace.createEditSession(contentBuffer, 'ace/mode/javascript');
+            session.fileId = id;
 
             session.on('change', () => {
-                file.isSaved = file.content === session.getValue();
+                file.contentBuffer = session.getValue();
                 const fileTreeComponent = this.params!.components.get(FileTree.name) as FileTree;
                 fileTreeComponent.update();
             });
