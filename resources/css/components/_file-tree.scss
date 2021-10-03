@@ -70,10 +70,33 @@
             text-align: left;
             padding: 8px;
             border: 0;
+            position: relative;
+
+            // Ellipsis.
+            width: inherit;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            text-overflow: ellipsis;
+            min-width: 50px;
 
             & > i.fas {
                 width: 14px;
                 pointer-events: none;
+            }
+
+            .status {
+                position: absolute;
+                height: 10px;
+                width: 10px;
+                top: calc(50% - 5px);
+                bottom: 0;
+                border-radius: 50%;
+                right: 8px;
+
+                &.unsaved {
+                    background-color: #bbc3ff;
+                }
             }
         }
 

@@ -1,7 +1,8 @@
 import { Component } from '../core/component';
 import { DefaultFileTreeWidth, DrawerXWidth, ToolbarWidth, PanelSnapDistance, DefaultPanelHeight } from '../constants';
+import { Editor } from './editor';
 
-const GridColumnsTemplate = (width: number = DefaultFileTreeWidth) => `${width}px 1px 1fr`;
+const GridColumnsTemplate = (width: number = DefaultFileTreeWidth) => `${width}px 1fr`;
 
 enum Direction {
     None = 'None',
@@ -16,20 +17,22 @@ class EditorPanel extends Component {
     private drawerYHeight: number;
     private panelButtons: NodeListOf<Element>;
     private panelTabsMap: Map<string, any>;
-    private editorNode: HTMLElement;
+    // private editorNode: HTMLElement;
     private codeEditorPanel: HTMLElement | null;
     private consolePanel: HTMLElement | null;
     private devToolsPanel: HTMLElement | null;
 
-    constructor() {
+    constructor(params) {
         super();
+        this.params = params;
         this.setState({
             isResizing: false,
             canResizeX: false,
             canResizeY: false,
             activeTab: 'tab-0',
         });
-        this.editorNode = document.getElementById('editor') as HTMLElement;
+
+        // this.editorNode = document.getElementById('editor') as HTMLElement;
         this.panel = document.getElementById('panel');
         this.panelButtons = document.querySelectorAll('button[data-tab]');
         this.codeEditorPanel = document.getElementById('code-editor');
@@ -40,8 +43,8 @@ class EditorPanel extends Component {
             ['tab-1', { tab: this.consolePanel, handleTabSwitch: () => this.handleConsoleTabSwitch() }],
             ['tab-2', { tab: this.devToolsPanel, handleTabSwitch: () => {} }],
         ]);
-        this.drawerX = this.appendDrawerX();
-        this.drawerY = document.getElementById('drawer');
+        this.drawerX = document.getElementById('drawer-vertical');
+        this.drawerY = document.getElementById('drawer-horizontal');
         this.drawerYHeight = parseInt(window.getComputedStyle(this.drawerY as Element)['height']);
         this.loadUserPrefs();
         this.bindEvents();
@@ -59,13 +62,6 @@ class EditorPanel extends Component {
         this.panelButtons.forEach((button) => {
             button.addEventListener('click', (event: MouseEvent) => this.handleTabSelect(event));
         });
-    }
-
-    private appendDrawerX() {
-        const drawer = document.createElement('div');
-        drawer.classList.add('drawer-vertical');
-        this.editorNode.appendChild(drawer);
-        return drawer;
     }
 
     private handleTabSelect(event: MouseEvent) {
@@ -121,6 +117,7 @@ class EditorPanel extends Component {
                 newWidth = ToolbarWidth;
             }
 
+            (this.params as any).components.get(Editor.name).editor.resize();
             this.codeEditorPanel.style.gridTemplateColumns = GridColumnsTemplate(newWidth);
         } else if (this.state.resizeDirection === Direction.Y) {
             let position = window.innerHeight - event.pageY + this.drawerYHeight / 2;
@@ -133,6 +130,7 @@ class EditorPanel extends Component {
                 position = window.innerHeight;
             }
 
+            (this.params as any).components.get(Editor.name).editor.resize();
             this.panel!.style.height = position + 'px';
         }
     }

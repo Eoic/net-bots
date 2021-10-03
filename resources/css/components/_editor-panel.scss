@@ -1,18 +1,38 @@
 @use '../utilities/colors.scss' as colors;
 
-.editor {
-    z-index: 20;
+.editor-wrapper {
+    position: relative;
+
+    & > .editor {
+        z-index: 20;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.editor-settings {
+    position: absolute;
+    top: 0;
+    left: 43px;
+    bottom: 0;
+    height: 100%;
+    width: -moz-available;
+    background-color: red;
 }
 
 .drawer-vertical {
     cursor: col-resize;
     position: absolute;
     height: 100%;
-    width: 6px;
+    width: 4px;
     z-index: 1000;
     display: block;
-    margin-left: -3px;
+    margin-right: -3px;
     transition: 0.3s;
+    right: 0;
 
     &:hover {
         background-color: colors.$hover-color;
@@ -32,7 +52,7 @@
     display: grid;
     grid-template-areas:
         "file-tree editor";
-    grid-template-columns: 240px 1px 1fr;
+    grid-template-columns: 240px 1fr;
     grid-template-rows: 1fr;
     height: 100%;
 }

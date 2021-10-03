@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_JUhuAB70EeyASfD6X7AYWg" name="NetBots">
+  <packagedElement xmi:type="uml:Class" xmi:id="_ZMeeIB70EeyASfD6X7AYWg" name="GameObject" visibility="public">
+    <ownedAttribute xmi:id="_VaUvQB8BEeytXZ_rm6i3EQ" name="uuid" type="_IkeeMB8BEeytXZ_rm6i3EQ" isReadOnly="true" isID="true"/>
+    <ownedAttribute xmi:id="_2vrm4B8AEeytXZ_rm6i3EQ" name="position" type="_-D6w4B79EeyASfD6X7AYWg" isReadOnly="true"/>
+    <ownedAttribute xmi:id="_Rk9AMB8BEeytXZ_rm6i3EQ" name="rotation" visibility="public" type="_HqnTcB8AEeytXZ_rm6i3EQ" isReadOnly="true">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Rk9AMR8BEeytXZ_rm6i3EQ" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Rk9AMh8BEeytXZ_rm6i3EQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralReal" xmi:id="_mes2QB8BEeytXZ_rm6i3EQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_tNu6EB8BEeytXZ_rm6i3EQ" name="scale" type="_cI45AB8BEeytXZ_rm6i3EQ" isReadOnly="true">
+      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_ww_lcB8BEeytXZ_rm6i3EQ" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_bKtscB70EeyASfD6X7AYWg" name="Bot" visibility="public">
+    <generalization xmi:id="_3RAV0B8BEeytXZ_rm6i3EQ" general="_ZMeeIB70EeyASfD6X7AYWg"/>
+    <ownedAttribute xmi:id="_F2PRwCOgEeyVqKDh8-cMuw" name="speed" visibility="public" type="_HqnTcB8AEeytXZ_rm6i3EQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F2PRwSOgEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F2PRwiOgEeyVqKDh8-cMuw" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_MrTFECOgEeyVqKDh8-cMuw" name="energy" type="_HqnTcB8AEeytXZ_rm6i3EQ"/>
+    <ownedAttribute xmi:id="_P2gc0COgEeyVqKDh8-cMuw" name="integrity" type="_HqnTcB8AEeytXZ_rm6i3EQ"/>
+    <ownedAttribute xmi:id="_euyfsCOgEeyVqKDh8-cMuw" name="state" visibility="public" type="_IkeeMB8BEeytXZ_rm6i3EQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_euyfsSOgEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_euyfsiOgEeyVqKDh8-cMuw" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_7fRogCOgEeyVqKDh8-cMuw" name="shield" visibility="public" type="_HqnTcB8AEeytXZ_rm6i3EQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7fRogSOgEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7fRogiOgEeyVqKDh8-cMuw" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4lSUEB70EeyASfD6X7AYWg" name="Swarm" visibility="public">
+    <ownedAttribute xmi:id="_-JFA4B8BEeytXZ_rm6i3EQ" name="uuid" type="_IkeeMB8BEeytXZ_rm6i3EQ" isReadOnly="true" isID="true"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Hq-g0B71EeyASfD6X7AYWg" name="Storage" visibility="public">
+    <ownedAttribute xmi:id="_8F87ECOtEey94LWq3Su37Q" name="size" type="_5AMrECOtEey94LWq3Su37Q"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_dJqP8B71EeyASfD6X7AYWg" name="Resource" visibility="public"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_sFjngB71EeyASfD6X7AYWg" name="Modules" visibility="public"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_1juyIB71EeyASfD6X7AYWg" name="Structure" visibility="public"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_LoJEgB72EeyASfD6X7AYWg" name="Projectile" visibility="public">
+    <generalization xmi:id="_DffnYCOhEeyVqKDh8-cMuw" general="_7WhnECOeEeyVqKDh8-cMuw"/>
+    <generalization xmi:id="_e5xyQCOhEeyVqKDh8-cMuw" general="_ZMeeIB70EeyASfD6X7AYWg"/>
+    <ownedAttribute xmi:id="_MECbUCOhEeyVqKDh8-cMuw" name="speed" visibility="public" type="_HqnTcB8AEeytXZ_rm6i3EQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MECbUSOhEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MECbUiOhEeyVqKDh8-cMuw" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_QyzQgCOhEeyVqKDh8-cMuw" name="direction" type="_-D6w4B79EeyASfD6X7AYWg"/>
+    <ownedAttribute xmi:id="_lmEEECOhEeyVqKDh8-cMuw" name="damage" type="_HqnTcB8AEeytXZ_rm6i3EQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_-D6w4B79EeyASfD6X7AYWg" name="Vector2" visibility="public">
+    <ownedAttribute xmi:id="_UuzigB8AEeytXZ_rm6i3EQ" name="x" type="_HqnTcB8AEeytXZ_rm6i3EQ" isReadOnly="true">
+      <defaultValue xmi:type="uml:LiteralReal" xmi:id="_WQgl0B8AEeytXZ_rm6i3EQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_aCzLsB8AEeytXZ_rm6i3EQ" name="y" type="_HqnTcB8AEeytXZ_rm6i3EQ" isReadOnly="true">
+      <defaultValue xmi:type="uml:LiteralReal" xmi:id="_bt2YQB8AEeytXZ_rm6i3EQ"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_lZcT0B8AEeytXZ_rm6i3EQ" name="distanceTo" isStatic="true">
+      <ownedParameter xmi:id="_oILK8B8AEeytXZ_rm6i3EQ" name="from" type="_-D6w4B79EeyASfD6X7AYWg"/>
+      <ownedParameter xmi:id="_vO2SsB8AEeytXZ_rm6i3EQ" name="to" type="_-D6w4B79EeyASfD6X7AYWg"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_EAl4wB8AEeytXZ_rm6i3EQ" name="Primitives">
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_HqnTcB8AEeytXZ_rm6i3EQ" name="float" visibility="public"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_IkeeMB8BEeytXZ_rm6i3EQ" name="string" visibility="public"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_cI45AB8BEeytXZ_rm6i3EQ" name="integer" visibility="public"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_gsQucCOfEeyVqKDh8-cMuw" name="bool" visibility="public"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_5AMrECOtEey94LWq3Su37Q" name="int" visibility="public"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_HN1l8B8CEeytXZ_rm6i3EQ" name="swarmsToBots" memberEnd="_HN2NAB8CEeytXZ_rm6i3EQ _HN2NAx8CEeytXZ_rm6i3EQ" navigableOwnedEnd="_HN2NAx8CEeytXZ_rm6i3EQ">
+    <ownedEnd xmi:id="_HN2NAB8CEeytXZ_rm6i3EQ" name="swarms" type="_4lSUEB70EeyASfD6X7AYWg" association="_HN1l8B8CEeytXZ_rm6i3EQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_HN2NAR8CEeytXZ_rm6i3EQ" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HN2NAh8CEeytXZ_rm6i3EQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_HN2NAx8CEeytXZ_rm6i3EQ" name="bots" type="_bKtscB70EeyASfD6X7AYWg" aggregation="shared" association="_HN1l8B8CEeytXZ_rm6i3EQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_HN20EB8CEeytXZ_rm6i3EQ"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HN20ER8CEeytXZ_rm6i3EQ" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_0BkeAB8EEeyAxcAJ0VrGpA" name="StackableItem" visibility="public">
+    <generalization xmi:id="_iRC9ICOuEey94LWq3Su37Q" general="_22Xg4B8EEeyAxcAJ0VrGpA"/>
+    <ownedAttribute xmi:id="_CI8YQCOuEey94LWq3Su37Q" name="currentSize" visibility="public" type="_5AMrECOtEey94LWq3Su37Q">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CI8YQSOuEey94LWq3Su37Q" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CI8_UCOuEey94LWq3Su37Q" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_GOaY0COuEey94LWq3Su37Q" name="maxSize" type="_5AMrECOtEey94LWq3Su37Q"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_22Xg4B8EEeyAxcAJ0VrGpA" name="Item" visibility="public">
+    <ownedAttribute xmi:id="_K1_A4COuEey94LWq3Su37Q" name="uuid" type="_IkeeMB8BEeytXZ_rm6i3EQ" isReadOnly="true" isID="true"/>
+    <ownedAttribute xmi:id="_O1vbACOuEey94LWq3Su37Q" name="name" type="_IkeeMB8BEeytXZ_rm6i3EQ"/>
+    <ownedAttribute xmi:id="_SVm0ICOuEey94LWq3Su37Q" name="type" type="_IkeeMB8BEeytXZ_rm6i3EQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_eCiagCOcEeyVqKDh8-cMuw" name="Gun" visibility="public">
+    <ownedAttribute xmi:id="_gjzdYCOcEeyVqKDh8-cMuw" name="speed" visibility="public" type="_HqnTcB8AEeytXZ_rm6i3EQ" isReadOnly="true">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gjzdYSOcEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gj0EcCOcEeyVqKDh8-cMuw" value="1"/>
+      <defaultValue xmi:type="uml:LiteralReal" xmi:id="_wzh0UCOcEeyVqKDh8-cMuw" value="1.0"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_5CNF8COcEeyVqKDh8-cMuw" name="cooldown" visibility="public" type="_HqnTcB8AEeytXZ_rm6i3EQ" isReadOnly="true">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5CNF8SOcEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5CNF8iOcEeyVqKDh8-cMuw" value="1"/>
+      <defaultValue xmi:type="uml:LiteralReal" xmi:id="__nQHUCOcEeyVqKDh8-cMuw" value="1.0"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_5pt_oCOhEeyVqKDh8-cMuw" name="projectilePool" type="_EMdicCOeEeyVqKDh8-cMuw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_EMdicCOeEeyVqKDh8-cMuw" name="ObjectPool" visibility="public">
+    <ownedOperation xmi:id="_JS-wUCOeEeyVqKDh8-cMuw" name="getInstance" isStatic="true"/>
+    <ownedOperation xmi:id="_SZYUICOeEeyVqKDh8-cMuw" name="acquire"/>
+    <ownedOperation xmi:id="_pbHU8COfEeyVqKDh8-cMuw" name="release">
+      <ownedParameter xmi:id="_qgXs0COfEeyVqKDh8-cMuw" name="poolObject" type="_7WhnECOeEeyVqKDh8-cMuw"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_7WhnECOeEeyVqKDh8-cMuw" name="PoolObject" visibility="public">
+    <ownedAttribute xmi:id="_j8GukCOfEeyVqKDh8-cMuw" name="isAvailable" type="_gsQucCOfEeyVqKDh8-cMuw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_--uc0COeEeyVqKDh8-cMuw" name="objectPoolsToPoolObjects" memberEnd="_--uc0SOeEeyVqKDh8-cMuw _--uc1COeEeyVqKDh8-cMuw" navigableOwnedEnd="_--uc1COeEeyVqKDh8-cMuw">
+    <ownedEnd xmi:id="_--uc0SOeEeyVqKDh8-cMuw" name="objectPools" type="_EMdicCOeEeyVqKDh8-cMuw" association="_--uc0COeEeyVqKDh8-cMuw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_--uc0iOeEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_--uc0yOeEeyVqKDh8-cMuw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_--uc1COeEeyVqKDh8-cMuw" name="poolObjects" type="_7WhnECOeEeyVqKDh8-cMuw" aggregation="shared" association="_--uc0COeEeyVqKDh8-cMuw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_--vD4COeEeyVqKDh8-cMuw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_--vD4SOeEeyVqKDh8-cMuw" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_nSV1ICOgEeyVqKDh8-cMuw" memberEnd="_nSV1ISOgEeyVqKDh8-cMuw _nSV1JCOgEeyVqKDh8-cMuw" navigableOwnedEnd="_nSV1JCOgEeyVqKDh8-cMuw">
+    <ownedEnd xmi:id="_nSV1ISOgEeyVqKDh8-cMuw" name="guns" type="_eCiagCOcEeyVqKDh8-cMuw" association="_nSV1ICOgEeyVqKDh8-cMuw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nSV1IiOgEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nSV1IyOgEeyVqKDh8-cMuw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_nSV1JCOgEeyVqKDh8-cMuw" name="objectPools" type="_EMdicCOeEeyVqKDh8-cMuw" association="_nSV1ICOgEeyVqKDh8-cMuw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nSV1JSOgEeyVqKDh8-cMuw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nSV1JiOgEeyVqKDh8-cMuw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_K5HD0COiEeyVqKDh8-cMuw" memberEnd="_K5HD0SOiEeyVqKDh8-cMuw _K5HD1COiEeyVqKDh8-cMuw" navigableOwnedEnd="_K5HD1COiEeyVqKDh8-cMuw">
+    <ownedEnd xmi:id="_K5HD0SOiEeyVqKDh8-cMuw" name="bots" type="_bKtscB70EeyASfD6X7AYWg" association="_K5HD0COiEeyVqKDh8-cMuw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_K5HD0iOiEeyVqKDh8-cMuw" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_K5HD0yOiEeyVqKDh8-cMuw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_K5HD1COiEeyVqKDh8-cMuw" name="storages" type="_Hq-g0B71EeyASfD6X7AYWg" association="_K5HD0COiEeyVqKDh8-cMuw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_K5HD1SOiEeyVqKDh8-cMuw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_K5HD1iOiEeyVqKDh8-cMuw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_YQyZICOuEey94LWq3Su37Q" memberEnd="_YQyZISOuEey94LWq3Su37Q _YQzAMSOuEey94LWq3Su37Q" navigableOwnedEnd="_YQzAMSOuEey94LWq3Su37Q">
+    <ownedEnd xmi:id="_YQyZISOuEey94LWq3Su37Q" name="storages" type="_Hq-g0B71EeyASfD6X7AYWg" association="_YQyZICOuEey94LWq3Su37Q">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YQyZIiOuEey94LWq3Su37Q" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YQzAMCOuEey94LWq3Su37Q" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_YQzAMSOuEey94LWq3Su37Q" name="items" type="_22Xg4B8EEeyAxcAJ0VrGpA" aggregation="composite" association="_YQyZICOuEey94LWq3Su37Q">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YQzAMiOuEey94LWq3Su37Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YQzAMyOuEey94LWq3Su37Q" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Model>

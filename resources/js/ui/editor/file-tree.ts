@@ -1,7 +1,7 @@
 import { Editor } from './editor';
 import { Events } from '../events';
 import { UUID4 } from '../../utils/uuid';
-import { Component } from '../core/component';
+import { Component, ComponentParameters } from '../core/component';
 import { Constructable } from '../core/interfaces/constructable';
 import { EventManager } from '../../core/managers/event-manager';
 import { EditorPanel } from './editor-panel';
@@ -104,6 +104,10 @@ export class FileNode extends DirectoryNode {
     public contentBuffer: string;
     public ancestor: FolderNode | undefined;
 
+    public get isSaved() {
+        return this.content === this.contentBuffer;
+    }
+
     constructor(name: string, ancestor?: FolderNode) {
         super(name);
         this.content = '';
@@ -169,7 +173,7 @@ class FileTree extends Component {
     private directoryNodesLUT: Map<string, FileNode | FolderNode>;
     private templateDisplayMap: Map<string, (node: FileNode | FolderNode, depth: number) => Node | undefined>;
 
-    constructor(params: object) {
+    constructor(params: ComponentParameters) {
         super(params);
         this.root = new FolderNode('Root');
         this.fileList = document.getElementById('file-list');
@@ -244,7 +248,7 @@ class FileTree extends Component {
         this.contextMenu?.addEventListener('mouseenter', () => this.handleContextMenuEnter());
         this.contextMenu?.addEventListener('mouseleave', () => this.handleContextMenuLeave());
         window?.addEventListener('keyup', (event) => this.handleKeyPress(event));
-        EventManager.on(Events.CODE_UPDATE, (eventData: object) => this.handleCodeUpdate(eventData));
+        EventManager.on(Events.SAVE_FILE, () => this.saveFile());
     }
 
     /**
@@ -255,10 +259,12 @@ class FileTree extends Component {
      */
     private getFileTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const fileTemplate = document.createElement('template');
+        console.log((node as FileNode).isSaved);
 
         fileTemplate.innerHTML = `
             <button class='btn full-width-min ${node.isSelected ? 'active' : ''}' id=${node.id}>
                 ${this.getPadding(depth)} <i class='fas fa-file-code'></i> ${node.name}
+                <span class="${(node as FileNode).isSaved ? 'hidden' : 'status unsaved'}"></span>
             </button>
         `;
 
@@ -290,6 +296,10 @@ class FileTree extends Component {
         this.selectedNode = initialFile;
         this.root.add(initialFile);
         this.root.isOpen = true;
+
+        // TODO: Move to separate method?
+        const editorComponent = (this.params as any).components.get(Editor.name);
+        editorComponent.update(this.selectedNode);
     }
 
     /**
@@ -386,14 +396,10 @@ class FileTree extends Component {
         this.isEditingFilename = false;
     }
 
-    /**
-     * Called every time code in the editor has been updated. Once called,
-     * content of the selected file node is updated.
-     * @param eventData Editor event data, containing changed source code.
-     */
-    private handleCodeUpdate(eventData: object) {
-        if (!(this.selectedNode instanceof FileNode)) return;
-        this.selectedNode.contentBuffer = (eventData as any).code || '';
+    private saveFile() {
+        // if (!(this.selectedNode instanceof FileNode)) return;
+        // this.selectedNode.contentBuffer = (eventData as any).code || '';
+        throw new Error('Not impelmented.');
     }
 
     /**
@@ -414,6 +420,10 @@ class FileTree extends Component {
         return node;
     }
 
+    public getNodeById(id: string): DirectoryNode | undefined {
+        return this.directoryNodesLUT.get(id);
+    }
+
     private handleClick(event: MouseEvent) {
         if (this.selectedNode) {
             this.selectedNode.isSelected = false;
@@ -431,7 +441,7 @@ class FileTree extends Component {
             this.selectedNode.toggle();
         } else {
             const editorComponent = (this.params as any).components.get(Editor.name);
-            editorComponent.updateCode(this.selectedNode.contentBuffer);
+            editorComponent.update(this.selectedNode);
         }
 
         this.update();
@@ -533,9 +543,10 @@ class FileTree extends Component {
     private handleDelete(getValidNodeCallback: { (): FolderNode | FileNode | undefined; (): any }) {
         const node = getValidNodeCallback();
 
-        if (node) {
-            (this.params as any).components
-                .get(Alert.name)
+        if (!node) return;
+
+        if (this.params) {
+            (this.params.components.get(Alert.name) as Alert)
                 .show(
                     `Delete ${node instanceof FileNode ? 'file' : 'folder'} "${node.name}" permanently?`,
                     'This action cannot be undone.',
@@ -561,6 +572,7 @@ class FileTree extends Component {
 
         const targetNode = document.getElementById(localRootNode?.id || '');
         const newDirectoryNode = new nodeType('', localRootNode instanceof FolderNode ? localRootNode : this.root);
+
         inputElement.innerHTML = FilenameInputTemplate(
             '',
             newDirectoryNode instanceof FileNode ? FileIcon : FolderIcon.CLOSED,

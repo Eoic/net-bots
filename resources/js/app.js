@@ -6,7 +6,6 @@ import { DevTools } from './ui/dev/dev-tools';
 import { FileTree } from './ui/editor/file-tree';
 import { EditorPanel } from './ui/editor/editor-panel';
 import { NetworkManager } from './core/managers/network-manager';
-import { SCALE_MODES } from '@pixi/constants';
 
 class App {
     constructor() {

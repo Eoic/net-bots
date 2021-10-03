@@ -21,27 +21,30 @@ export class Engine {
     constructor(options: IApplicationOptions) {
         this.app = new PIXI.Application(options);
         this.root = document.getElementById('root');
-        this.ticker = PIXI.Ticker.shared;
-        this.ticker.autoStart = false;
-        this.world = new World();
-        this.registerComponents([Position, Renderable, Velocity, Interactable]);
-        this.registerSystems([RendererSystem, InteractableSystem]);
-        this.root!.appendChild(this.app.view);
-        this.mainCamera = new Camera(this.root!);
-        this.handleEvents();
-        this.map = new Map(this.app.renderer, this.mainCamera, {
-            tilesPerXAxis: 80,
-            tilesPerYAxis: 45,
-            tileWidth: 32,
-            tileHeight: 32,
-            fillColor: 0xf0f0f0,
-            outlineColor: 0xd9d9d9,
-            isDragEnabled: true,
-            isZoomEnabled: false,
-        });
 
-        this.app.stage.addChild(this.map);
-        this.createPlayerEntity(this.map, { x: 768, y: 512 });
+        if (this.root) {
+            this.ticker = PIXI.Ticker.shared;
+            this.ticker.autoStart = false;
+            this.world = new World();
+            this.registerComponents([Position, Renderable, Velocity, Interactable]);
+            this.registerSystems([RendererSystem, InteractableSystem]);
+            this.root.appendChild(this.app.view);
+            this.mainCamera = new Camera(this.root!);
+            this.handleEvents();
+            this.map = new Map(this.app.renderer, this.mainCamera, {
+                tilesPerXAxis: 80,
+                tilesPerYAxis: 45,
+                tileWidth: 32,
+                tileHeight: 32,
+                fillColor: 0xf0f0f0,
+                outlineColor: 0xd9d9d9,
+                isDragEnabled: true,
+                isZoomEnabled: false,
+            });
+
+            this.app.stage.addChild(this.map);
+            this.createPlayerEntity(this.map, { x: 768, y: 512 });
+        }
     }
 
     private handleEvents() {
@@ -66,6 +69,8 @@ export class Engine {
     }
 
     public run() {
+        if (!this.root) return;
+
         this.ticker.start();
 
         this.ticker.add((delta) => {
