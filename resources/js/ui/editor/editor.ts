@@ -62,8 +62,9 @@ class Editor extends Component {
         this.editor.setSession(this.sessions.get(id));
     }
 
-    public toggleSettings() {
-        this.settingsPanel?.classList.toggle('hidden');
+    public setSettingsDisplay(isVisible) {
+        if (isVisible) this.settingsPanel?.classList.remove('hidden');
+        else this.settingsPanel?.classList.add('hidden');
     }
 }
 

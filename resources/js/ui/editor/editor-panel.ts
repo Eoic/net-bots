@@ -17,7 +17,6 @@ class EditorPanel extends Component {
     private drawerYHeight: number;
     private panelButtons: NodeListOf<Element>;
     private panelTabsMap: Map<string, any>;
-    // private editorNode: HTMLElement;
     private codeEditorPanel: HTMLElement | null;
     private consolePanel: HTMLElement | null;
     private devToolsPanel: HTMLElement | null;
@@ -32,7 +31,6 @@ class EditorPanel extends Component {
             activeTab: 'tab-0',
         });
 
-        // this.editorNode = document.getElementById('editor') as HTMLElement;
         this.panel = document.getElementById('panel');
         this.panelButtons = document.querySelectorAll('button[data-tab]');
         this.codeEditorPanel = document.getElementById('code-editor');

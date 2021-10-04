@@ -1,9 +1,7 @@
 import { Editor } from './editor';
-import { Events } from '../events';
 import { UUID4 } from '../../utils/uuid';
 import { Component, ComponentParameters } from '../core/component';
 import { Constructable } from '../core/interfaces/constructable';
-import { EventManager } from '../../core/managers/event-manager';
 import { EditorPanel } from './editor-panel';
 import { Alert } from '../dialogs/alert';
 
@@ -226,13 +224,24 @@ class FileTree extends Component {
      */
     private initToolbar() {
         const toolbarActionsMap = new Map<string, any>([
-            ['tool-new-file', () => this.handleNewNode(FileNode)],
-            ['tool-new-folder', () => this.handleNewNode(FolderNode)],
+            [
+                'tool-new-file',
+                () => {
+                    this.handleNewNode(FileNode);
+                    this.setEditorSettingsDisplay(document.getElementById('tool-editor-settings'), false);
+                },
+            ],
+            [
+                'tool-new-folder',
+                () => {
+                    this.handleNewNode(FolderNode);
+                    this.setEditorSettingsDisplay(document.getElementById('tool-editor-settings'), false);
+                },
+            ],
             [
                 'tool-editor-settings',
                 (event) => {
-                    this.toggleEditorSettings();
-                    event.target.classList.toggle('active');
+                    this.setEditorSettingsDisplay(event.target, !event.target.classList.contains('active'));
                 },
             ],
         ]);
@@ -255,7 +264,7 @@ class FileTree extends Component {
         this.contextMenu?.addEventListener('mouseenter', () => this.handleContextMenuEnter());
         this.contextMenu?.addEventListener('mouseleave', () => this.handleContextMenuLeave());
         window?.addEventListener('keyup', (event) => this.handleKeyPress(event));
-        EventManager.on(Events.SAVE_FILE, () => this.saveFile());
+        // EventManager.on(Events.SAVE_FILE, () => this.saveFile());
     }
 
     /**
@@ -266,7 +275,6 @@ class FileTree extends Component {
      */
     private getFileTemplate(node: FileNode | FolderNode, depth: number): Node | undefined {
         const fileTemplate = document.createElement('template');
-        console.log((node as FileNode).isSaved);
 
         fileTemplate.innerHTML = `
             <button class='btn full-width-min ${node.isSelected ? 'active' : ''}' id=${node.id}>
@@ -401,12 +409,6 @@ class FileTree extends Component {
 
         this.showOverlay(false);
         this.isEditingFilename = false;
-    }
-
-    private saveFile() {
-        // if (!(this.selectedNode instanceof FileNode)) return;
-        // this.selectedNode.contentBuffer = (eventData as any).code || '';
-        throw new Error('Not impelmented.');
     }
 
     /**
@@ -569,6 +571,7 @@ class FileTree extends Component {
 
     private handleNewNode(nodeType: Constructable<FileNode | FolderNode>) {
         (this.params as any).components.get(EditorPanel.name).setMinFileTreeWidth();
+
         const inputElement = document.createElement('div');
         const localRootNode = this.focusedNode ? this.focusedNode : this.selectedNode ? this.selectedNode : this.root;
 
@@ -614,11 +617,15 @@ class FileTree extends Component {
         }
     }
 
-    private toggleEditorSettings() {
+    public setEditorSettingsDisplay(targetButton, isVisible) {
         const editor = this.params?.components.get(Editor.name) as Editor;
         const editorPanel = this.params?.components.get(EditorPanel.name) as EditorPanel;
-        editor.toggleSettings();
-        editorPanel.setMinFileTreeWidth();
+        editor.setSettingsDisplay(isVisible);
+
+        if (isVisible) {
+            editorPanel.setMinFileTreeWidth();
+            targetButton?.classList.add('active');
+        } else targetButton?.classList.remove('active');
     }
 }
 

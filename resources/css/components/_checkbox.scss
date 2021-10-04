@@ -1,0 +1,40 @@
+@use '../utilities/colors.scss' as colors;
+
+input[type=checkbox]:focus {
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+input[type=checkbox]
+{
+    background-color: colors.$text-color;
+    border-radius: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type=checkbox]:checked
+{
+    background-color: colors.$base-color-light;
+
+    &::before {
+        font-family: 'Font Awesome 5 Free';
+        content: "\f00c";
+        cursor: pointer;
+        position: absolute;
+        font-weight: 600;
+        // font-size: 0.7em;
+        vertical-align: middle;
+        text-align: center;
+        display: flex;
+        color: white;
+    }
+}
