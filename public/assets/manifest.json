@@ -417,6 +417,5 @@
   "assets/aql.js": "http://localhost:8080/assets/efc14cdf19554635e477781704353ec2.js",
   "assets/jsx.js": "http://localhost:8080/assets/ffd3b83e8b5878f4785591ff54b1dfff.js",
   "assets/d.js": "http://localhost:8080/assets/70074e0c785c9a808dea76c7c7d17af3.js",
-  "assets/mode-text.js": "http://localhost:8080/assets/25718a469574ade47e23567d8c543169.js",
-  "assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_src-noconflict_-8cfb80.js": "http://localhost:8080/assets/vendors-node_modules_ace-builds_src-noconflict_ace_js-node_modules_ace-builds_src-noconflict_-8cfb80.js"
+  "assets/mode-text.js": "http://localhost:8080/assets/25718a469574ade47e23567d8c543169.js"
 }

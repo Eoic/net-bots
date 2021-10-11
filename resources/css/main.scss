@@ -51,12 +51,20 @@ html, body {
     height: 100%;
     position: absolute;
     background-color: #0000008f;
-    // z-index: 100000000;
     z-index: 30;
 
     &.center {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+}
+
+label {
+    &.flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        column-gap: 8px;
     }
 }

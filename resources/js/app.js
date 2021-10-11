@@ -1,3 +1,4 @@
+import './extensions';
 import '../css/main.scss';
 import { Engine } from './engine';
 import { Alert } from './ui/dialogs/alert';
