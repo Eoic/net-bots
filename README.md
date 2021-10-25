@@ -1,5 +1,5 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Eoic_net-bots&metric=alert_status)](https://sonarcloud.io/dashboard?id=Eoic_net-bots)
-<a href="https://open.codecks.io/net-bots"><img src="https://img.shields.io/badge/Project%20management-Codecks-%237d5da9.svg"/></a>
+<a href="https://karolis-1.gitbook.io/netbots-game-api-specification/"><img src="https://img.shields.io/badge/Specification-GitBook-%234477de.svg"/></a>
 
 # NetBots (front-end)
 
