@@ -5,6 +5,7 @@
 ## Reference
 
 * [API Reference](reference/api-reference/README.md)
-  * [Pets](reference/api-reference/pets.md)
-  * [Users](reference/api-reference/users.md)
+  * [Bot](reference/api-reference/bot.md)
+  * [Events](reference/api-reference/events.md)
+  * [Game](reference/api-reference/game.md)
 * [Game rules](reference/game-rules.md)

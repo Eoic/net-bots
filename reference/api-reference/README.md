@@ -1,23 +1,21 @@
 # API Reference
 
-Dive into the specifics of each API endpoint by checking out our complete documentation.
+## Bot
 
-## Pets
+All attributes and methods associated with Bot instance.&#x20;
 
-All the methods associated with `CRUD`ing some pets. Which isn't as weird as it sounds:
-
-{% content-ref url="pets.md" %}
-[pets.md](pets.md)
+{% content-ref url="bot.md" %}
+[bot.md](bot.md)
 {% endcontent-ref %}
 
-## Users
+## Events
 
-Everything related to users:
+Event callback methods are provided globally and called on specific events in the game. Player is expected to provide implementation for these methods.
 
-{% content-ref url="users.md" %}
-[users.md](users.md)
+{% content-ref url="events.md" %}
+[events.md](events.md)
 {% endcontent-ref %}
 
-{% hint style="info" %}
-**Good to know:** Using the 'Page Link' block lets you link directly to a page. If this page's name, URL or parent location changes, the reference will be kept up to date. You can also mention a page – like [pets.md](pets.md "mention") – if you don't want a block-level link.
-{% endhint %}
+## Game
+
+Additional methods available through global `Game` object providing information about the game state.
