@@ -1,14 +1,15 @@
 /**
- * Draggable overlay. Contains list ot tabs for opening different
+ * Draggable overlay. Contains list of tabs for opening different
  * content panels (e.g. editor, console).
  */
 
-import { faCode, faTerminal } from '@fortawesome/free-solid-svg-icons';
-import React, { ReactElement, useRef, useReducer, useEffect } from 'react'
+import Editor from './Editor';
+import Console from './Console';
 import DrawerTab from './DrawerTab';
+import { faCode, faTerminal } from '@fortawesome/free-solid-svg-icons';
+import React, { ReactElement, useRef, useReducer, useEffect, useState } from 'react'
 
 const DrawerSnapDistance = 15;
-const DrawerDefaultHeight = 250;
 
 type State = {
     railHeight: number;
@@ -52,20 +53,45 @@ const drawerReducer = (state: State, action: Action): State => {
     }
 }
 
+const Tab = {
+    Editor: {
+        data: {
+            key: 0,
+            icon: faCode
+        }
+    },
+    Console: {
+        data: {
+            key: 1,
+            icon: faTerminal
+        }
+    }
+}
+
+const TabContent = {
+    [Tab.Editor.data.key]: <Editor/>,
+    [Tab.Console.data.key]: <Console/>
+}
+
 const DrawerOverlay = (): ReactElement => {
     const drawerRef = useRef<HTMLDivElement>(null);
     const drawerRailRef = useRef<HTMLDivElement>(null);
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [state, setState] = useReducer(drawerReducer, { railHeight: 0, isResizing: false });
 
     useEffect(() => {
+        handleResize();
+
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mousedown', handleMouseDown);
         window.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('resize', handleResize);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('resize', handleResize);
         }
     }, [state]);
 
@@ -96,11 +122,21 @@ const DrawerOverlay = (): ReactElement => {
         setState({ type: 'endResize' });
     }
 
+    const handleResize = () => {
+        if (!drawerRef.current)
+            return;
+
+        if (parseInt(window.getComputedStyle(drawerRef.current).height) > window.innerHeight)
+            drawerRef.current.style.height = `${window.innerHeight}px`;
+    }
+
     return (
         <div className='drawer' ref={drawerRef}>
             <div className='drawer-rail' ref={drawerRailRef}>
-                <DrawerTab name='Editor' icon={faCode} />
-                <DrawerTab name='Console' icon={faTerminal} />
+                {Object.entries(Tab).map(([name, {data}]) => <DrawerTab name={name} {...data} handleClick={() => setActiveTabIndex(data.key)} isActive={data.key === activeTabIndex} />)}
+            </div>
+            <div className='drawer-content'>
+                {TabContent[activeTabIndex]}
             </div>
         </div>
     )
