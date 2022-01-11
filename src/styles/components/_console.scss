@@ -1,0 +1,16 @@
+.console {
+    padding: 12px;
+    position: relative;
+    height: 100%;
+
+    & > .command-input-wrapper {
+        position: relative;
+        height: 100%;
+
+        & > .command-input {
+            width: 100%;
+            position: absolute;
+            bottom: 32px;
+        }
+    }
+}

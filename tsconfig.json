@@ -7,13 +7,14 @@
         "noImplicitAny": false,
         "module": "es6",
         "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true, 
         "jsx": "react",
-        "jsxFactory": "jsx",
-        "target": "es5",
+        "target": "ES2015",
         "allowJs": true,
         "lib": [
-            "ES2017",
-            "DOM"
+            "DOM",
+            "DOM.Iterable",
+            "ESNext"
         ]
     },
     "include": [

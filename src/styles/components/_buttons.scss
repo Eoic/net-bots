@@ -1,0 +1,74 @@
+@use '../utilities/colors.scss' as colors;
+
+.btn {
+    font-size: 16px;
+    padding: 8px 16px;
+    background-color: colors.$base-color;
+    border: 1px solid colors.$base-color;
+    color: colors.$text-color;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    & > i.fas {
+        pointer-events: none;
+    }
+
+    &:hover {
+        background-color: colors.$hover-color;
+        border-color: colors.$hover-color;
+    }
+
+    &:active {
+        background-color: colors.$base-color-light;
+        border-color: colors.$base-color-light;
+    }
+
+    &.active {
+        background-color: colors.$base-color-light;
+        border-color: colors.$base-color-light;
+    }
+
+    &.focused {
+        background-color: colors.$hover-color;
+        border-color: colors.$hover-color;
+    }
+
+    &.round {
+        border-radius: 3px;
+    }
+
+    &.round-top {
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+
+    &.round-bottom {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+    &.small {
+        padding: 4px;
+        font-size: medium;
+    }
+
+    // Variants.
+    &.light {
+        background-color: #FFFFFF;
+        border-color: colors.$base-color;
+        color: colors.$base-color;
+
+        &:hover {
+            filter: brightness(90%);
+        }
+
+        &:active {
+            filter: brightness(82%);
+        }
+    }
+
+    &.danger {
+        background-color: colors.$danger;
+        border-color: colors.$danger;
+    }
+}
