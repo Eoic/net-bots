@@ -44,7 +44,6 @@
     }
 }
 
-// formerly 'panel'.
 .drawer {
     left: 0;
     bottom: 0;
@@ -72,6 +71,10 @@
     gap: 0;
     position: relative;
     z-index: 2;
+}
+
+.drawer-content {
+    height: 100%;
 }
 
 .drawer-tab {

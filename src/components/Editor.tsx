@@ -1,8 +1,5 @@
 // import React from 'react';
-// import AceEditor from "react-ace";
 
-// import "ace-builds/src-noconflict/mode-javascript";
-// import "ace-builds/src-noconflict/theme-github";
 
 // export const Editor = () => (
 //   <AceEditor
@@ -15,6 +12,7 @@
 // );
 
 import React, { ReactElement } from 'react'
+import VerticalSplit from './VerticalSplit';
 
 interface Props {
     
@@ -22,9 +20,7 @@ interface Props {
 
 const Editor = ({}: Props): ReactElement => {
     return (
-        <div>
-            Editor
-        </div>
+        <VerticalSplit />
     )
 }
 

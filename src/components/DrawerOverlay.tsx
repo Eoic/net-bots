@@ -7,9 +7,9 @@ import Editor from './Editor';
 import Console from './Console';
 import DrawerTab from './DrawerTab';
 import { faCode, faTerminal } from '@fortawesome/free-solid-svg-icons';
-import React, { ReactElement, useRef, useReducer, useEffect, useState } from 'react'
+import React, { ReactElement, useRef, useReducer, useEffect, useState } from 'react';
 
-const DrawerSnapDistance = 15;
+const EdgeSnapDistance = 15;
 
 type State = {
     railHeight: number;
@@ -101,10 +101,10 @@ const DrawerOverlay = (): ReactElement => {
 
         let height = window.innerHeight - event.pageY + state.railHeight / 2;
         
-        if (height < state.railHeight + DrawerSnapDistance)
+        if (height < state.railHeight + EdgeSnapDistance)
             height = state.railHeight;
         
-        if (event.pageY < state.railHeight / 2 + DrawerSnapDistance)
+        if (event.pageY < state.railHeight / 2 + EdgeSnapDistance)
             height = window.innerHeight;
 
         drawerRef.current!.style.height = `${height}px`;
