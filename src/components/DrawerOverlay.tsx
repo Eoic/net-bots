@@ -8,6 +8,8 @@ import Console from './Console';
 import DrawerTab from './DrawerTab';
 import { faCode, faTerminal } from '@fortawesome/free-solid-svg-icons';
 import React, { ReactElement, useRef, useReducer, useEffect, useState } from 'react';
+import VerticalSplit from './VerticalSplit';
+import FileTree from './FileTree';
 
 const EdgeSnapDistance = 15;
 
@@ -69,8 +71,8 @@ const Tab = {
 }
 
 const TabContent = {
-    [Tab.Editor.data.key]: <Editor/>,
-    [Tab.Console.data.key]: <Console/>
+    [Tab.Editor.data.key]: <VerticalSplit left={<FileTree />} right={<Editor/>} />,
+    [Tab.Console.data.key]: <Console />
 }
 
 const DrawerOverlay = (): ReactElement => {
@@ -100,10 +102,10 @@ const DrawerOverlay = (): ReactElement => {
             return;
 
         let height = window.innerHeight - event.pageY + state.railHeight / 2;
-        
+
         if (height < state.railHeight + EdgeSnapDistance)
             height = state.railHeight;
-        
+
         if (event.pageY < state.railHeight / 2 + EdgeSnapDistance)
             height = window.innerHeight;
 
@@ -113,7 +115,7 @@ const DrawerOverlay = (): ReactElement => {
     const handleMouseDown = (event: MouseEvent) => {
         if (!event.target || !(event.target as Node).isEqualNode(drawerRailRef.current))
             return;
-        
+
         const railHeight = parseInt(window.getComputedStyle(drawerRailRef.current as Element).height);
         setState({ type: 'beginResize', payload: { railHeight } });
     }
@@ -133,7 +135,7 @@ const DrawerOverlay = (): ReactElement => {
     return (
         <div className='drawer' ref={drawerRef}>
             <div className='drawer-rail' ref={drawerRailRef}>
-                {Object.entries(Tab).map(([name, {data}]) => <DrawerTab name={name} {...data} handleClick={() => setActiveTabIndex(data.key)} isActive={data.key === activeTabIndex} />)}
+                {Object.entries(Tab).map(([name, { data }]) => <DrawerTab name={name} {...data} handleClick={() => setActiveTabIndex(data.key)} isActive={data.key === activeTabIndex} />)}
             </div>
             <div className='drawer-content'>
                 {TabContent[activeTabIndex]}

@@ -12,7 +12,10 @@
 // );
 
 import React, { ReactElement } from 'react'
-import VerticalSplit from './VerticalSplit';
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-pastel_on_dark";
 
 interface Props {
     
@@ -20,7 +23,16 @@ interface Props {
 
 const Editor = ({}: Props): ReactElement => {
     return (
-        <VerticalSplit />
+        <AceEditor
+            mode="javascript"
+            theme="pastel_on_dark"
+            onChange={() => { }}
+            name="editor"
+            className='editor-wrapper'
+            height='100%'
+            width='auto'
+            style={{ marginBottom: 36 }}
+        />
     )
 }
 

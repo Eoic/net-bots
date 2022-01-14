@@ -30,17 +30,28 @@
 
 .drawer-vertical {
     cursor: col-resize;
-    position: absolute;
     height: 100%;
-    width: 7px;
-    z-index: 1000;
-    display: block;
-    margin-right: -4px;
+    z-index: 100000;
+    margin-right: -5px;
     transition: 0.3s;
-    right: 0;
+    grid-area: "vertical-rail";
 
-    &:hover {
+    &:hover, &:active {
         background-color: colors.$hover-color;
+    }
+
+    &::after {
+        content: "";
+        width: 1px;
+        height: 100%;
+        display: block;
+        margin: 0 auto;
+        background-color: colors.$border-color;
+    }
+
+    &:hover::after, &:active:after {
+        background-color: transparent;
+        transition: 0.3s;
     }
 }
 
@@ -56,8 +67,8 @@
 .panel-grid {
     display: grid;
     grid-template-areas:
-        "file-tree editor";
-    grid-template-columns: 240px 1fr;
+        "file-tree vertical-rail editor";
+    grid-template-columns: 240px 4px 1fr;
     grid-template-rows: 1fr;
     height: 100%;
     column-gap: 1px;
