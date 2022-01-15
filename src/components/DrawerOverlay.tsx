@@ -6,32 +6,30 @@ import VerticalSplit from './VerticalSplit';
 import { EdgeSnapDistance, resizeReducer } from '../reducers/resize';
 import { faCode, faTerminal } from '@fortawesome/free-solid-svg-icons';
 import React, { ReactElement, useRef, useReducer, useEffect, useState } from 'react';
+import ReactAce from 'react-ace/lib/ace';
 
 const Tab = {
     Editor: {
-        data: {
-            key: 0,
-            icon: faCode
-        }
+        index: 0,
+        icon: faCode
     },
     Console: {
-        data: {
-            key: 1,
-            icon: faTerminal
-        }
+        index: 1,
+        icon: faTerminal
     }
 }
 
-const TabContent = {
-    [Tab.Editor.data.key]: <VerticalSplit left={<FileTree />} right={<Editor/>} leftMargin={42} />,
-    [Tab.Console.data.key]: <Console />
-}
-
 const DrawerOverlay = (): ReactElement => {
+    const editorRef = useRef<ReactAce>(null);
     const drawerRef = useRef<HTMLDivElement>(null);
     const drawerRailRef = useRef<HTMLDivElement>(null);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [state, setState] = useReducer(resizeReducer, { railSize: { w: 0, h: 0 }, isResizing: false });
+    
+    const TabContent = {
+        [Tab.Editor.index]: <VerticalSplit left={<FileTree />} right={<Editor editorRef={editorRef} />} leftMargin={42} />,
+        [Tab.Console.index]: <Console />
+    }
 
     useEffect(() => {
         handleResize();
@@ -52,7 +50,7 @@ const DrawerOverlay = (): ReactElement => {
     const handleMouseMove = (event: MouseEvent) => {
         if (!state.isResizing || !drawerRef.current)
             return;
-
+ 
         let height = window.innerHeight - event.pageY + state.railSize.h / 2;
 
         if (height < state.railSize.h + EdgeSnapDistance)
@@ -62,6 +60,7 @@ const DrawerOverlay = (): ReactElement => {
             height = window.innerHeight;
 
         drawerRef.current!.style.height = `${height}px`;
+        editorRef.current?.editor.resize();
     }
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -80,6 +79,7 @@ const DrawerOverlay = (): ReactElement => {
         if (!drawerRef.current)
             return;
 
+        // TODO: Update editor ref here.
         if (parseInt(window.getComputedStyle(drawerRef.current).height) > window.innerHeight)
             drawerRef.current.style.height = `${window.innerHeight}px`;
     }
@@ -87,7 +87,7 @@ const DrawerOverlay = (): ReactElement => {
     return (
         <div className='drawer' ref={drawerRef}>
             <div className='drawer-rail' ref={drawerRailRef}>
-                {Object.entries(Tab).map(([name, { data }]) => <DrawerTab name={name} {...data} handleClick={() => setActiveTabIndex(data.key)} isActive={data.key === activeTabIndex} />)}
+                {Object.entries(Tab).map(([name, { icon, index }]) => <DrawerTab name={name} key={index} icon={icon} handleClick={() => setActiveTabIndex(index)} isActive={index === activeTabIndex} />)}
             </div>
             <div className='drawer-content'>
                 {TabContent[activeTabIndex]}

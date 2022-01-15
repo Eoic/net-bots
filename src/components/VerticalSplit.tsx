@@ -34,7 +34,7 @@ const VerticalSplit = ({ left, right, leftMargin = 0, rightMargin = 0 }: IProps)
         let width = event.pageX - DrawerHalfWidth;
 
         if (width >= window.innerWidth - EdgeSnapDistance - DrawerHalfWidth)
-            width = (window.innerWidth - DrawerHalfWidth) + leftMargin - DrawerHalfWidth;
+            width = window.innerWidth - DrawerHalfWidth;
         else if (width <= leftMargin + EdgeSnapDistance - DrawerHalfWidth)
             width = leftMargin - DrawerHalfWidth;
 
