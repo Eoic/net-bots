@@ -1,4 +1,5 @@
 import React, { Component, ReactElement, useEffect, useRef, useState } from 'react'
+import { TreeNode, TreeNodeType } from '../utilities/file-tree';
 
 interface Props {
 
@@ -6,6 +7,25 @@ interface Props {
 interface State {
 
 }
+
+const generateDirectoryTree = () => {
+    const folder0 = new TreeNode('Folder 0', TreeNodeType.Folder);
+    const folder1 = new TreeNode('H Folder 1', TreeNodeType.Folder);
+    const folder2 = new TreeNode('ZG Folder 2', TreeNodeType.Folder);
+    const file0 = new TreeNode('AX File 0', TreeNodeType.File);
+    const file1 = new TreeNode('A File 1', TreeNodeType.File);
+    const file2 = new TreeNode('B File 2', TreeNodeType.File);
+
+    folder0.add(folder1)
+    folder0.add(file0)
+    folder0.add(file1)
+    folder1.add(folder2)
+    folder1.add(file2)
+
+    folder0.traverse()
+}
+
+generateDirectoryTree();
 
 const EditorTabRibbon = (): ReactElement => {
     const tabRibbonRef = useRef<HTMLDivElement>(null);
