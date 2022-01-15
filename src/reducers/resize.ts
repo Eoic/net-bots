@@ -19,7 +19,7 @@ type Action =
   | {
       type: 'endResize';
     };
-
+ 
 export const EdgeSnapDistance = 15;
 
 export const resizeReducer = (state: State, action: Action): State => {
