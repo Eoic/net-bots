@@ -8,9 +8,10 @@ interface IProps {
     right: React.ReactNode;
     leftMargin?: number;
     rightMargin?: number;
+    handleUpdate: () => void;
 }
 
-const VerticalSplit = ({ left, right, leftMargin = 0, rightMargin = 0 }: IProps): ReactElement => {
+const VerticalSplit = ({ left, right, leftMargin = 0, rightMargin = 0, handleUpdate }: IProps): ReactElement => {
     const drawerRef = useRef<HTMLDivElement>(null);
     const drawerRailRef = useRef<HTMLDivElement>(null);
     const [state, setState] = useReducer(resizeReducer, { railSize: { w: 0, h: 0 }, isResizing: false });
@@ -39,6 +40,7 @@ const VerticalSplit = ({ left, right, leftMargin = 0, rightMargin = 0 }: IProps)
             width = leftMargin - DrawerHalfWidth;
 
         drawerRef.current!.style.gridTemplateColumns = `${width}px 4px 1fr`;
+        handleUpdate();
     }
 
     const handleMouseDown = (event: MouseEvent) => {

@@ -26,8 +26,12 @@ const DrawerOverlay = (): ReactElement => {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [state, setState] = useReducer(resizeReducer, { railSize: { w: 0, h: 0 }, isResizing: false });
     
+    const handleUpdate = () => {
+        editorRef.current?.editor.resize();
+    }
+
     const TabContent = {
-        [Tab.Editor.index]: <VerticalSplit left={<FileTree />} right={<Editor editorRef={editorRef} />} leftMargin={42} />,
+        [Tab.Editor.index]: <VerticalSplit left={<FileTree />} right={<Editor editorRef={editorRef} />} leftMargin={42} handleUpdate={handleUpdate} />,
         [Tab.Console.index]: <Console />
     }
 
@@ -60,7 +64,7 @@ const DrawerOverlay = (): ReactElement => {
             height = window.innerHeight;
 
         drawerRef.current!.style.height = `${height}px`;
-        editorRef.current?.editor.resize();
+        handleUpdate();
     }
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -79,7 +83,6 @@ const DrawerOverlay = (): ReactElement => {
         if (!drawerRef.current)
             return;
 
-        // TODO: Update editor ref here.
         if (parseInt(window.getComputedStyle(drawerRef.current).height) > window.innerHeight)
             drawerRef.current.style.height = `${window.innerHeight}px`;
     }
