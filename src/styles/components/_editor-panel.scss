@@ -28,6 +28,11 @@
     margin-bottom: 36px;
 }
 
+.editor-tabs {
+    position: relative;
+    overflow: hidden;
+}
+
 .drawer-vertical {
     cursor: col-resize;
     height: 100%;
