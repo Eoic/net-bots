@@ -1,59 +1,11 @@
-/**
- * Draggable overlay. Contains list of tabs for opening different
- * content panels (e.g. editor, console).
- */
-
 import Editor from './Editor';
 import Console from './Console';
+import FileTree from './FileTree';
 import DrawerTab from './DrawerTab';
+import VerticalSplit from './VerticalSplit';
+import { EdgeSnapDistance, resizeReducer } from '../reducers/resize';
 import { faCode, faTerminal } from '@fortawesome/free-solid-svg-icons';
 import React, { ReactElement, useRef, useReducer, useEffect, useState } from 'react';
-import VerticalSplit from './VerticalSplit';
-import FileTree from './FileTree';
-
-const EdgeSnapDistance = 15;
-
-type State = {
-    railHeight: number;
-    isResizing: boolean;
-}
-
-type ActionPayload = {
-    railHeight: number
-}
-
-type Action =
-    | {
-        type: 'resize',
-        payload: ActionPayload
-    } | {
-        type: 'beginResize',
-        payload: ActionPayload
-    } | {
-        type: 'endResize'
-    }
-
-const drawerReducer = (state: State, action: Action): State => {
-    switch (action.type) {
-        case 'resize':
-            return {
-                isResizing: state.isResizing,
-                railHeight: action.payload.railHeight
-            }
-        case 'beginResize':
-            return {
-                isResizing: true,
-                railHeight: action.payload.railHeight
-            }
-        case 'endResize':
-            return {
-                isResizing: false,
-                railHeight: state.railHeight
-            }
-        default:
-            return { ...state }
-    }
-}
 
 const Tab = {
     Editor: {
@@ -71,7 +23,7 @@ const Tab = {
 }
 
 const TabContent = {
-    [Tab.Editor.data.key]: <VerticalSplit left={<FileTree />} right={<Editor/>} />,
+    [Tab.Editor.data.key]: <VerticalSplit left={<FileTree />} right={<Editor/>} leftMargin={42} />,
     [Tab.Console.data.key]: <Console />
 }
 
@@ -79,7 +31,7 @@ const DrawerOverlay = (): ReactElement => {
     const drawerRef = useRef<HTMLDivElement>(null);
     const drawerRailRef = useRef<HTMLDivElement>(null);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const [state, setState] = useReducer(drawerReducer, { railHeight: 0, isResizing: false });
+    const [state, setState] = useReducer(resizeReducer, { railSize: { w: 0, h: 0 }, isResizing: false });
 
     useEffect(() => {
         handleResize();
@@ -101,12 +53,12 @@ const DrawerOverlay = (): ReactElement => {
         if (!state.isResizing || !drawerRef.current)
             return;
 
-        let height = window.innerHeight - event.pageY + state.railHeight / 2;
+        let height = window.innerHeight - event.pageY + state.railSize.h / 2;
 
-        if (height < state.railHeight + EdgeSnapDistance)
-            height = state.railHeight;
+        if (height < state.railSize.h + EdgeSnapDistance)
+            height = state.railSize.h;
 
-        if (event.pageY < state.railHeight / 2 + EdgeSnapDistance)
+        if (event.pageY < state.railSize.h / 2 + EdgeSnapDistance)
             height = window.innerHeight;
 
         drawerRef.current!.style.height = `${height}px`;
@@ -117,7 +69,7 @@ const DrawerOverlay = (): ReactElement => {
             return;
 
         const railHeight = parseInt(window.getComputedStyle(drawerRailRef.current as Element).height);
-        setState({ type: 'beginResize', payload: { railHeight } });
+        setState({ type: 'beginResize', payload: { railSize: { w: 0, h: railHeight } } });
     }
 
     const handleMouseUp = () => {
