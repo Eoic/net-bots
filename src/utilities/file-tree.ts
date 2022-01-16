@@ -1,18 +1,18 @@
-export enum TreeNodeType {
+export enum FileTreeNodeType {
     Folder,
     File,
 }
 
-export class TreeNode<T = void> {
+export class FileTreeNode<T = void> {
     name: string;
     depth: number;
     data: T | null;
     isOpen: boolean;
-    type: TreeNodeType;
+    type: FileTreeNodeType;
     isSelected: boolean;
-    children: TreeNode<T>[];
+    children: FileTreeNode<T>[];
 
-    constructor(name: string, type: TreeNodeType) {
+    constructor(name: string, type: FileTreeNodeType) {
         this.name = name;
         this.data = null;
         this.type = type;
@@ -22,8 +22,8 @@ export class TreeNode<T = void> {
         this.depth = 1;
     }
 
-    add(node: TreeNode<T>) {
-        if (this.type === TreeNodeType.File)
+    add(node: FileTreeNode<T>) {
+        if (this.type === FileTreeNodeType.File)
             throw new Error('File node cannot have inner elements.');
         
         // TODO: 
@@ -35,7 +35,7 @@ export class TreeNode<T = void> {
         this.sort();
     }
 
-    remove(node: TreeNode<T>) { }
+    remove(node: FileTreeNode<T>) { }
 
     rename(name: string) { }
 
@@ -51,14 +51,13 @@ export class TreeNode<T = void> {
 
     isNameValid() {}
 
-    traverse(node: TreeNode<T> = this) {
-        const margin = [...Array(node.depth).keys()].map(i => "-");
-        console.log(margin.join(''), node.name);
-        node.children.forEach(node => this.traverse(node));
+    collect(node: FileTreeNode<T> = this, callback: (node: FileTreeNode<T>) => void) {
+        callback(node);
+        node.children.forEach(node => this.collect(node, callback));
     }
 
     sort() {
-        const compare = (left, right) => {
+        const compare = (left: string | number, right: string | number) => {
             if (left > right) return +1;
             if (left < right) return -1;
             return 0;
