@@ -7,9 +7,10 @@ interface Props {
 
 }
 
+// TODO: Should have access to editor ref.
 const FileTree = (props: Props) => {
     return (
-        <div className={"file-tree"}>
+        <div className="file-tree">
             <div className='toolbar'>
                 <div className='actions'>
                     <button className='btn round small square tooltip'>
@@ -22,7 +23,67 @@ const FileTree = (props: Props) => {
                 </div >
             </div>
             <div className='file-list' style={{ overflowX: 'hidden'}}>
-                <button className='btn full-width-min active'>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
+                    <i className='icon' style={{ width: 18, display: 'inline-block' }}>
+                        <FontAwesomeIcon icon={faFileCode}/>
+                    </i>
+                    main filename file
+                </button>
+                <button className='btn full-width-min'>
                     <i className='icon' style={{ width: 18, display: 'inline-block' }}>
                         <FontAwesomeIcon icon={faFileCode}/>
                     </i>

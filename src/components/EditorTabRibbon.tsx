@@ -1,5 +1,6 @@
 import React, { Component, ReactElement, useEffect, useRef, useState } from 'react'
 import { TreeNode, TreeNodeType } from '../utilities/file-tree';
+import EditorTab from './EditorTab';
 
 interface Props {
 
@@ -46,7 +47,7 @@ const EditorTabRibbon = (): ReactElement => {
     return (
         <div className='editor-tabs' ref={tabRibbonRef} onMouseEnter={() => setCanScroll(true)} onMouseLeave={() => setCanScroll(false)}>
             <div style={{ whiteSpace: 'nowrap', display: 'inline-block', width: '100%' }}>
-                <button className="btn"> START </button>
+                <EditorTab name='sample'></EditorTab>
                 <button className="btn"> main2 </button>
                 <button className="btn"> main3 </button>
                 <button className="btn"> main </button>
