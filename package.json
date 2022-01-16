@@ -1,5 +1,5 @@
 {
-  "name": "iridium-js",
+  "name": "net-bots",
   "version": "1.0.0",
   "description": "TypeScript project boilerplate with live reloading.",
   "main": "index.js",

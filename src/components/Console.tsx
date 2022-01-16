@@ -11,6 +11,6 @@ const Console = ({}: Props): ReactElement => {
         </div>
     )
 }
- 
+
 export { Console };
 export default Console;
