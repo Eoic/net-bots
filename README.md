@@ -1,11 +1,15 @@
-# TypeScript web starter.
-Primitive TypeScript project boilerplate with live reloading.
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Eoic_net-bots&metric=alert_status)](https://sonarcloud.io/dashboard?id=Eoic_net-bots)
+<a href="https://karolis-1.gitbook.io/netbots-project/"><img src="https://img.shields.io/badge/Specification-GitBook-%234477de.svg"/></a>
 
-# Features
-* SCSS support.
-* Live reloading - page is refreshed after changes are made.
+# NetBots (front-end)
 
-# Getting started.
-1. Run `npm install` to install required dependencies.
-2. Run `npm start` to start the development server.
-3. Project by default runs at http://127.0.0.1:8080.
+Client side of the multiplayer robot programming game NetBots.
+
+## Installation
+
+* Install dependencies by running `npm install`.  
+* Launch development server with `npm run dev`.
+
+## Usage
+By default, development server runs at http://127.0.0.1:3333/.  
+Also, game server should be running. If you didn't setup the server yet, see [NetBots Server](http://github.com/Eoic/net-bots-server).
