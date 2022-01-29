@@ -7,6 +7,7 @@ import { EdgeSnapDistance, resizeReducer } from '../reducers/resize';
 import { faCode, faTerminal } from '@fortawesome/free-solid-svg-icons';
 import React, { ReactElement, useRef, useReducer, useEffect, useState } from 'react';
 import ReactAce from 'react-ace/lib/ace';
+import AccessStatus from './AccessStatus';
 
 const Tab = {
     Editor: {
@@ -88,14 +89,17 @@ const DrawerOverlay = (): ReactElement => {
     }
 
     return (
-        <div className='drawer' ref={drawerRef}>
-            <div className='drawer-rail' ref={drawerRailRef}>
-                {Object.entries(Tab).map(([name, { icon, index }]) => <DrawerTab name={name} key={index} icon={icon} handleClick={() => setActiveTabIndex(index)} isActive={index === activeTabIndex} />)}
+        <>
+            <AccessStatus/>
+            <div className='drawer' ref={drawerRef}>
+                <div className='drawer-rail' ref={drawerRailRef}>
+                    {Object.entries(Tab).map(([name, { icon, index }]) => <DrawerTab name={name} key={index} icon={icon} handleClick={() => setActiveTabIndex(index)} isActive={index === activeTabIndex} />)}
+                </div>
+                <div className='drawer-content'>
+                    {TabContent[activeTabIndex]}
+                </div>
             </div>
-            <div className='drawer-content'>
-                {TabContent[activeTabIndex]}
-            </div>
-        </div>
+        </>
     )
 }
 
