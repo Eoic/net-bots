@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {};
 
 const Login = (props: Props) => {
+    const [isLoading, setIsLoading] = useState(false);
+
     return (
         <div className='layout h-center v-center bg-default'>
             <form className='form small border shadow' method='POST'>
@@ -16,7 +18,9 @@ const Login = (props: Props) => {
                 <input className='input' type='password' name='password'></input>
 
                 <div className='mt-8'>
-                    <button type='submit' className='btn round'> Login </button>
+                    <button type='button' className={`btn round ${isLoading && 'loading'}`} onClick={() => setIsLoading(!isLoading)}>
+                        Login
+                    </button>
                 </div>
 
                 <span className='mt-8'>
