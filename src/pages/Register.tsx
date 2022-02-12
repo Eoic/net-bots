@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {};
 
 const Register = (props: Props) => {
+    const [formErrors, setFormErrors] = useState<[]>([]);
+    
     return (
         <div className='layout h-center v-center bg-default'>
             <form className='form small border shadow' method='POST'>
                 <h3 className='title'> Sign up </h3>
+                
+                {formErrors.length > 0 && <div style={{ backgroundColor: '#dc143c4f', padding: 10, borderRadius: 3 }}>
+                    {formErrors.map((error, index) => <p key={index}> {error} </p>)}
+                </div>}
 
                 <label> Username </label>
                 <input className='input' type='text' name='username'></input>
