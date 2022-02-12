@@ -1,12 +1,21 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faUser, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { CLIENT_URL } from '../utilities/constants';
 
 type Props = {};
 
 const AccessStatus = (props: Props) => {
     const history = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        axios.get(`${CLIENT_URL}/user/profile`, { withCredentials: true }).then(() => {
+            setIsAuthenticated(true);
+        }).catch(() => setIsAuthenticated(false));
+    }, []);
 
     return (
         <div style={{
@@ -16,7 +25,7 @@ const AccessStatus = (props: Props) => {
             height: 36,
             width: 36,
             borderRadius: '50%',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: `${isAuthenticated ? '#00917C' : 'crimson'}`,
             cursor: 'pointer',
             display: 'flex',
             justifyContent: 'center',
@@ -29,7 +38,11 @@ const AccessStatus = (props: Props) => {
             }}
         >
             <Link to='login' onClick={(event) => event.preventDefault()}>
-                <FontAwesomeIcon icon={faUser} color={'0x2F2F2F'} textDecoration={'none'} style={{ color: '#8499B1' }} />
+                {
+                    isAuthenticated ?
+                        <FontAwesomeIcon icon={faLockOpen} textDecoration={'none'} style={{ color: '#FFFFFF' }} /> :
+                        <FontAwesomeIcon icon={faLock} textDecoration={'none'} style={{ color: '#FFFFFF' }} />
+                }
             </Link>
         </div>
     )

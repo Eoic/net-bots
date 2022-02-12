@@ -4,6 +4,7 @@ import Register from '../pages/Register';
 import DrawerOverlay from './DrawerOverlay';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AccessStatus from './AccessStatus';
+import { Logout } from '../pages/Logout';
 
 type Props = {};
 
@@ -15,6 +16,7 @@ const App = (props: Props) => {
                     <Route path='/' element={<DrawerOverlay />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
+                    <Route path='/logout' element={<Logout />} />
                 </Routes>
             </BrowserRouter>
         </>
