@@ -1,0 +1,30 @@
+@use '../utilities/colors.scss' as colors;
+
+.navbar {
+    list-style-type: none;
+    width: 100%;
+    text-align: right;
+
+    & > li {
+        display: inline-block;
+        text-align: center;
+        margin: 0 4px;
+
+        & a {
+            text-decoration: none;
+            color: colors.$text-color;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 2px 8px;
+            text-align: center;
+
+            &:hover {
+                color: white;
+            }
+
+            &.active {
+                border-color: colors.$text-color
+            }
+        }
+    }
+}

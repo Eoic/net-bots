@@ -5,6 +5,8 @@ import DrawerOverlay from './DrawerOverlay';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AccessStatus from './AccessStatus';
 import { Logout } from '../pages/Logout';
+import { Home } from '../pages/Home';
+import { Documentation } from '../pages/Documentation';
 
 type Props = {};
 
@@ -14,6 +16,8 @@ const App = (props: Props) => {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<DrawerOverlay />} />
+                    <Route path='/home' element={<Home />} />
+                    <Route path='/documentation' element={<Documentation />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
                     <Route path='/logout' element={<Logout />} />

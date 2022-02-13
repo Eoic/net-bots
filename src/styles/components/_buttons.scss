@@ -72,4 +72,17 @@
         background-color: colors.$danger;
         border-color: colors.$danger;
     }
+
+    &.success {
+        background-color: colors.$success;
+        border-color: colors.$success;
+
+        &:hover {
+            filter: brightness(110%);
+        }
+
+        &:active {
+            filter: brightness(128%);
+        }
+    }
 }

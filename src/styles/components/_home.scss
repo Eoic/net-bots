@@ -1,0 +1,42 @@
+@use '../utilities/colors.scss' as colors;
+
+.landing {
+    background-color: colors.$base-color-dark;
+    color: colors.$text-color;
+}
+
+.home {
+    padding: 30px 50px;
+    max-width: 1420px;
+
+    margin: 0 auto;
+    height: 100vh;
+    max-height: 100%;
+
+    & > .header {
+        line-height: initial;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+
+        h1 {
+            font-size: 96px;
+        }
+
+        & > .actions {
+            display: flex;
+            column-gap: 16px;
+            margin-top: 16px;
+        }
+    }
+}
+
+.about {
+    padding: 30px 50px;
+    max-width: 1420px;
+    margin: 0 auto;
+
+    background-color: colors.$base-color;
+}
