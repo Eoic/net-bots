@@ -15,10 +15,12 @@
             "DOM",
             "DOM.Iterable",
             "ESNext"
-        ]
+        ],
+        "typeRoots": ["node_modules/@types", "src/types"]
     },
     "include": [
         "./src/**/*",
+        "index.d.ts"
     ],
     "exclude": [
         "node_modules"

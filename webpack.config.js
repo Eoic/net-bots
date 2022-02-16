@@ -36,6 +36,10 @@ const config = {
                         presets: ['@babel/preset-react']
                     }
                 }
+            },
+            {
+                test: /\.svg/,
+                type: 'asset/inline'
             }
         ]
     },
