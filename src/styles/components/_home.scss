@@ -5,11 +5,13 @@
     color: colors.$text-color;
 }
 
-.home {
-    padding: 30px 50px;
+.content {
     max-width: 1420px;
-
     margin: 0 auto;
+    padding: 30px 50px;
+}
+
+.home {
     height: 100vh;
     max-height: 100%;
 
@@ -34,9 +36,40 @@
 }
 
 .about {
-    padding: 30px 50px;
-    max-width: 1420px;
-    margin: 0 auto;
+    background-color: colors.$base-color;
+    padding: 60px 50px !important;
 
+    & > section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 16px;
+
+        &:not(:last-child) {
+            margin-bottom: 28px;
+        }
+
+        &:nth-child(even) {
+            direction: rtl;
+
+            & * {
+                direction: ltr;
+            }
+        }
+
+        & h2 {
+            font-size: 34px;
+            color: rgb(245, 245, 245);
+            line-height: normal;
+        }
+
+        & p {
+            font-size: 18px;
+            text-align: justify;
+        }
+    }
+}
+
+.about-background {
+    width: 100%;
     background-color: colors.$base-color;
 }

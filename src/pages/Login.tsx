@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import NavBar from '../components/NavBar';
 import { CLIENT_URL } from '../utilities/constants';
 
 const Login = () => {
