@@ -2,12 +2,13 @@
 
 .landing {
     color: colors.$text-color;
+    line-height: initial;
 }
 
 .content {
     max-width: 1420px;
     margin: 0 auto;
-    padding: 30px 50px;
+    padding: 30px 100px;
 }
 
 .home {

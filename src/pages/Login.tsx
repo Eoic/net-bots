@@ -1,7 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../components/NavBar';
+import React, { useEffect, useState } from 'react';
 import { CLIENT_URL } from '../utilities/constants';
 
 const Login = () => {
@@ -20,10 +19,10 @@ const Login = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
+
         const data = {};
         const formData = new FormData(event.target);
-        
+
         for (const field of fields)
             data[field] = formData.get(field);
 
@@ -38,9 +37,9 @@ const Login = () => {
     }
 
     return (
-        <div className='layout h-center v-center bg-default'>
+        <div className='center-vh'>
             {!isAuthenticated ?
-                <form className='form small border shadow' method='POST' onSubmit={handleSubmit}>
+                <form className='form small border shadow bg-dark' method='POST' onSubmit={handleSubmit}>
                     <h3 className='title'> Login </h3>
 
                     {formErrors.length > 0 && <div style={{ backgroundColor: '#dc143c4f', padding: 10, borderRadius: 3 }}>
@@ -70,7 +69,7 @@ const Login = () => {
                 </form> :
                 <div>
                     <p className='text'> Logged in as "{(user as any).username}". </p>
-                    <span className='mt-8' style={{ display: 'block'}}>
+                    <span className='mt-8' style={{ display: 'block' }}>
                         <Link className='link' to='/'> Home </Link>
                         <Link className='link' to='/logout'> Logout </Link>
                     </span>
