@@ -6,6 +6,7 @@ import '../styles/components/_home.scss';
 import codeImage from '../images/landing/Code.svg';
 import multiplayerImage from '../images/landing/Multiplayer.svg';
 import leaderboardsImage from '../images/landing/Leaderboards.svg';
+import { MenuStack } from '../components/MenuStack';
 
 // https://www.npmjs.com/package/react-tsparticles
 

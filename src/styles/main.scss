@@ -38,6 +38,10 @@ body {
     display: none !important;
 }
 
+.visible {
+    display: inherit !important;
+}
+
 .flex {
     display: flex !important;
 }
