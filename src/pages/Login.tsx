@@ -51,7 +51,7 @@ const Login = () => {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <label> Password </label>
-                        <a href='#' className='link'> Forgot password? </a>
+                        <Link className='link' to='/reset-password'> Forgot password? </Link>
                     </div>
 
                     <input className='input' type='password' name='password'></input>

@@ -7,6 +7,7 @@ import { Logout } from '../pages/Logout';
 import { Home } from '../pages/Home';
 import { Documentation } from '../pages/Documentation';
 import { PublicPageLayout } from './PublicPageLayout';
+import ResetPassword from '../pages/ResetPassword';
 
 const App = () => {
     return (
@@ -15,6 +16,7 @@ const App = () => {
                 <Route path='/' element={<DrawerOverlay />} />
                 <Route path='/home' element={<Home />} />
                 <Route path='/login' element={<PublicPageLayout component={<Login />} />} />
+                <Route path='/reset-password' element={<PublicPageLayout component={<ResetPassword />} />} />
                 <Route path='/logout' element={<Logout />} />
                 <Route path='/register' element={<PublicPageLayout component={<Register />} />} />
                 <Route path='/documentation' element={<PublicPageLayout component={<Documentation />} />} />
